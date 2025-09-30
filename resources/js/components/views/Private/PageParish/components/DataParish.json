@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "church": "St. Joseph Cathedral",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "church": "Immaculate Conception Parish",
+      "status": "Archived"
+    },
+    {
+      "id": 3,
+      "church": "San Vicente Ferrer Parish",
+      "status": "Active"
+    },
+    {
+      "id": 4,
+      "church": "Holy Rosary Parish",
+      "status": "Active"
+    },
+    {
+      "id": 5,
+      "church": "Sacred Heart of Jesus Parish",
+      "status": "Archived"
+    },
+    {
+      "id": 6,
+      "church": "Our Lady of Fatima Parish",
+      "status": "Active"
+    },
+    {
+      "id": 7,
+      "church": "Our Lady of Lourdes Parish",
+      "status": "Archived"
+    },
+    {
+      "id": 8,
+      "church": "Saint Anthony of Padua Parish",
+      "status": "Active"
+    }
+  ]
+  

@@ -1,0 +1,913 @@
+@use "../index" as *;
+
+.tbl-search-wrapper {
+    width: 300px;
+
+    @include atSMMax {
+        width: 100%;
+    }
+
+    .ant-input-outlined {
+        &:focus,
+        &:focus-within {
+            box-shadow: 0 0 0 1px var(--color-primary) !important;;
+            outline: none;
+        }
+    }
+
+    .ant-input-group-wrapper {
+        box-shadow: none !important;
+
+        .ant-input {
+            border-radius: 0px;
+
+            &.ant-input-lg {
+                height: 40px;
+            }
+        }
+
+        .ant-input-group-addon {
+            .ant-btn {
+                &.ant-btn-lg {
+                    &.ant-btn-icon-only {
+                        &.ant-input-search-button {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            
+                            // Remove blue outline on focus
+                            &:focus,
+                            &:focus-visible,
+                            &:focus-within {
+                                outline: none !important;
+                                box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+                                border-color: var(--color-primary) !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.animated {
+        width: auto;
+
+        .ant-input-affix-wrapper {
+            width: auto;
+            height: 35px;
+            border: 0px;
+            padding: 0px; // 4px 11px
+            border-radius: 0px;
+
+            &::before {
+                display: none;
+            }
+
+            .ant-input {
+                display: none;
+            }
+
+            .ant-input-suffix {
+                margin-left: 0px;
+
+                .ant-input-clear-icon {
+                    display: none;
+                }
+
+                svg {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &.show {
+            width: 300px;
+
+            .ant-input-affix-wrapper {
+                border-bottom: 1px solid #000000;
+                padding: 0px 11px;
+                width: 100%;
+                border-radius: 5px;
+
+                &::before {
+                    display: inline-block;
+                }
+
+                .ant-input {
+                    display: inline-block;
+                }
+
+                .ant-input-suffix {
+                    margin-left: 4px;
+
+                    .ant-input-clear-icon {
+                        display: inline-block;
+                    }
+
+                    svg {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tbl-showing-entries {
+    // height: 35px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+    
+    .wrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+    
+    // Responsive adjustments
+    @include atSMMax {
+        font-size: 12px;
+        margin-bottom: 8px;
+        justify-content: center;
+        
+        .wrapper {
+            justify-content: center;
+            text-align: center;
+        }
+    }
+    
+    @include atMax(480px) {
+        font-size: 11px;
+        margin-bottom: 6px;
+        
+        .wrapper {
+            gap: 2px;
+        }
+    }
+}
+
+.tbl-top-filter,
+.tbl-bottom-filter,
+.tbl-top-controls {
+  margin: 15px 0px 15px 0px !important;
+  display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+  gap: 10px;
+
+  .tbl-search-wrapper {
+    width: 100%; // <-- default small width for desktop
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+
+    &.animated {
+      width: auto;
+
+      .ant-input-affix-wrapper {
+        width: auto;
+      }
+    }
+
+    .ant-input-group-wrapper {
+      width: 100%;
+      min-width: 0;
+
+      .ant-input {
+        width: 100%;
+      }
+    }
+  }
+
+  .float-wrapper {
+    .ant-select {
+      width: 200px !important;
+    }
+  }
+
+  .pagination-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+//   @include atMax(575px) {
+//     justify-content: center;
+//     flex-wrap: wrap;
+//     gap: 10px;
+//   }
+
+  .ant-flex {
+    gap: 10px !important;
+  }
+
+  @include atMax(575px) {
+    flex-direction: column;
+    gap: 8px;
+
+    .tbl-search-wrapper {
+      width: 100%; // <-- expand full width on mobile
+      margin-bottom: 10px;
+      order: 1;
+    }
+
+    .pagination-wrapper {
+      width: 100%;
+      justify-content: center;
+      order: 2;
+    }
+    
+    // Bottom filter specific adjustments
+    &.tbl-bottom-filter {
+      .ant-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px !important;
+        width: 100%;
+        
+        .tbl-showing-entries {
+          order: 1;
+          margin-bottom: 0;
+        }
+        
+        .ant-pagination {
+          order: 2;
+        }
+      }
+    }
+    
+    // Top controls specific adjustments
+    &.tbl-top-controls {
+      .table-refresh-btn {
+        order: 3;
+      }
+      
+      .tbl-page-size {
+        order: 4;
+      }
+    }
+  }
+  
+  // Extra small devices
+  @include atMax(480px) {
+    gap: 6px;
+    
+    &.tbl-bottom-filter {
+      .ant-flex {
+        gap: 6px !important;
+      }
+    }
+  }
+
+  .ant-pagination {
+    height: 30px;
+
+    @include atSMMax {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    
+    @include atMax(480px) {
+      .ant-pagination-prev,
+      .ant-pagination-next,
+      .ant-pagination-item {
+        height: 28px;
+        min-width: 28px;
+        
+        .ant-btn {
+          height: 28px !important;
+          min-width: 28px !important;
+          font-size: 12px;
+        }
+      }
+      
+      .ant-pagination-item a {
+        font-size: 12px;
+        line-height: 26px;
+      }
+    }
+
+    .ant-pagination-total-text {
+      // Hide default Ant Design total text (e.g., "Page 1 of 1")
+      display: none !important;
+    }
+    
+    .ant-pagination-prev,
+    .ant-pagination-next,
+    .ant-pagination-item {
+      height: 30px;
+    }
+
+    .ant-pagination-prev {
+      .ant-btn {
+        padding: 0px;
+        background-color: #ffffff;
+        border: 0px;
+        height: 30px !important;
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+      }
+    }
+
+    .ant-pagination-next {
+      .ant-btn {
+        padding: 0px;
+        background-color: #ffffff;
+        border: 0px;
+        height: 30px !important;
+        border-top-left-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+
+        &.ant-btn-disabled {
+          background-color: #ffffff;
+          border: 0px;
+        }
+      }
+    }
+
+    .ant-pagination-item {
+      border-radius: 10px;
+      border-color: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+
+      &.ant-pagination-item-active {
+        border-color: var(--color-primary) !important;
+
+        a {
+          color: var(--color-primary) !important;
+        }
+      }
+
+      a {
+        color: rgba(0, 0, 0, 0.85);
+      }
+    }
+  }
+}
+
+// Custom pagination that stays inline on mobile
+.tbl-bottom-filter-custom {
+  .ant-pagination {
+    // Preserve all original pagination styles but override layout behavior
+    height: 30px;
+    
+    @include atSMMax {
+      width: auto !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-end !important;
+      gap: 4px;
+    }
+    
+    @include atMax(480px) {
+      .ant-pagination-prev,
+      .ant-pagination-next,
+      .ant-pagination-item {
+        height: 28px;
+        min-width: 28px;
+        
+        .ant-btn {
+          height: 28px !important;
+          min-width: 28px !important;
+          font-size: 12px;
+        }
+      }
+      
+      .ant-pagination-item a {
+        font-size: 12px;
+        line-height: 26px;
+      }
+    }
+
+    .ant-pagination-total-text {
+      display: none !important;
+    }
+    
+    .ant-pagination-prev,
+    .ant-pagination-next,
+    .ant-pagination-item {
+      height: 30px;
+    }
+
+    .ant-pagination-prev {
+      .ant-btn {
+        padding: 0px;
+        background-color: #ffffff;
+        border: 0px;
+        height: 30px !important;
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+      }
+    }
+
+    .ant-pagination-next {
+      .ant-btn {
+        padding: 0px;
+        background-color: #ffffff;
+        border: 0px;
+        height: 30px !important;
+        border-top-left-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+
+        &.ant-btn-disabled {
+          background-color: #ffffff;
+          border: 0px;
+        }
+      }
+    }
+
+    .ant-pagination-item {
+      border-radius: 10px;
+      border-color: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+
+      &.ant-pagination-item-active {
+        border-color: var(--color-primary) !important;
+
+        a {
+          color: var(--color-primary) !important;
+        }
+      }
+
+      a {
+        color: rgba(0, 0, 0, 0.85);
+      }
+    }
+  }
+  
+  .tbl-showing-entries {
+    @include atSMMax {
+      margin-bottom: 0 !important;
+      font-size: 11px !important;
+      
+      .wrapper {
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+      }
+    }
+  }
+}
+
+// Fix search button styling and responsiveness
+.ant-input-search {
+    &.ant-input-group-wrapper {
+        // Remove unwanted outline on search button
+        .ant-input-group-addon {
+            .ant-btn {
+                &.ant-input-search-button {
+                    &:focus,
+                    &:focus-visible,
+                    &:focus-within {
+                        outline: none !important;
+                        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+                        border-color: var(--color-primary) !important;
+                    }
+                    
+                    // Responsive sizing
+                    @include atMax(576px) {
+                        padding: 4px 8px;
+                        font-size: 12px;
+                        height: 32px;
+                    }
+                }
+            }
+        }
+        
+        // Responsive input sizing
+        .ant-input {
+            @include atMax(576px) {
+                font-size: 14px;
+                height: 32px;
+                padding: 4px 11px;
+            }
+        }
+    }
+}
+
+// General button responsiveness improvements
+.ant-btn {
+    @include atMax(576px) {
+        &.ant-btn-lg {
+            height: 36px;
+            font-size: 14px;
+            padding: 4px 12px;
+        }
+        
+        &.ant-btn-sm {
+            height: 28px;
+            font-size: 12px;
+            padding: 2px 8px;
+        }
+    }
+}
+
+// Space component responsiveness
+.ant-space {
+    @include atMax(576px) {
+        &.ant-space-horizontal {
+            flex-wrap: wrap;
+            width: 100%;
+            display: flex;
+            gap: 8px;
+            
+            .ant-space-item {
+                margin-bottom: 8px;
+                flex: 1;
+                display: flex;
+                
+                // Ensure buttons take appropriate width
+                .ant-btn {
+                    min-width: 0;
+                    flex: 1;
+                    text-align: center;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+    
+    // Extra responsive handling for very small screens
+    @include atMax(480px) {
+        &.ant-space-horizontal {
+            gap: 6px;
+            
+            .ant-space-item {
+                .ant-btn {
+                    font-size: 11px !important;
+                    padding: 2px 6px !important;
+                    height: 30px !important;
+                }
+            }
+        }
+    }
+    
+    @include atMax(360px) {
+        &.ant-space-horizontal {
+            gap: 4px;
+            
+            .ant-space-item {
+                .ant-btn {
+                    font-size: 10px !important;
+                    padding: 2px 4px !important;
+                    height: 28px !important;
+                }
+            }
+        }
+    }
+}
+
+// Fix button group layout issues
+.ant-space-horizontal {
+    .ant-space-item {
+        display: flex;
+        
+        .ant-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: nowrap;
+        }
+    }
+}
+
+// Enhanced responsive button group styling
+.responsive-button-group {
+    width: 100%;
+    
+    > div {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        
+        .ant-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            
+            // Ensure icons and text are properly aligned
+            .anticon {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+    }
+    
+    @media (max-width: 576px) {
+        > div {
+            gap: 8px;
+            
+            .ant-btn {
+                min-width: 0;
+                max-width: calc(50% - 4px);
+                font-size: 12px;
+                height: 32px;
+                padding: 4px 8px;
+            }
+        }
+    }
+    
+    @media (max-width: 480px) {
+        > div {
+            gap: 6px;
+            
+            .ant-btn {
+                font-size: 11px;
+                height: 30px;
+                padding: 2px 6px;
+            }
+        }
+    }
+    
+    @media (max-width: 360px) {
+        > div {
+            gap: 4px;
+            
+            .ant-btn {
+                font-size: 10px;
+                height: 28px;
+                padding: 2px 4px;
+                
+                .anticon {
+                    font-size: 10px;
+                    margin-right: 2px;
+                }
+            }
+        }
+    }
+}
+
+.ant-table-wrapper {
+    .ant-table {
+        .ant-table-container {
+            border: 1px solid var(--color-tertiary) !important;
+            border-radius: 10px;
+            .ant-table-header {
+                border-radius: 0px;
+
+                &.ant-table-sticky-holder {
+                    z-index: 100;
+                    overflow: auto hidden !important;
+
+                    // Firefox
+                    scrollbar-width: thin;
+                    scrollbar-color: var(--color-secondary) !important;
+                }
+                table {
+                    table-layout: fixed;
+                    width: 100%;
+                    border-radius: 0px;
+
+                    thead.ant-table-thead {
+                        tr {
+                            th.ant-table-cell {
+                                // color: #000000;
+                                // font-weight: 600;
+                                font-weight: 600;
+                                padding-block: 8px;
+
+                                .ant-table-selection {
+                                    .ant-checkbox-wrapper {
+                                        .ant-checkbox {
+                                            .ant-checkbox-inner {
+                                                border: 1px solid #000000;
+                                            }
+
+                                            &.ant-checkbox-indeterminate {
+                                                .ant-checkbox-inner {
+                                                    &::after {
+                                                        background-color: var(
+                                                            --color-blue-600
+                                                        );
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        &:hover,
+                                        &.ant-checkbox-wrapper-checked {
+                                            .ant-checkbox {
+                                                &.ant-checkbox-checked {
+                                                    .ant-checkbox-inner {
+                                                        background-color: var(
+                                                            --color-blue-600
+                                                        );
+                                                        border-color: var(
+                                                            --color-blue-600
+                                                        );
+
+                                                        &::after {
+                                                            left: 20%;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                &.ant-table-selection-column {
+                                    width: 50px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .ant-table-body {
+                // Firefox
+                scrollbar-width: thin;
+                scrollbar-color: var(--color-secondary) !important;
+
+                table {
+                    tbody.ant-table-tbody {
+                        tr {
+                            td.ant-table-cell {
+                                vertical-align: baseline;
+                                padding-block: 8px !important;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .ant-table-sticky-scroll {
+                opacity: 1;
+
+                .ant-table-sticky-scroll-bar {
+                    background-color: var(--color-secondary) !important;
+                }
+            }
+
+            .ant-table-content {
+                table {
+                    thead.ant-table-thead {
+                        tr {
+                            th.ant-table-cell {
+                                padding-block: 8px;
+                            }
+                        }
+                    }
+                    tbody.ant-table-tbody {
+                        > tr {
+                            > td.ant-table-cell {
+                                padding-block: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ✅ PLACE THIS OUTSIDE ANY NESTING
+/* GLOBAL SCROLLBAR STYLES */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-secondary);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  
+  * {
+    scrollbar-width: thin; // Firefox
+    scrollbar-color: var(--color-secondary) transparent;
+  }
+  
+.tbl-page-size {
+    .ant-select {
+        &.ant-select-outlined {
+            &.ant-select-table-pagesize {
+                &.ant-select-single {
+                    &.ant-select-show-arrow {
+                        display: flex;
+
+                        .ant-select-selector {
+                            display: flex;
+                            color: var(--color-primary) !important;
+                        }
+
+                        .ant-select-arrow {
+                            user-select: none;
+                            color: var(--color-primary) !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            .ant-select-selector {
+                border-color: var(--color-primary) !important;
+            }
+        }
+    }
+}
+
+// Pagination buttons with labels
+.pagination-btn-with-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 12px !important;
+    height: 30px !important;
+    
+    .pagination-label {
+        font-size: 13px;
+        font-weight: 500;
+        
+        @include atSMMax {
+            display: none;
+        }
+    }
+    
+    // Icon styling
+    svg {
+        font-size: 12px;
+    }
+    
+    // Responsive adjustments
+    @include atSMMax {
+        padding: 4px 8px !important;
+        gap: 0px !important;
+    }
+}
+
+// Table refresh button styling
+.table-refresh-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 6px !important;
+    border: 1px solid #d9d9d9 !important;
+    background-color: #ffffff !important;
+    transition: all 0.2s ease !important;
+    
+    svg {
+        font-size: 14px !important;
+        color: #595959 !important;
+        transition: color 0.2s ease !important;
+    }
+    
+    &:hover {
+        border-color: var(--color-primary) !important;
+        background-color: #f8f9fa !important;
+        
+        svg {
+            color: var(--color-primary) !important;
+        }
+    }
+    
+    &:focus,
+    &:focus-visible {
+        outline: none !important;
+        border-color: var(--color-primary) !important;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+    }
+    
+    &:active {
+        transform: scale(0.95) !important;
+    }
+    
+    // Responsive adjustments
+    @include atSMMax {
+        min-width: 32px !important;
+        height: 32px !important;
+        
+        svg {
+            font-size: 12px !important;
+        }
+    }
+}

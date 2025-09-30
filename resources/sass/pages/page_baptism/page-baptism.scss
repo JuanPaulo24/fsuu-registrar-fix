@@ -1,0 +1,98 @@
+#PageBaptism {
+  .ant-tabs-tab {
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff !important;
+      background-color: #2e7d32 !important; /* Green Background */
+      padding: 10px 20px !important;
+      border-radius: 8px 8px 0 0 !important;
+      margin: 4px !important;
+
+      &:hover {
+          background-color: #1b5e20 !important;
+      }
+
+      &.ant-tabs-tab-active {
+          background-color: #fff !important;
+          border: 2px solid #1b5e20 !important;
+          // color: #fff !important;
+
+          .ant-tabs-tab-btn {
+              color: green !important; /* Matches the color from the image */
+              text-shadow: 0 0 0.25px currentcolor !important; /* Adds the slight text shadow */
+          }
+      }
+
+      &:focus:not(:focus-visible) {
+          color: #fff; /* If you still want the color change on focus that isn't focus-visible */
+      }
+  }
+}
+
+.wrap-modal-import-data {
+  .ant-modal {
+      .ant-modal-header {
+          background-color: green;
+          color: white;
+          border-radius: 0 !important;
+          padding: 0 8px 0 8px;
+      }
+
+      .ant-upload {
+          border: 2px dashed #fff;
+          background-color: #f0f2f5;
+
+          .ant-upload-drag-icon {
+              color: green;
+          }
+
+          .ant-upload-text {
+              font-size: 16px;
+              color: green;
+          }
+
+          .ant-upload-hint {
+              font-size: 14px;
+              color: green;
+          }
+      }
+
+      .buttons {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+
+          .ant-btn {
+              flex: 1;
+              margin-right: 10px;
+
+              &:last-child {
+                  margin-right: 0;
+              }
+          }
+      }
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: start; // Ensures vertical stacking and left alignment
+
+  .add-baptism-button {
+      margin-bottom: 10px; // Space between the modal trigger and table switch buttons
+  }
+
+  .table-buttons {
+      display: flex; // Ensures that "Active" and "Archive" buttons are side by side
+      margin-bottom: 10px;
+  }
+
+  .table-switch-button {
+      margin-right: 8px; // Space between the "Active" and "Archive" buttons
+
+      &:last-child {
+          margin-right: 0; // Removes margin from the last button
+      }
+  }
+}

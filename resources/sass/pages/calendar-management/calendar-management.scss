@@ -1,0 +1,157 @@
+// Calendar Management Styles
+.calendar-management {
+  .ant-picker-calendar {
+    .ant-picker-cell-inner {
+      height: 80px !important;
+      padding: 2px !important;
+      position: relative !important;
+      overflow: visible !important;
+    }
+
+    .ant-picker-content {
+      height: 76px !important;
+      position: relative !important;
+      overflow: visible !important;
+    }
+
+    .ant-picker-calendar-date-content {
+      height: 60px !important;
+      overflow: visible !important;
+      position: relative !important;
+    }
+
+    .ant-picker-cell {
+      position: relative !important;
+      overflow: visible !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-top: 1px solid #f0f0f0 !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+    }
+
+    tbody tr td {
+      position: relative !important;
+      overflow: visible !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 0 !important;
+    }
+
+    table {
+      border-collapse: collapse !important;
+      border-spacing: 0 !important;
+    }
+
+    .ant-picker-calendar-date-today .ant-picker-cell-inner::before {
+      border: 1px solid #1890ff !important;
+    }
+
+    // Remove cell padding to allow seamless bars
+    .ant-picker-cell-inner {
+      padding: 0 !important;
+      margin: 2px !important;
+    }
+
+    // Ensure consistent alignment for multi-day events
+    .ant-picker-cell {
+      &:not(:last-child) {
+        .calendar-event-bar.multi-day-start,
+        .calendar-event-bar.multi-day-middle {
+          margin-right: -1px !important;
+        }
+      }
+    }
+  }
+
+  // Event bar styles
+  .calendar-event-bar {
+    transform: translateX(-2px);
+    width: calc(100% + 4px) !important;
+    position: relative;
+    margin: 0 !important;
+    
+    // Multi-day event styling for seamless appearance
+    &.multi-day-start {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      width: calc(100% + 6px) !important;
+    }
+    
+    &.multi-day-middle {
+      border-radius: 0 !important;
+      transform: translateX(-4px);
+      width: calc(100% + 8px) !important;
+    }
+    
+    &.multi-day-end {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+      transform: translateX(-4px);
+      width: calc(100% + 6px) !important;
+    }
+  }
+
+  // Fine-tune spacing so text aligns cleanly under titles
+  .upcoming-events-item,
+  .todays-events-item{
+    .ant-list-item-meta-description {
+      padding-left: 24px; // consistent indent under title
+    }
+  }
+
+  // Year view month cell styles
+  .ant-picker-calendar-mode-year {
+    .ant-picker-cell {
+      height: 120px !important;
+      
+      .ant-picker-cell-inner {
+        height: 100% !important;
+        padding: 4px !important;
+        
+        .month-events-container {
+          height: calc(100% - 20px);
+          overflow: hidden;
+          
+          .month-event-item {
+            margin-bottom: 2px !important;
+            border-radius: 3px !important;
+            
+            &:hover {
+              opacity: 0.8 !important;
+              transform: scale(1.02);
+              transition: all 0.2s ease;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Archived events styling
+  .archived-events-item {
+    opacity: 0.7 !important;
+    
+    .ant-list-item-meta-title {
+      color: #6b7280 !important;
+    }
+    
+    .ant-list-item-meta-description {
+      color: #9ca3af !important;
+    }
+  }
+
+  // Inactive event styling
+  .calendar-event-bar {
+    &.inactive {
+      opacity: 0.6 !important;
+      background-color: #9ca3af !important;
+    }
+  }
+
+  .month-event-item {
+    &.inactive {
+      opacity: 0.6 !important;
+      background-color: #9ca3af !important;
+    }
+  }
+}

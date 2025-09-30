@@ -1,0 +1,502 @@
+// Email Module Responsive Styles
+.email-module-container {
+    .ant-card {
+        overflow-x: auto;
+    }
+
+    // Header responsive layout
+    .email-header-controls {
+        margin-bottom: 16px;
+        
+        .ant-row {
+            align-items: center;
+        }
+        
+        // Folder dropdown and toggle styling
+        .ant-select {
+            .ant-select-selector {
+                background-color: #f5f5f5 !important;
+                border-color: #d9d9d9 !important;
+                color: #666666 !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .ant-col {
+                margin-bottom: 8px;
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .ant-btn {
+                padding: 8px 12px;
+                height: auto;
+                font-size: 12px;
+            }
+            
+            .ant-input {
+                font-size: 12px;
+            }
+            
+            .sidebar-toggle-btn {
+                min-width: 36px;
+                width: 36px;
+                padding: 6px;
+            }
+        }
+    }
+
+    // Email interface layout improvements
+    .email-interface-row {
+        position: relative;
+        
+        @media (max-width: 768px) {
+            .email-sidebar-col {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1050;
+                width: 280px !important;
+                max-width: 80vw;
+                height: auto;
+                box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+                
+                .ant-card {
+                    height: auto !important;
+                    margin-bottom: 0;
+                }
+                
+                .ant-menu {
+                    .ant-menu-item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 12px 16px;
+                        
+                        .ant-space {
+                            width: 100%;
+                            justify-content: space-between;
+                        }
+                    }
+                }
+            }
+            
+            .email-container-col {
+                .ant-card {
+                    height: auto !important;
+                }
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .email-sidebar-col {
+                width: 260px !important;
+                
+                .ant-card {
+                    .ant-card-body {
+                        padding: 12px;
+                    }
+                    
+                    .ant-btn {
+                        font-size: 12px;
+                        padding: 6px 12px;
+                        height: auto;
+                    }
+                }
+                
+                .ant-menu-item {
+                    font-size: 14px;
+                    padding: 8px 12px !important;
+                }
+            }
+        }
+    }
+
+    // Sidebar overlay backdrop for mobile
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        display: none;
+        
+        @media (max-width: 768px) {
+            display: block;
+        }
+    }
+
+    // Neutral color scheme
+    .email-search-input {
+        .ant-input {
+            background-color: #fafafa !important;
+            border-color: #d9d9d9 !important;
+            
+            &:focus,
+            &:focus-within {
+                border-color: #999999 !important;
+                box-shadow: 0 0 0 2px rgba(102, 102, 102, 0.1) !important;
+            }
+        }
+    }
+
+    // Red notification badges for unread emails
+    .ant-badge {
+        .ant-badge-count {
+            &[style*="background-color: rgb(255, 77, 79)"] {
+                animation: pulse 2s infinite;
+                box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.7);
+            }
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.7);
+        }
+        
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(255, 77, 79, 0);
+        }
+        
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(255, 77, 79, 0);
+        }
+    }
+
+    // Bulk actions styling
+    .bulk-actions-bar {
+        background: #f8f9fa !important;
+        border-color: #e9ecef !important;
+        
+        .ant-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: #666666 !important;
+            
+            &:hover {
+                background-color: rgba(102, 102, 102, 0.1) !important;
+                transform: scale(1.05);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                color: #333333 !important;
+            }
+            
+            &:active {
+                transform: scale(0.95);
+            }
+            
+            svg {
+                font-size: 14px;
+            }
+        }
+    }
+
+    // Selection styling
+    .ant-table-tbody {
+        .ant-table-row {
+            transition: background-color 0.2s ease;
+            
+            &:hover {
+                background-color: #f5f5f5 !important;
+            }
+            
+            &.selected {
+                background-color: #e6f7ff !important;
+            }
+            
+            .ant-table-cell {
+                [data-testid="selection-icon"],
+                [data-testid="star-icon"] {
+                    transition: all 0.2s ease;
+                    
+                    &:hover {
+                        transform: scale(1.2);
+                    }
+                }
+            }
+        }
+    }
+
+    // Email table responsive improvements
+    .email-table-container {
+        @media (max-width: 768px) {
+            .ant-table {
+                .ant-table-tbody {
+                    .ant-table-row {
+                        .ant-table-cell {
+                            padding: 8px 4px;
+                            font-size: 12px;
+                            
+                            &:first-child {
+                                padding-left: 8px;
+                            }
+                            
+                            &:last-child {
+                                padding-right: 8px;
+                            }
+                        }
+                    }
+                }
+                
+                .ant-table-thead {
+                    .ant-table-cell {
+                        padding: 8px 4px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        
+                        &:first-child {
+                            padding-left: 8px;
+                        }
+                        
+                        &:last-child {
+                            padding-right: 8px;
+                        }
+                    }
+                }
+            }
+            
+            .tbl-top-filter,
+            .tbl-bottom-filter {
+                .ant-flex {
+                    flex-direction: column;
+                    gap: 8px;
+                    align-items: stretch !important;
+                    
+                    .ant-select {
+                        width: 100% !important;
+                    }
+                    
+                    .ant-pagination {
+                        width: 100%;
+                        justify-content: center;
+                        
+                        .ant-pagination-item {
+                            margin: 0 2px;
+                        }
+                    }
+                }
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .ant-table-wrapper {
+                .ant-table {
+                    .ant-table-tbody,
+                    .ant-table-thead {
+                        .ant-table-cell {
+                            padding: 6px 2px;
+                            font-size: 11px;
+                            
+                            .ant-space {
+                                gap: 4px !important;
+                            }
+                            
+                            .ant-avatar {
+                                width: 24px !important;
+                                height: 24px !important;
+                                line-height: 24px !important;
+                                font-size: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Neutral button styling
+    .ant-btn {
+        &.ant-btn-default {
+            background-color: #f5f5f5 !important;
+            border-color: #d9d9d9 !important;
+            color: #666666 !important;
+            
+            &:hover {
+                background-color: #e8e8e8 !important;
+                border-color: #999999 !important;
+                color: #333333 !important;
+            }
+        }
+    }
+
+    // Search input responsive behavior
+    .email-search-input {
+        .ant-input {
+            background-color: #fafafa !important;
+            border-color: #d9d9d9 !important;
+            
+            &::placeholder {
+                color: #999999 !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            width: 100% !important;
+            min-width: unset !important;
+            max-width: unset !important;
+        }
+    }
+
+    // Mobile-specific bulk actions
+    @media (max-width: 768px) {
+        .bulk-actions-bar {
+            .ant-flex {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+                
+                .ant-space {
+                    width: 100%;
+                    justify-content: center;
+                    
+                    .ant-btn {
+                        min-width: 40px;
+                        height: 40px;
+                        
+                        svg {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .email-table-container {
+            .ant-table {
+                .ant-table-cell {
+                    [data-testid="selection-icon"],
+                    [data-testid="star-icon"] {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    // Mobile-specific improvements
+    @media (max-width: 576px) {
+        .ant-card {
+            .ant-card-body {
+                padding: 8px;
+            }
+            
+            .ant-card-head {
+                padding: 8px 12px;
+                min-height: 40px;
+                
+                .ant-card-head-title {
+                    font-size: 13px;
+                }
+            }
+        }
+        
+        .ant-row {
+            margin: 0 -4px !important;
+            
+            .ant-col {
+                padding: 0 4px !important;
+            }
+        }
+        
+        .ant-space {
+            gap: 4px !important;
+        }
+        
+        .ant-btn {
+            font-size: 11px;
+            padding: 4px 8px;
+            height: auto;
+            border-radius: 4px;
+            min-width: 28px;
+        }
+        
+        .email-header-controls {
+            .ant-col {
+                margin-bottom: 12px;
+                
+                .ant-btn,
+                .ant-input {
+                    width: 100% !important;
+                }
+            }
+        }
+        
+        .bulk-actions-bar {
+            padding: 6px 8px !important;
+            
+            .ant-btn {
+                min-width: 36px !important;
+                height: 36px !important;
+            }
+        }
+    }
+
+    // Tablet-specific improvements
+    @media (min-width: 577px) and (max-width: 768px) {
+        .email-interface-row {
+            .email-sidebar-col {
+                .ant-menu-item {
+                    padding: 10px 14px !important;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+
+    // Desktop-specific optimizations
+    @media (min-width: 769px) {
+        .email-interface-row {
+            .email-sidebar-col {
+                .ant-card {
+                    height: 100%;
+                    min-height: 500px;
+                }
+            }
+            
+            .email-container-col {
+                .ant-card {
+                    height: 100%;
+                    min-height: 500px;
+                }
+            }
+        }
+    }
+}
+
+// Ensure proper spacing for compose button on mobile
+@media (max-width: 576px) {
+    .email-module-container {
+        .email-header-controls {
+            .ant-btn-primary {
+                margin-bottom: 8px;
+            }
+        }
+    }
+}
+
+// Fix for horizontal scrolling on very small screens
+@media (max-width: 375px) {
+    .email-module-container {
+        .ant-table-wrapper {
+            overflow-x: auto;
+            
+            .ant-table {
+                min-width: 320px;
+            }
+        }
+    }
+}

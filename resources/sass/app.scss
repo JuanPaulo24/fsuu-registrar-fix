@@ -1,0 +1,370 @@
+@use "./ui/index" as *;
+@use "./ui/input/input";
+@use "./ui/button/button";
+@use "./ui/search/search";
+@use "./ui/private-layout/private-layout";
+@use "./ui/header/header";
+@use "./ui/sidemenu/sidemenu";
+@use "./ui/tabs/tabs";
+@use "./ui/table/table";
+@use "./ui/modal/modal";
+@use "./ui/data-privacy-act/data-privacy-act";
+@use "./ui/components/global-search";
+
+// Path: resources/sass/pages
+
+@use "./pages/page-employee/page-employee";
+@use "./pages/page_baptism/page-baptism.scss";
+@use "./pages/page-matrimony/page-matrimony.scss";
+@use "./pages/page-ministries/page-ministries.scss";
+@use "./pages/page-donations/page-donations.scss";
+@use "./pages/page-dashboard/page-dashboard";
+@use "./pages/page-login/page-login.scss";
+@use "./pages/page-profile/page-profile.scss";
+@use "./pages/page-student-trackings/page-student-trackings.scss";
+@use "./pages/page-roles-permissions/page-roles-permissions.scss";
+@use "./pages/page-login-attempts/page-login-attempts.scss";
+@use "./pages/page-timezone-language/page-timezone-language.scss";
+@use "./pages/calendar-management/calendar-management.scss";
+@use "./pages/page-document-management/index.scss" as page-document-management;
+
+// end Path: resources/sass/pages
+
+// Global scroll and header overlap fixes
+body {
+    // Ensure smooth scrolling behavior
+    scroll-behavior: smooth;
+}
+
+// Prevent content from overlapping with sticky header
+.private-layout .ant-layout .ant-layout-content {
+    // Add proper spacing below sticky header
+    padding-top: 0px;
+    position: relative;
+    
+    // Ensure proper stacking for scrollable content
+    .ant-table-wrapper,
+    .ant-table-container,
+    .scrollable-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    // Ensure modals appear above sidebar (z-index: 1200) with higher priority
+    .ant-modal-mask {
+        z-index: 1500 !important;
+    }
+    
+    .ant-modal-wrap {
+        z-index: 1600 !important;
+    }
+    
+    .ant-modal-root {
+        z-index: 1600 !important;
+    }
+    
+    // More specific modal targeting to override any other rules
+    .ant-modal {
+        z-index: 1600 !important;
+    }
+    
+    // Ensure all modal-related elements are properly layered
+    .ant-modal-content,
+    .ant-modal-header,
+    .ant-modal-body,
+    .ant-modal-footer {
+        position: relative;
+        z-index: 1;
+    }
+    
+    // Target specific modal classes that might be used in the application
+    .modal-password-verification,
+    .modal-revocation-warning,
+    .ant-modal-wrap[class*="modal"] {
+        z-index: 1600 !important;
+    }
+    
+    // Base z-index for Generate Document modal (lowest priority)
+    .modal-enhanced-document-generation-wrap,
+    .modal-enhanced-document-generation-wrap .ant-modal-wrap,
+    .modal-enhanced-document-generation-wrap .ant-modal-mask,
+    .modal-enhanced-document-generation-wrap .ant-modal,
+    div.modal-enhanced-document-generation-wrap,
+    div.modal-enhanced-document-generation-wrap .ant-modal-wrap,
+    div.modal-enhanced-document-generation-wrap .ant-modal-mask,
+    div.modal-enhanced-document-generation-wrap .ant-modal {
+        z-index: 1000 !important;
+    }
+    
+    div.modal-enhanced-document-generation-wrap {
+        z-index: 1000 !important;
+        
+        .ant-modal-mask {
+            z-index: 1000 !important;
+        }
+        
+        .ant-modal-wrap {
+            z-index: 1000 !important;
+        }
+        
+        .ant-modal {
+            z-index: 1000 !important;
+        }
+        
+        .ant-modal-content {
+            z-index: 1000 !important;
+        }
+    }
+    
+    // Higher z-index for warning/confirmation modals that should appear above other modals
+    .modal-active-document-warning-wrap,
+    .modal-revocation-warning-wrap,
+    .modal-password-verification-wrap {
+        z-index: 1700 !important;
+        
+        .ant-modal-mask {
+            z-index: 1700 !important;
+        }
+        
+        .ant-modal-wrap {
+            z-index: 1700 !important;
+        }
+        
+        .ant-modal {
+            z-index: 1700 !important;
+        }
+    }
+    
+    // Even higher z-index for profile edit modal when opened from generation modal
+    // Using very high z-index to ensure it appears above everything
+    .modal-form-profile-wrap,
+    .modal-form-profile-wrap .ant-modal-wrap,
+    .modal-form-profile-wrap .ant-modal-mask,
+    .modal-form-profile-wrap .ant-modal,
+    div.modal-form-profile-wrap,
+    div.modal-form-profile-wrap .ant-modal-wrap,
+    div.modal-form-profile-wrap .ant-modal-mask,
+    div.modal-form-profile-wrap .ant-modal {
+        z-index: 9999 !important;
+    }
+    
+    // Additional targeting for more specificity with maximum z-index
+    div.modal-form-profile-wrap {
+        z-index: 9999 !important;
+        
+        .ant-modal-mask {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal-wrap {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal-content {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal-header {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal-body {
+            z-index: 9999 !important;
+        }
+        
+        .ant-modal-footer {
+            z-index: 9999 !important;
+        }
+    }
+    
+    // Override any Ant Design default z-index for this specific modal
+    .ant-modal-root:has(.modal-form-profile-wrap),
+    .ant-modal-root .modal-form-profile-wrap {
+        z-index: 9999 !important;
+    }
+    
+    // Force profile modal to appear on top with global override
+    .modal-form-profile-wrap * {
+        position: relative !important;
+    }
+    
+    // Global override for any modal with profile form content
+    .ant-modal-wrap[class*="modal-form-profile"] {
+        z-index: 9999 !important;
+        position: fixed !important;
+    }
+    
+    // Ensure the mask also has high z-index
+    .ant-modal-mask + .ant-modal-wrap.modal-form-profile-wrap {
+        z-index: 9999 !important;
+    }
+    
+    // Nuclear option - force the profile modal to be on top of everything
+    body .modal-form-profile-wrap,
+    html .modal-form-profile-wrap,
+    #root .modal-form-profile-wrap {
+        z-index: 99999 !important;
+        position: fixed !important;
+        
+        .ant-modal-mask,
+        .ant-modal-wrap,
+        .ant-modal,
+        .ant-modal-content {
+            z-index: 99999 !important;
+        }
+    }
+    
+    // Ensure Generate Document modal stays below
+    body .modal-enhanced-document-generation-wrap,
+    html .modal-enhanced-document-generation-wrap,
+    #root .modal-enhanced-document-generation-wrap {
+        z-index: 500 !important;
+        
+        .ant-modal-mask,
+        .ant-modal-wrap,
+        .ant-modal,
+        .ant-modal-content {
+            z-index: 500 !important;
+        }
+    }
+    
+    // Portal modal - highest priority for modals rendered at body level
+    .modal-form-profile-portal,
+    .modal-form-profile-portal .ant-modal-mask,
+    .modal-form-profile-portal .ant-modal-wrap,
+    .modal-form-profile-portal .ant-modal,
+    .modal-form-profile-portal .ant-modal-content {
+        z-index: 999999 !important;
+        position: fixed !important;
+    }
+    
+    // Dropdowns should appear above modals when needed
+    .ant-dropdown {
+        z-index: 1800 !important;
+    }
+    
+    // Special handling for dropdowns inside modals - they need even higher z-index
+    .ant-modal .ant-dropdown,
+    .ant-modal .ant-select-dropdown,
+    .ant-modal-wrap .ant-dropdown,
+    .ant-modal-wrap .ant-select-dropdown {
+        z-index: 1800 !important;
+    }
+    
+    // Tooltips and popovers should have the highest z-index to always be visible
+    .ant-tooltip,
+    .ant-popover,
+    .ant-modal .ant-tooltip,
+    .ant-modal .ant-popover,
+    .ant-modal-wrap .ant-tooltip,
+    .ant-modal-wrap .ant-popover {
+        z-index: 2000 !important;
+    }
+    
+    // Fix for any elements that might overlap header
+    .ant-card,
+    .ant-table,
+    .ant-layout,
+    .content-wrapper {
+        position: relative;
+    }
+    
+    // Ensure sticky header stays on top of content
+    .ant-affix {
+        z-index: 999 !important;
+    }
+}
+
+// Global modal z-index override to ensure modals always appear above sidebar
+div[class*="ant-modal"] {
+    z-index: 1600 !important;
+}
+
+// Global dropdown overrides to ensure they work properly with modals
+.ant-select-dropdown,
+.ant-picker-dropdown,
+.ant-cascader-dropdown,
+.ant-tree-select-dropdown {
+    z-index: 1800 !important;
+}
+
+// Global tooltip and popover overrides - highest priority for visibility
+.ant-tooltip,
+.ant-popover,
+div[class*="ant-tooltip"],
+div[class*="ant-popover"] {
+    z-index: 2000 !important;
+}
+
+// Mobile menu overlay
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1190; // Below modals but above sidebar
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    @include atMDMin {
+        display: none !important;
+    }
+}
+
+// Pages specific styles
+@import "pages/page-email-template/page-email-template.scss";
+@import "pages/page-email-module/page-email-module.scss";
+@import "pages/page-verify/page-verify.scss";
+
+// EMERGENCY FIX FOR SEARCH RESULTS BACKGROUND
+// Force white backgrounds on search results with maximum specificity
+html body div.global-search-container div.global-search-dropdown {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.global-search-results {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.global-search-results div.search-result-item {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.global-search-results div.search-result-item:hover {
+    background: #f0f0f0 !important;
+    background-color: #f0f0f0 !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.global-search-suggestions {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.global-search-loading {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html body div.global-search-container div.global-search-dropdown * {
+    background: transparent !important;
+}
+
+html body div.global-search-container div.global-search-dropdown div.search-result-item,
+html body div.global-search-container div.global-search-dropdown div.search-result-item * {
+    background: inherit !important;
+}

@@ -1,0 +1,183 @@
+.student-tracking-picture-container {
+    background: #fafafa;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    
+    .ant-image {
+        .ant-image-img {
+            transition: all 0.3s ease;
+            
+            &:hover {
+                transform: scale(1.02);
+            }
+        }
+    }
+    
+    .student-tracking-info {
+        margin-top: 16px;
+        
+        h4 {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        .ant-typography {
+            color: #6b7280;
+        }
+    }
+}
+
+.student-tracking-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.student-tracking-header-button {
+    margin-right: 16px;
+}
+
+.student-tracking-header-title {
+    margin: 0;
+}
+
+.student-tracking-field {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        border-color: #d1d5db;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+}
+
+.student-tracking-field-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #374151;
+}
+
+.student-tracking-field-value {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.student-tracking-sidebar {
+    text-align: center;
+    padding: 20px;
+}
+
+.student-tracking-picture {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.student-tracking-picture-info {
+    margin-top: 16px;
+}
+
+.student-tracking-picture-name {
+    margin: 0;
+}
+
+.student-tracking-picture-id {
+    font-size: 16px;
+}
+
+.student-tracking-picture-course {
+    color: #6b7280;
+}
+
+// Use same collapse styling as profile
+.collapse-main-primary {
+    .ant-collapse-item {
+        .ant-collapse-header {
+            background: #f8fafc;
+            border-radius: 8px !important;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #374151;
+            
+            &:hover {
+                background: #f1f5f9;
+            }
+        }
+        
+        .ant-collapse-content {
+            border-radius: 0 0 8px 8px;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            
+            .ant-collapse-content-box {
+                padding: 20px;
+                
+                // Field styling for text display
+                .ant-typography {
+                    &:first-child {
+                        font-weight: 600;
+                        color: #374151;
+                        margin-bottom: 4px;
+                    }
+                    
+                    &:last-child {
+                        color: #6b7280;
+                        font-size: 14px;
+                        word-wrap: break-word;
+                        min-height: 20px;
+                        
+                        &:empty::before {
+                            content: 'N/A';
+                            color: #9ca3af;
+                            font-style: italic;
+                        }
+                    }
+                }
+                
+                // Field container styling
+                div[style*="marginBottom"] {
+                    padding: 12px;
+                    border-radius: 6px;
+                    background: #ffffff;
+                    border: 1px solid #e5e7eb;
+                    transition: all 0.2s ease;
+                    
+                    &:hover {
+                        border-color: #d1d5db;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .student-tracking-picture-container {
+        margin-bottom: 20px;
+        
+        .ant-image {
+            width: 150px !important;
+            height: 150px !important;
+        }
+    }
+    
+    .collapse-main-primary {
+        .ant-collapse-content {
+            .ant-collapse-content-box {
+                padding: 16px;
+                
+                div[style*="marginBottom"] {
+                    padding: 8px;
+                    margin-bottom: 12px !important;
+                }
+            }
+        }
+    }
+}

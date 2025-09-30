@@ -1,0 +1,146 @@
+@use "../index" as *;
+
+.private-layout {
+    background-color: var(--color-primary);
+    min-height: 100vh;
+    position: relative;
+
+    > .ant-layout {
+        background-color: var(--color-primary);
+        transition: all 0.25s, background 0s;
+        margin-left: 240px;
+
+        @include atSMMax {
+            margin-left: 0px;
+        }
+
+        &.ant-layout-has-collapse {
+            margin-left: 55px;
+            max-width: 100%;
+
+            @include atSMMax {
+                margin-left: 0px;
+            }
+        }
+
+        &:not(&.ant-layout-has-collapse) {
+            .ant-layout-header {
+                .header-left-menu {
+                    .menu-left-icon.menu-left-icon-menu-collapse-on-close {
+                        @include atSMMax {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        > .ant-layout-content {
+            background-color: var(--color-tertiary) !important;
+            padding-top: 0px;
+            position: relative;
+
+            > .ant-breadcrumb {
+                padding: 12px 10px 12px 20px;
+                background-color: var(--color-tertiary);
+                position: relative;
+                z-index: 10;
+
+                @include atMax(575) {
+                    padding: 10px 10px 10px 10px;
+                }
+
+                .ant-breadcrumb-link a,
+                .breadcrumb-item-text {
+                    font-size: 14px !important;
+                    color: var(--color-secondary) !important;
+                }
+                .ant-breadcrumb-link a svg {
+                    font-size: 16px !important;
+                }
+                .ant-breadcrumb-link svg {
+                    color: var(--color-primary);
+                }
+                .ant-breadcrumb-separator {
+                    position: relative;
+
+                    svg {
+                        color: var(--color-primary);
+                    }
+
+                    .arrow {
+                        position: absolute;
+                        left: -4px;
+                        top: 10px;
+                        color: var(--color-primary);
+
+                        &::before,
+                        &::after {
+                            position: absolute;
+                            width: 6px;
+                            height: 1.5px;
+                            background-color: currentcolor;
+                            border-radius: 2px;
+                            content: "";
+                        }
+
+                        &::before {
+                            -moz-transform: rotate(45deg) translateY(-2.5px);
+                            -webkit-transform: rotate(45deg) translateY(-2.5px);
+                            transform: rotate(45deg) translateY(-2.5px);
+                        }
+                        &::after {
+                            -moz-transform: rotate(-45deg) translateY(2.5px);
+                            -webkit-transform: rotate(-45deg) translateY(2.5px);
+                            transform: rotate(-45deg) translateY(2.5px);
+                        }
+
+                        @supports (-moz-appearance: none) {
+                            &::before,
+                            &::after {
+                                width: 7px;
+                                height: 2.5px;
+                            }
+                        }
+                    }
+                }
+
+                .breadcrumb-item-last {
+                    color: var(--color-secondary) !important;
+                }
+            }
+
+            > .ant-card {
+                background-color: transparent;
+                border-top: 1px solid var(--color-gray-600);
+                border-radius: 0px;
+                height: 100%;
+                position: relative;
+                z-index: 10;
+
+                .ant-card-head {
+                    background-color: var(--color-primary) !important;
+
+                    svg {
+                        color: var(--color-white);
+                    }
+                }
+
+                > .ant-card-body {
+                    background-color: transparent;
+                    border-radius: 0px;
+                    padding: 0px 20px 20px 20px;
+
+                    @include atMax(575) {
+                        padding: 0px 10px 10px 10px;
+                    }
+                }
+            }
+        }
+
+        > .ant-layout-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--color-gray-600);
+        }
+    }
+}

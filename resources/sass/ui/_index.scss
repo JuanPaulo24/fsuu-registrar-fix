@@ -1,0 +1,19 @@
+@forward "./mixin/mixin";
+@forward "variables";
+
+// Module header consistency
+.module-header {
+    .module-title {
+        font-size: 1.5rem !important;
+        line-height: 1.4 !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.5rem !important;
+        color: #262626 !important;
+    }
+    
+    .module-description {
+        font-size: 0.875rem !important;
+        color: rgba(0, 0, 0, 0.65) !important;
+        margin-bottom: 0 !important;
+    }
+}

@@ -1,0 +1,23 @@
+const optionLanguage = [
+    { label: "Aklanon", value: "1" },
+    { label: "Bikol", value: "2" },
+    { label: "Cebuano", value: "3" },
+    { label: "Chavacano", value: "4" },
+    { label: "Hiligaynon", value: "5" },
+    { label: "Ibanag", value: "6" },
+    { label: "Ilocano", value: "7" },
+    { label: "Ivatan", value: "8" },
+    { label: "Kapampangan", value: "9" },
+    { label: "Kinaray-a", value: "10" },
+    { label: "Maguinadanao", value: "11" },
+    { label: "Maranao", value: "12" },
+    { label: "Pangasinan", value: "13" },
+    { label: "Sambal", value: "14" },
+    { label: "Surigaonon", value: "15" },
+    { label: "Tagalog", value: "16" },
+    { label: "Tausug", value: "17" },
+    { label: "Waray", value: "18" },
+    { label: "Yakan", value: "19" },
+    { label: "Others", value: "20" },
+];
+export default optionLanguage;

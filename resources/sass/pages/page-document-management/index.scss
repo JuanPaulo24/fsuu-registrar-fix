@@ -1,0 +1,164 @@
+// Document Management Page Styles
+// Main index file for importing all document management related styles
+
+// Use modal styles with modern syntax
+@use './modals';
+
+// Document Management specific styles
+.page-document-management {
+    // Table styles for document listings
+    .ant-table {
+        &.ant-table-striped {
+            .ant-table-tbody {
+                > tr {
+                    &:nth-child(even) {
+                        background-color: #fafafa;
+                    }
+                }
+            }
+        }
+    }
+
+    // Document action buttons
+    .btn-revoke {
+        &:hover {
+            color: #ff4d4f !important;
+        }
+    }
+
+    // Status tags
+    .ant-tag {
+        font-weight: 500;
+        padding: 2px 8px;
+        border-radius: 4px;
+        
+        &.ant-tag-green {
+            background-color: #f6ffed;
+            border-color: #b7eb8f;
+            color: #52c41a;
+        }
+        
+        &.ant-tag-red {
+            background-color: #fff2f0;
+            border-color: #ffccc7;
+            color: #ff4d4f;
+        }
+        
+        &.ant-tag-orange {
+            background-color: #fff7e6;
+            border-color: #ffd591;
+            color: #fa8c16;
+        }
+    }
+
+    // Tab navigation styles
+    .ant-tabs {
+        .ant-tabs-tab {
+            &.ant-tabs-tab-active {
+                .ant-tabs-tab-btn {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    // Filter buttons
+    .ant-btn {
+        &.ant-btn-dangerous {
+            &:not(.ant-btn-primary) {
+                color: #ff4d4f;
+                border-color: #ff4d4f;
+                
+                &:hover {
+                    color: #ff7875;
+                    border-color: #ff7875;
+                }
+            }
+        }
+    }
+
+    // Document viewer modal styles
+    .modal-document-viewer {
+        .ant-modal-body {
+            padding: 0;
+            height: 80vh;
+            overflow: auto;
+        }
+    }
+
+    // QR Code display
+    .qr-code-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        
+        img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    }
+
+    // Document info display
+    .document-info {
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+            
+            .info-label {
+                color: #8c8c8c;
+                font-weight: 500;
+            }
+            
+            .info-value {
+                color: #262626;
+                font-weight: 600;
+                
+                &.mono {
+                    font-family: 'Courier New', Courier, monospace;
+                }
+            }
+        }
+    }
+
+    // Revoked documents section
+    .revoked-documents-section {
+        .ant-alert {
+            margin-bottom: 20px;
+            
+            &.ant-alert-info {
+                background-color: #e6f7ff;
+                border: 1px solid #91d5ff;
+                
+                .ant-alert-message {
+                    font-weight: 600;
+                }
+            }
+        }
+        
+        .revoked-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4d4f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+ 
+}

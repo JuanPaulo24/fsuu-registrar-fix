@@ -1,0 +1,26 @@
+// Styles for Login Attempts tab
+.login-attempts-table {
+  .status-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    &.success {
+      color: #52c41a;
+      background: #f6ffed;
+      border-color: #b7eb8f;
+    }
+    
+    &.failure {
+      color: #f5222d;
+      background: #fff1f0;
+      border-color: #ffa39e;
+    }
+  }
+  
+  .username-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

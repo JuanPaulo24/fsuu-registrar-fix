@@ -1,0 +1,36 @@
+/* Prevent drag and selection */
+img, 
+.prevent-drag,
+.fa-icon,
+svg {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  
+  pointer-events: auto !important; /* Ensure click events still work */
+  draggable: false;
+}
+
+/* Optional: Disable text selection across the site */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Optional: Allow text selection in specific elements like inputs and textareas */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+} 

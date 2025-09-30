@@ -1,0 +1,30 @@
+# Pusher Configuration for Real-time Messaging
+# Add these lines to your .env file
+
+# Broadcasting Driver
+BROADCAST_DRIVER=pusher
+
+# Pusher Credentials (Get these from https://pusher.com dashboard)
+PUSHER_APP_ID=your_app_id_here
+PUSHER_APP_KEY=your_app_key_here
+PUSHER_APP_SECRET=your_app_secret_here
+PUSHER_APP_CLUSTER=your_cluster_here
+
+# Optional Pusher Settings (use defaults if not specified)
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+
+# Frontend Environment Variables (for Vite)
+VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+# Queue Configuration (required for broadcasting)
+QUEUE_CONNECTION=database
+
+# Optional: Channel prefix (if you want to prefix your channels)
+PUSHER_APP_CHANNEL=fsuu-messaging-channel
+ 
+ 
+ 
+ 

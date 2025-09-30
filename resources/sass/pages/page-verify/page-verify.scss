@@ -1,0 +1,185 @@
+// Page Verify Styles
+.page-verify {
+    .qr-scanner-container {
+        position: relative;
+        
+        .scanning-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 3px solid #3b82f6;
+            border-radius: 12px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3);
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                right: -3px;
+                bottom: -3px;
+                border: 2px solid white;
+                border-radius: 12px;
+                animation: qr-pulse 2s infinite;
+            }
+        }
+        
+        .scanning-indicator {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+    }
+    
+    .verification-step {
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            
+            .number {
+                font-size: 24px;
+                font-weight: bold;
+                color: #1e40af;
+            }
+        }
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+        padding: 40px 24px;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        margin-bottom: 48px;
+        
+        .hero-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .hero-title {
+            color: white;
+            margin-bottom: 16px;
+        }
+        
+        .hero-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+    
+    .verification-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+        
+        .card-body {
+            padding: 32px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                border-color: #3b82f6;
+                background-color: #f8fafc;
+            }
+            
+            .upload-icon {
+                font-size: 48px;
+                color: #3b82f6;
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+// Animations
+@keyframes qr-pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .page-verify {
+        .hero-section {
+            padding: 32px 16px;
+            
+            .hero-icon {
+                font-size: 48px;
+            }
+        }
+        
+        .verification-card {
+            .card-body {
+                padding: 24px 16px;
+            }
+        }
+        
+        .qr-scanner-container {
+            .scanning-overlay {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .page-verify {
+        .hero-section {
+            padding: 24px 16px;
+            
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+        }
+        
+        .verification-step {
+            .step-number {
+                width: 50px;
+                height: 50px;
+                
+                .number {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

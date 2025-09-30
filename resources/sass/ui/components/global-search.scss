@@ -1,0 +1,366 @@
+// Global Search Bar Styles - Standalone without imports to avoid circular dependency
+
+// Global Search Bar Styles
+.global-search-container {
+    .search-input-wrapper {
+        .ant-input-affix-wrapper {
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border: none;
+            box-shadow: none;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: #e9ecef;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border: none;
+            }
+            
+            &.ant-input-affix-wrapper-focused {
+                background-color: #e9ecef;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border: none;
+            }
+            
+            .ant-input {
+                font-size: 14px;
+                background: transparent;
+                color: #495057;
+                
+                &::placeholder {
+                    color: #6c757d;
+                    font-style: italic;
+                }
+            }
+            
+            .ant-input-prefix {
+                margin-right: 8px;
+                
+                svg {
+                    font-size: 14px;
+                    transition: color 0.3s;
+                }
+            }
+            
+            .ant-input-suffix {
+                margin-left: 8px;
+                
+                .ant-btn {
+                    transition: all 0.2s;
+                    
+                    &:hover {
+                        color: #1890ff;
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+    
+    .global-search-dropdown {
+        border: 1px solid var(--ant-color-border);
+        border-radius: 8px;
+        background: var(--ant-color-bg-container) !important;
+        backdrop-filter: blur(8px);
+        animation: searchDropdownFadeIn 0.2s ease-out;
+        box-shadow: var(--ant-box-shadow-secondary);
+        
+        // Ensure all content has proper background
+        * {
+            background-color: transparent;
+        }
+        
+        // Override any transparent backgrounds
+        .global-search-loading,
+        .global-search-suggestions {
+            background-color: var(--ant-color-bg-container);
+        }
+        
+        @media (max-width: 767px) {
+            border-radius: 6px;
+            max-height: 350px;
+        }
+        
+        // Custom scrollbar
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: var(--ant-color-fill-quaternary);
+            border-radius: 3px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: var(--ant-color-fill-secondary);
+            border-radius: 3px;
+            
+            &:hover {
+                background: var(--ant-color-fill);
+            }
+        }
+    }
+    
+    .global-search-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--ant-color-text-secondary);
+        background-color: var(--ant-color-bg-container) !important;
+    }
+    
+    .global-search-suggestions {
+        background-color: #ffffff !important;
+        
+        .quick-access-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background-color: #ffffff;
+            
+            .ant-btn {
+                border: 1px solid #d9d9d9;
+                color: #333333;
+                font-size: 11px;
+                background-color: #ffffff;
+                border-radius: 4px;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                
+                &:hover {
+                    border-color: #1890ff;
+                    color: #1890ff;
+                    background-color: #f0f8ff;
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+                }
+                
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+    
+    .global-search-results {
+        background-color: var(--ant-color-bg-container);
+        
+        .search-result-item {
+            background-color: var(--ant-color-bg-container) !important;
+            border-bottom: 1px solid var(--ant-color-border);
+            transition: all 0.2s ease;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+            
+            &:hover {
+                background-color: var(--ant-color-fill-tertiary) !important;
+                border-left: 3px solid var(--ant-color-primary);
+                padding-left: 13px;
+                
+                .ant-typography {
+                    color: var(--ant-color-primary);
+                }
+                
+                svg {
+                    color: var(--ant-color-primary) !important;
+                    transform: translateX(2px);
+                }
+            }
+            
+            .ant-tag {
+                margin: 0;
+                border: none;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                background: transparent;
+                color: #0027ae;
+                padding: 2px 8px;
+                align-self: flex-start;
+            }
+        }
+    }
+}
+
+// Filter functionality removed - keeping for potential future use
+
+// Header search specific styles
+.private-layout .ant-layout-header {
+    .header-search-container,
+    .header-search-mobile {
+        .global-search-container {
+            .search-input-wrapper {
+                .ant-input-affix-wrapper {
+                    background: #f8f9fa;
+                    backdrop-filter: blur(4px);
+                    border: none;
+                    box-shadow: none;
+                    cursor: pointer;
+                    
+                    &:hover {
+                        background: #e9ecef;
+                        transform: translateY(-1px);
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        border: none;
+                    }
+                    
+                    &.ant-input-affix-wrapper-focused {
+                        background: #e9ecef;
+                        transform: translateY(-1px);
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        border: none;
+                    }
+                }
+            }
+            
+            // Force desktop dropdown results to have solid backgrounds
+            .global-search-dropdown {
+                background: var(--ant-color-bg-container) !important;
+                
+                .global-search-results {
+                    background: var(--ant-color-bg-container) !important;
+                    
+                    .search-result-item {
+                        background: var(--ant-color-bg-container) !important;
+                        background-color: var(--ant-color-bg-container) !important;
+                        
+                        * {
+                            background: transparent !important;
+                        }
+                        
+                        &:hover {
+                            background: var(--ant-color-fill-tertiary) !important;
+                            background-color: var(--ant-color-fill-tertiary) !important;
+                        }
+                    }
+                }
+                
+                .global-search-suggestions,
+                .global-search-loading {
+                    background: var(--ant-color-bg-container) !important;
+                    background-color: var(--ant-color-bg-container) !important;
+                }
+            }
+        }
+    }
+    
+    .header-search-mobile {
+        @media (max-width: 767px) {
+            .global-search-container {
+                .search-input-wrapper {
+                    .ant-input-affix-wrapper {
+                        font-size: 13px;
+                        
+                        .ant-input {
+                            font-size: 13px;
+                        }
+                    }
+                }
+                
+                .global-search-dropdown {
+                    left: -10px !important;
+                    right: -10px !important;
+                    width: auto !important;
+                }
+            }
+        }
+    }
+}
+
+// Animation keyframes
+@keyframes searchDropdownFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// FORCE solid white backgrounds for search results - HIGHEST PRIORITY
+.global-search-container {
+    .global-search-dropdown {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        
+        .global-search-results {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            
+            .search-result-item,
+            .search-result-item-solid {
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                
+                &:hover {
+                    background: #f0f0f0 !important;
+                    background-color: #f0f0f0 !important;
+                }
+            }
+        }
+        
+        .global-search-suggestions {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+        }
+        
+        .global-search-loading {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+        }
+    }
+}
+
+// Additional override for header context
+.private-layout .ant-layout-header .global-search-container {
+    .global-search-dropdown {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        
+        * {
+            background-color: inherit !important;
+        }
+        
+        .global-search-results .search-result-item {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            
+            &:hover {
+                background: #f0f0f0 !important;
+                background-color: #f0f0f0 !important;
+            }
+        }
+    }
+}
+
+// Dark mode automatically supported through CSS custom properties
+// All colors use var(--ant-color-*) which adapt to light/dark themes
+
+// FINAL OVERRIDE - MAXIMUM SPECIFICITY
+div.global-search-container div.global-search-dropdown div.global-search-results div.search-result-item {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+div.global-search-container div.global-search-dropdown div.global-search-results div.search-result-item:hover {
+    background: #f0f0f0 !important;
+    background-color: #f0f0f0 !important;
+}
+
+div.global-search-container div.global-search-dropdown {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+div.global-search-container div.global-search-dropdown div.global-search-results {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}

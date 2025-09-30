@@ -1,0 +1,361 @@
+// Primary Theme Search Bar Styles - optimized for Ant Design compatibility
+.primary-search {
+    // Base search input styles
+    .ant-input-search {
+        border-radius: var(--radius-lg) !important;
+        border: none !important;
+        transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow: hidden !important;
+
+
+        &:focus-within {
+            outline: none !important;
+        }
+    }
+
+    // Input field styles - ensure no conflicting borders or outlines
+    .ant-input {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        font-size: 14px !important;
+        color: var(--color-gray-700) !important;
+
+        &::placeholder {
+            color: var(--color-gray-400) !important;
+        }
+
+        &:focus,
+        &:focus-visible {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Search button styles - simplified for Ant Design compatibility
+    .ant-input-search-button {
+        background: var(--color-primary) !important;
+        border-color: var(--color-primary) !important;
+        border-radius: 0 var(--radius-lg) var(--radius-lg) 0 !important;
+        transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 40px !important;
+        outline: none !important;
+
+        &:hover:not(:disabled) {
+            background: var(--color-secondary) !important;
+            border-color: var(--color-secondary) !important;
+            transform: none !important;
+        }
+
+        &:focus:not(:disabled) {
+            background: var(--color-secondary) !important;
+            border-color: var(--color-secondary) !important;
+            outline: none !important;
+        }
+
+        .anticon {
+            color: var(--color-white) !important;
+            font-size: 14px !important;
+        }
+    }
+
+    // Suffix icon styles for regular inputs
+    .ant-input-suffix {
+        .anticon {
+            color: var(--color-primary) !important;
+            cursor: pointer !important;
+            transition: color var(--duration-fast) ease !important;
+
+            &:hover {
+                color: var(--color-secondary) !important;
+            }
+        }
+    }
+
+    // Clear button styles
+    .ant-input-clear-icon {
+        color: var(--color-gray-400) !important;
+        
+        &:hover {
+            color: var(--color-gray-600) !important;
+        }
+    }
+
+    // Size variations
+    &.search-large {
+        .ant-input-search {
+            min-height: 44px !important;
+        }
+
+        .ant-input {
+            font-size: 16px !important;
+            padding: 10px 16px !important;
+        }
+
+        .ant-input-search-button {
+            min-width: 48px !important;
+            
+            .anticon {
+                font-size: 16px !important;
+            }
+        }
+    }
+
+    &.search-middle {
+        .ant-input-search {
+            min-height: 38px !important;
+        }
+
+        .ant-input {
+            font-size: 14px !important;
+            padding: 8px 12px !important;
+        }
+
+        .ant-input-search-button {
+            min-width: 42px !important;
+            
+            .anticon {
+                font-size: 14px !important;
+            }
+        }
+    }
+
+    &.search-small {
+        .ant-input-search {
+            min-height: 32px !important;
+        }
+
+        .ant-input {
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+        }
+
+        .ant-input-search-button {
+            min-width: 36px !important;
+            
+            .anticon {
+                font-size: 12px !important;
+            }
+        }
+    }
+
+    // Animated wrapper for enhanced interactions
+    &.search-animated {
+        position: relative !important;
+        transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+        &:hover {
+            transform: translateY(-1px) !important;
+            
+            .ant-input-search {
+                box-shadow: var(--shadow-lg) !important;
+            }
+        }
+    }
+
+    // Disabled state
+    &.ant-input-disabled {
+        .ant-input-search {
+            background-color: var(--color-gray-50) !important;
+            border-color: var(--color-gray-200) !important;
+            cursor: not-allowed !important;
+        }
+
+        .ant-input {
+            color: var(--color-gray-400) !important;
+            cursor: not-allowed !important;
+        }
+
+        .ant-input-search-button {
+            background-color: var(--color-gray-300) !important;
+            border-color: var(--color-gray-300) !important;
+            cursor: not-allowed !important;
+
+            .anticon {
+                color: var(--color-gray-500) !important;
+            }
+        }
+    }
+}
+
+// Table search wrapper styles
+.tbl-search-wrapper {
+    position: relative !important;
+    width: 300px !important;
+
+    @media (max-width: 640px) {
+        width: 100% !important;
+    }
+
+    &.primary-search {
+        .ant-input {
+            border-radius: var(--radius-lg) !important;
+            border: none !important;
+            transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1) !important;
+            padding: 8px 40px 8px 12px !important;
+
+
+            &:focus {
+                outline: none !important;
+            }
+
+            &::placeholder {
+                color: var(--color-gray-400) !important;
+            }
+        }
+
+        .ant-input-suffix {
+            .anticon {
+                color: var(--color-primary) !important;
+                cursor: pointer !important;
+                transition: color var(--duration-fast) ease !important;
+
+                &:hover {
+                    color: var(--color-secondary) !important;
+                }
+            }
+        }
+    }
+
+    // Animated search wrapper
+    &.animated {
+        width: 60px !important;
+        transition: width var(--duration-normal) ease !important;
+        overflow: hidden !important;
+
+        &.primary-search {
+            .ant-input {
+                opacity: 0 !important;
+                transition: opacity var(--duration-normal) ease !important;
+                padding-right: 40px !important;
+            }
+
+            .ant-input-suffix {
+                position: absolute !important;
+                right: 12px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                z-index: 2 !important;
+                
+                .anticon {
+                    cursor: pointer !important;
+                    font-size: 16px !important;
+                }
+            }
+        }
+
+        &.show {
+            width: 300px !important;
+
+            @media (max-width: 640px) {
+                width: 100% !important;
+            }
+
+            &.primary-search {
+                .ant-input {
+                    opacity: 1 !important;
+                }
+            }
+        }
+    }
+}
+
+// Remove redundant Input Search specific styles to avoid conflicts
+
+// Simplified global overrides - removed conflicting rules
+.primary-search .ant-input-search .ant-input-search-button {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+        background: var(--color-secondary) !important;
+        border-color: var(--color-secondary) !important;
+    }
+
+    .anticon {
+        color: var(--color-white) !important;
+    }
+}
+
+// Override Ant Design default focus styles to prevent double outlines
+.primary-search {
+    .ant-input-search:focus,
+    .ant-input-search.ant-input-focused,
+    .ant-input-search-group-wrapper:focus-within,
+    .ant-input-group-wrapper:focus-within {
+        outline: none !important;
+    }
+    
+    .ant-input:focus-visible {
+        outline: none !important;
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .primary-search {
+        &.search-large {
+            .ant-input-search {
+                min-height: 40px !important;
+            }
+
+            .ant-input {
+                font-size: 14px !important;
+                padding: 8px 12px !important;
+            }
+
+            .ant-input-search-button {
+                min-width: 44px !important;
+            }
+        }
+
+        &.search-middle {
+            .ant-input-search {
+                min-height: 36px !important;
+            }
+
+            .ant-input {
+                font-size: 13px !important;
+                padding: 7px 10px !important;
+            }
+
+            .ant-input-search-button {
+                min-width: 40px !important;
+            }
+        }
+    }
+
+    .tbl-search-wrapper.animated {
+        width: 50px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .primary-search {
+        &.search-large,
+        &.search-middle {
+            .ant-input-search {
+                min-height: 34px !important;
+            }
+
+            .ant-input {
+                font-size: 12px !important;
+                padding: 6px 8px !important;
+            }
+
+            .ant-input-search-button {
+                min-width: 38px !important;
+                
+                .anticon {
+                    font-size: 12px !important;
+                }
+            }
+        }
+    }
+}

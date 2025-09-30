@@ -1,0 +1,128 @@
+.ant-tabs {
+    .ant-tabs-nav {
+        margin-bottom: 0 !important;
+        &::before {
+            border: 0px;
+        }
+        .ant-tabs-nav-wrap {
+            margin-bottom: 0 !important;
+            .ant-tabs-nav-list {
+                .ant-tabs-tab {
+                    font-weight: bold;
+                    font-size: 14px;
+                    background-color: var(--color-secondary) !important;
+                    padding: 10px 20px !important;
+                    border-radius: 8px 8px 0 0 !important;
+                    margin: 0 5px 0 0 !important; 
+                    // border: 2px solid var(--color-secondary) !important;
+                    color: var(--color-white) !important;
+                    &:hover {
+                        background-color: var(--color-primary) !important;
+                    }
+                    &.ant-tabs-tab-active {
+                        border-bottom: none !important;
+                        box-shadow: none !important;
+                        background-color: var(--color-white) !important;
+                        .ant-tabs-tab-btn {
+                            color: var(--color-primary) !important;
+                        }
+                    }
+                }
+                .ant-tabs-ink-bar {
+                    display: none !important;
+                }
+            }
+        }
+    }
+
+    .ant-tabs-content-holder {
+        margin-top: 0 !important; 
+        padding-top: 0 !important;
+    }
+
+    // Modified style from image
+    .ant-tabs-tab-btn:focus:not(:focus-visible),
+    .ant-tabs-tab-remove:focus:not(:focus-visible),
+    .ant-tabs-tab-btn:active,
+    .ant-tabs-tab-remove:active {
+        color: var(--color-secondary) !important;
+    }
+}
+
+.ant-card {
+    border-top: none !important;
+    border-radius: 0 8px 8px 8px !important;
+}
+
+// Responsive design for smaller screens
+@media (max-width: 768px) {
+    .ant-tabs {
+        .ant-tabs-nav {
+            .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    scrollbar-width: none; // Firefox
+                    -ms-overflow-style: none;  // Internet Explorer 10+
+                    
+                    &::-webkit-scrollbar { // WebKit
+                        display: none;
+                    }
+                    
+                    .ant-tabs-tab {
+                        flex-shrink: 0;
+                        font-size: 12px !important;
+                        padding: 8px 12px !important;
+                        min-width: auto;
+                        white-space: nowrap;
+                        
+                        .ant-tabs-tab-btn {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .ant-tabs {
+        .ant-tabs-nav {
+            .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                    .ant-tabs-tab {
+                        font-size: 11px !important;
+                        padding: 6px 10px !important;
+                        margin: 0 2px 0 0 !important;
+                        
+                        .ant-tabs-tab-btn {
+                            font-size: 11px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .ant-tabs {
+        .ant-tabs-nav {
+            .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                    .ant-tabs-tab {
+                        font-size: 10px !important;
+                        padding: 5px 8px !important;
+                        
+                        .ant-tabs-tab-btn {
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

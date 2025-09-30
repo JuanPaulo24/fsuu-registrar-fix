@@ -1,0 +1,656 @@
+// FSUU Registrar System - Database Schema
+// Generated for dbdiagram.io
+// Visit: https://dbdiagram.io/
+
+Project FSUU_Registrar {
+  database_type: 'MySQL'
+  Note: '''
+    # FSUU Registrar System Database Schema
+    A comprehensive university registrar system with document management,
+    student records, messaging, and administrative features.
+    
+    **Key Features:**
+    - UUID-based routing for Users
+    - Soft deletes on most entities
+    - Audit trails with created_by/updated_by
+    - Polymorphic attachments for file management
+    - Role-based permissions system
+    - Document verification with QR codes
+    - Real-time messaging system
+    - Email template management
+    - Academic grade tracking
+  '''
+}
+
+// ================================
+// USER MANAGEMENT TABLES
+// ================================
+
+Table users {
+  id bigint [pk, increment]
+  uuid varchar(36) [unique, not null, note: 'UUID for routing']
+  username varchar(255) [unique, not null]
+  email varchar(255) [unique, not null]
+  email_verified_at timestamp [null]
+  password varchar(255) [null]
+  role varchar(50) [null, note: 'Legacy field']
+  user_role_id int [null, ref: > user_roles.id]
+  position_id int [null, ref: > positions.id]
+  status varchar(255) [null]
+  one_time_update_info tinyint [default: 0, null]
+  google2fa_enable tinyint [default: 0, null]
+  google2fa_secret varchar(255) [null]
+  remember_token varchar(100) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deactivated_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deactivated_at datetime [null]
+  
+  Note: 'Core user table with authentication and profile management'
+}
+
+Table profiles {
+  id bigint [pk, increment]
+  user_id bigint [null, ref: - users.id, note: 'One-to-One with users']
+  course_id bigint [null, ref: > courses.id]
+  id_number varchar(20) [null]
+  firstname varchar(100) [null]
+  middlename varchar(100) [null]
+  lastname varchar(100) [null]
+  birthplace longtext [null]
+  name_ext varchar(50) [null]
+  citizenship varchar(100) [null]
+  religion varchar(100) [null]
+  civil_status varchar(100) [null]
+  address text [null]
+  father_name varchar(255) [null]
+  mother_name varchar(255) [null]
+  spouse_name varchar(255) [null]
+  course varchar(255) [null, note: 'Legacy field']
+  elem_school varchar(255) [null]
+  elem_lastyearattened varchar(255) [null]
+  junior_high_school varchar(255) [null]
+  junior_high_school_lastyearattened varchar(255) [null]
+  senior_high_school varchar(255) [null]
+  senior_high_school_lastyearattened varchar(255) [null]
+  gender varchar(255) [null]
+  birthdate date [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Student/User profile information with educational background'
+}
+
+Table user_roles {
+  id bigint [pk, increment]
+  user_role varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'User role definitions (Admin, Student, Faculty, etc.)'
+}
+
+Table positions {
+  id bigint [pk, increment]
+  position_name varchar(255) [null]
+  description longtext [null]
+  user_role_id int [null, ref: > user_roles.id]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Job positions within the organization'
+}
+
+// ================================
+// ACADEMIC SYSTEM TABLES
+// ================================
+
+Table courses {
+  id bigint [pk, increment]
+  course_name varchar(255) [null]
+  course_code varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Academic courses/programs offered'
+}
+
+Table subjects {
+  id bigint [pk, increment]
+  year_level int [null]
+  semester varchar(50) [null]
+  subject_name varchar(255) [null]
+  subject_code varchar(255) [null]
+  unit int [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Academic subjects with curriculum details'
+}
+
+Table school_years {
+  id bigint [pk, increment]
+  semester varchar(255) [null]
+  school_year varchar(255) [null]
+  status varchar(255) [default: 'active', null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Academic year and semester management'
+}
+
+Table grades {
+  id bigint [pk, increment]
+  profile_id bigint [null, ref: > profiles.id]
+  subject_id bigint [null, ref: > subjects.id]
+  school_year_id bigint [null, ref: > school_years.id]
+  grade float [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Student grades for specific subjects and academic years'
+}
+
+// ================================
+// DOCUMENT MANAGEMENT TABLES
+// ================================
+
+Table issued_documents {
+  id bigint [pk, increment]
+  profile_id bigint [null, ref: > profiles.id]
+  registrar_id bigint [null, ref: > users.id]
+  signature_id bigint [null, ref: > signatures.id]
+  document_type varchar(255) [null]
+  pdf_hash longtext [null]
+  signature_hash longtext [null]
+  serial_number varchar(255) [null]
+  document_id_number varchar(255) [null]
+  current_version float [null]
+  date_issued datetime [null]
+  date_revoked datetime [null]
+  batch_id varchar(255) [null, note: 'For batch processing']
+  file_uuid varchar(255) [null, note: 'File identifier']
+  revocation_reason text [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Official documents issued by the registrar with digital signatures'
+}
+
+Table document_grades {
+  id bigint [pk, increment]
+  issued_document_id bigint [null, ref: > issued_documents.id]
+  grade_id bigint [null, ref: > grades.id]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Junction table linking documents to specific grades'
+}
+
+Table signatures {
+  id bigint [pk, increment]
+  key_id varchar(255) [null]
+  algorithm varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Digital signature configurations for document security'
+}
+
+// ================================
+// MESSAGING SYSTEM TABLES
+// ================================
+
+Table conversations {
+  id bigint [pk, increment]
+  type varchar(255) [default: 'private', note: 'private, group']
+  title varchar(255) [null, note: 'For group conversations']
+  participants json [not null, note: 'Array of user IDs']
+  last_message_at timestamp [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  
+  Note: 'Conversation containers for messaging system'
+}
+
+Table messages {
+  id bigint [pk, increment]
+  conversation_id bigint [not null, ref: > conversations.id]
+  sender_id bigint [not null, ref: > users.id]
+  message text [not null]
+  type varchar(255) [default: 'text', note: 'text, image, file']
+  metadata json [null, note: 'For file info, etc.']
+  read_at timestamp [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  
+  Note: 'Individual messages within conversations'
+}
+
+// ================================
+// EMAIL SYSTEM TABLES
+// ================================
+
+Table email_templates {
+  id bigint [pk, increment]
+  title varchar(255) [null]
+  subject varchar(255) [null]
+  body longtext [null]
+  template_type varchar(255) [null, note: 'verification_result_success, verification_result_revoked, two_factor_auth, auto_reply']
+  is_active boolean [default: true, null]
+  header longtext [null]
+  footer longtext [null]
+  system_id int [default: 1]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Email templates for automated communications'
+}
+
+// ================================
+// NOTIFICATION SYSTEM TABLES
+// ================================
+
+Table notifications {
+  id bigint [pk, increment]
+  title varchar(255) [null]
+  description longtext [null]
+  read boolean [null]
+  link longtext [null]
+  link_id varchar(255) [null]
+  system_id int [default: 1]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'System notifications'
+}
+
+Table notification_users {
+  id bigint [pk, increment]
+  notification_id bigint [null, ref: > notifications.id]
+  user_id bigint [null, ref: > users.id]
+  read boolean [default: false]
+  status boolean [default: false]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Junction table for user-specific notifications'
+}
+
+// ================================
+// CONTENT MANAGEMENT TABLES
+// ================================
+
+Table postings {
+  id bigint [pk, increment]
+  target_audience_id bigint [null, ref: > user_roles.id]
+  title varchar(255) [null]
+  type varchar(255) [null]
+  content longtext [null]
+  priority_level varchar(255) [null]
+  status varchar(255) [null]
+  start_date datetime [null]
+  end_date datetime [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'News, announcements, and other content postings'
+}
+
+Table calendars {
+  id bigint [pk, increment]
+  event_title varchar(255) [null]
+  event_type varchar(255) [null]
+  event_description longtext [null]
+  status varchar(255) [null]
+  start_date datetime [null]
+  end_date datetime [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Calendar events and scheduling'
+}
+
+// ================================
+// FILE MANAGEMENT TABLES
+// ================================
+
+Table attachments {
+  id bigint [pk, increment]
+  attachmentable_type varchar(255) [not null, note: 'Polymorphic type']
+  attachmentable_id bigint [not null, note: 'Polymorphic ID']
+  file_name varchar(255) [null]
+  file_description longtext [null]
+  file_path varchar(255) [null]
+  file_type varchar(255) [default: 'other']
+  file_size varchar(255) [null]
+  file_ext varchar(255) [null]
+  file_type_origin varchar(255) [null]
+  image_dimensions json [null, note: 'Width and height for images']
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Polymorphic file attachments for various models'
+}
+
+// ================================
+// AUDIT & TRACKING TABLES
+// ================================
+
+Table login_logs {
+  id bigint [pk, increment]
+  user_id bigint [null, ref: > users.id]
+  username varchar(255) [null]
+  ip_address varchar(255) [null]
+  user_agent text [null]
+  status varchar(20) [default: 'FAILED', note: 'SUCCESS or FAILED']
+  attempted_at timestamp [null]
+  failure_reason text [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  
+  indexes {
+    (user_id, attempted_at)
+    (status, attempted_at)
+    ip_address
+  }
+  
+  Note: 'Authentication attempt logs for security monitoring'
+}
+
+Table public_scan_history {
+  id bigint [pk, increment]
+  document_id varchar(255) [null]
+  scan_result varchar(255) [null]
+  ip_address varchar(255) [null]
+  user_agent text [null]
+  scanned_at timestamp [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  
+  Note: 'Public document verification scan history'
+}
+
+Table document_scan_logs {
+  id bigint [pk, increment]
+  document_id varchar(255) [null]
+  scanner_ip varchar(255) [null]
+  scan_result varchar(255) [null]
+  scan_details json [null]
+  scanned_at timestamp [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  
+  Note: 'Detailed document verification scan logs'
+}
+
+// ================================
+// REFERENCE DATA TABLES
+// ================================
+
+Table ref_civil_statuses {
+  id bigint [pk, increment]
+  civil_status varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Reference data for civil status options'
+}
+
+Table ref_citizenships {
+  id bigint [pk, increment]
+  citizenship varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Reference data for citizenship options'
+}
+
+Table ref_religions {
+  id bigint [pk, increment]
+  religion varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Reference data for religion options'
+}
+
+Table service_types {
+  id bigint [pk, increment]
+  service_type varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Types of services offered by the registrar'
+}
+
+// ================================
+// PERMISSION SYSTEM TABLES
+// ================================
+
+Table modules {
+  id bigint [pk, increment]
+  module_name varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'System modules for permission management'
+}
+
+Table module_buttons {
+  id bigint [pk, increment]
+  module_id bigint [null, ref: > modules.id]
+  button_name varchar(255) [null]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Specific actions/buttons within modules'
+}
+
+Table user_permissions {
+  id bigint [pk, increment]
+  user_id bigint [null, ref: > users.id]
+  module_button_id bigint [null, ref: > module_buttons.id]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Individual user permissions'
+}
+
+Table user_role_permissions {
+  id bigint [pk, increment]
+  user_role_id bigint [null, ref: > user_roles.id]
+  module_button_id bigint [null, ref: > module_buttons.id]
+  created_by bigint [null]
+  updated_by bigint [null]
+  deleted_by bigint [null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`]
+  deleted_at timestamp [null]
+  
+  Note: 'Role-based permissions'
+}
+
+// ================================
+// LARAVEL SYSTEM TABLES
+// ================================
+
+Table password_reset_tokens {
+  email varchar(255) [pk]
+  token varchar(255) [not null]
+  created_at timestamp [null]
+  
+  Note: 'Laravel password reset tokens'
+}
+
+Table sessions {
+  id varchar(255) [pk]
+  user_id bigint [null, ref: > users.id]
+  ip_address varchar(45) [null]
+  user_agent text [null]
+  payload longtext [not null]
+  last_activity int [not null]
+  
+  indexes {
+    user_id
+    last_activity
+  }
+  
+  Note: 'Laravel session storage'
+}
+
+// OAuth2 Tables for Laravel Passport
+Table oauth_clients {
+  id bigint [pk, increment]
+  user_id bigint [null]
+  name varchar(255) [not null]
+  secret varchar(100) [null]
+  provider varchar(255) [null]
+  redirect text [not null]
+  personal_access_client boolean [not null]
+  password_client boolean [not null]
+  revoked boolean [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+}
+
+Table oauth_access_tokens {
+  id varchar(100) [pk]
+  user_id bigint [null]
+  client_id bigint [not null]
+  name varchar(255) [null]
+  scopes text [null]
+  revoked boolean [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+  expires_at datetime [null]
+}
+
+// ================================
+// RELATIONSHIP NOTES
+// ================================
+
+Note relationships {
+  '''
+  **Key Relationships:**
+  
+  **One-to-One:**
+  - User ↔ Profile (Primary user information)
+  
+  **One-to-Many:**
+  - User → LoginLog (Authentication history)
+  - User → Message (Sent messages)
+  - User → NotificationUser (User notifications)
+  - Profile → Grade (Student grades)
+  - Profile → IssuedDocument (Documents for student)
+  - Grade → DocumentGrade (Grades included in documents)
+  - Conversation → Message (Messages in conversation)
+  - Notification → NotificationUser (Notification recipients)
+  
+  **Many-to-Many (via junction tables):**
+  - IssuedDocument ↔ Grade (via DocumentGrade)
+  - User ↔ Notification (via NotificationUser)
+  
+  **Polymorphic:**
+  - Attachment can belong to: User, Profile, IssuedDocument, EmailTemplate
+  
+  **Reference Data:**
+  - Profile references RefCivilStatus, RefCitizenship, RefReligion
+  - User references UserRole and Position
+  - Grade references Subject and SchoolYear
+  '''
+}

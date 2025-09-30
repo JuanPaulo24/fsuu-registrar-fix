@@ -1,0 +1,24 @@
+# HTTPS Configuration for fsuu_registrar.test
+# Add these settings to your .env file
+
+# Application URL - must be HTTPS
+APP_URL=https://fsuu_registrar.test
+
+# Force HTTPS for all URLs
+FORCE_HTTPS=true
+
+# Asset URL - ensure assets are served over HTTPS
+ASSET_URL=https://fsuu_registrar.test
+
+# Session configuration for HTTPS
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
+
+# Additional security headers
+SESSION_HTTP_ONLY=true
+
+# Vite development server configuration
+VITE_APP_URL=https://fsuu_registrar.test
+VITE_DEV_SERVER_HOST=fsuu_registrar.test
+VITE_DEV_SERVER_PORT=5173
+VITE_DEV_SERVER_HTTPS=true

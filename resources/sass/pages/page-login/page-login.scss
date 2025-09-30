@@ -1,0 +1,843 @@
+// Main colors
+$primary-color: #0d31ff;
+$primary-hover: #1a44ff;
+$accent-color: #2a44dd;
+$light-bg: #cbe8fc;
+$white: #ffffff;
+$error-color: #ff4d4f;
+
+// Shadows and borders
+$text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+$primary-border: 1px solid rgba($primary-color, 0.8);
+$inner-border: 2px solid rgba($primary-color, 0.7);
+$input-border: 1px solid rgba($primary-color, 0.3);
+$input-shadow: 0 0 0 1px rgba($primary-color, 0.08);
+$focus-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+
+// Typography
+$title-font: 'PoppinsBold', sans-serif;
+$body-font: 'PoppinsRegular', sans-serif;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 0.75rem;
+$spacing-lg: 1rem;
+$spacing-xl: 1.5rem;
+
+// Responsive breakpoints
+$mobile: 640px;
+$tablet: 768px;
+
+// Enhanced and simplified login page styles
+#PageLogin {
+  &.login-page-container {
+    height: 100vh !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  // Main wrapper
+  .login-wrapper {
+    display: flex !important;
+    height: 100vh !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  // Desktop Left Section - No background (logo area only)
+  .desktop-left-section {
+    flex: 0 0 50% !important;
+    background: transparent !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+
+    // Hide on mobile
+    @media (max-width: #{$tablet - 1px}) {
+      display: none !important;
+    }
+  }
+
+  // Left content - centered vertically and horizontally
+  .left-content {
+    position: relative !important;
+    z-index: 10 !important;
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+  }
+
+  // Logo section - perfectly centered with light effects
+  .logo-section {
+    margin-bottom: 3rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    
+    
+    .main-logo {
+      width: 160px !important;
+      height: 160px !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2)) !important;
+      transition: all 0.3s ease !important;
+      
+      &:hover {
+        transform: scale(1.02) !important;
+        filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.25)) !important;
+      }
+
+      // Responsive sizing
+      @media (max-width: 1200px) {
+        width: 150px !important;
+        height: 150px !important;
+      }
+
+      @media (max-width: 992px) {
+        width: 140px !important;
+        height: 140px !important;
+      }
+
+      @media (max-width: 850px) {
+        width: 130px !important;
+        height: 130px !important;
+      }
+    }
+  }
+
+  // Enhanced glowing animations
+  @keyframes logoGlow {
+    0% {
+      opacity: 0.6 !important;
+      transform: translate(-50%, -50%) scale(0.95) !important;
+      filter: blur(8px) brightness(1.2) !important;
+    }
+    25% {
+      opacity: 0.9 !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      filter: blur(10px) brightness(1.5) !important;
+    }
+    50% {
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) scale(1.05) !important;
+      filter: blur(12px) brightness(1.8) !important;
+    }
+    75% {
+      opacity: 0.85 !important;
+      transform: translate(-50%, -50%) scale(1.02) !important;
+      filter: blur(9px) brightness(1.4) !important;
+    }
+    100% {
+      opacity: 0.7 !important;
+      transform: translate(-50%, -50%) scale(0.98) !important;
+      filter: blur(8px) brightness(1.1) !important;
+    }
+  }
+
+  @keyframes logoGlowOuter {
+    0% {
+      opacity: 0.3 !important;
+      transform: translate(-50%, -50%) scale(0.92) !important;
+      filter: blur(6px) brightness(1.1) !important;
+    }
+    30% {
+      opacity: 0.6 !important;
+      transform: translate(-50%, -50%) scale(0.98) !important;
+      filter: blur(8px) brightness(1.3) !important;
+    }
+    60% {
+      opacity: 0.8 !important;
+      transform: translate(-50%, -50%) scale(1.03) !important;
+      filter: blur(10px) brightness(1.6) !important;
+    }
+    85% {
+      opacity: 0.5 !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      filter: blur(7px) brightness(1.2) !important;
+    }
+    100% {
+      opacity: 0.4 !important;
+      transform: translate(-50%, -50%) scale(0.95) !important;
+      filter: blur(6px) brightness(1) !important;
+    }
+  }
+
+  // Pulsing glow animation
+  @keyframes glowPulse {
+    0% {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3) !important;
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.4) !important;
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+
+  // Error message fade-in animation
+  @keyframes errorFadeIn {
+    0% {
+      opacity: 0 !important;
+      transform: translateY(-8px) scale(0.95) !important;
+    }
+    100% {
+      opacity: 1 !important;
+      transform: translateY(-4px) scale(1) !important;
+    }
+  }
+
+  // Text section
+  .text-section {
+    .main-title {
+      font-size: clamp(4.5rem, 6vw, 7rem) !important;
+      font-weight: 900 !important;
+      line-height: 0.9 !important;
+      letter-spacing: 0.05em !important;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+      margin: 0 0 1rem !important;
+      color: $white !important;
+      font-family: $title-font !important;
+    }
+
+    .main-subtitle {
+      color: rgba($white, 0.9) !important;
+      font-size: clamp(0.75rem, 1.2vw, 1rem) !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.08em !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2) !important;
+      font-family: $body-font !important;
+      text-transform: uppercase !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 100% !important;
+    }
+  }
+
+  // Login Section - Form area (50% width)
+  .login-section {
+    flex: 0 0 50% !important;
+    background: transparent !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2rem !important;
+    min-height: 100vh !important;
+    z-index: 3 !important;
+    
+    // Create white background with rounded corners that doesn't fill entire section
+    &::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      background: $white !important;
+      border-radius: 50px 0 0 50px !important;
+      z-index: -1 !important;
+    }
+
+    // Mobile background
+    @media (max-width: #{$tablet - 1px}) {
+      &::before {
+        background: rgba($white, 0.95) !important;
+        border-radius: 0 !important;
+      }
+      
+      padding: 1.5rem !important;
+    }
+  }
+
+  // Mobile logo section - only visible on mobile
+  .mobile-logo-section {
+    display: none !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+    
+    @media (max-width: #{$tablet - 1px}) {
+      display: block !important;
+    }
+  }
+
+  // Adjust form wrapper margin for mobile
+  @media (max-width: #{$tablet - 1px}) {
+    .form-wrapper {
+      margin-top: 0 !important;
+    }
+  }
+    
+  .mobile-logo {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2)) !important;
+    
+    @media (max-width: $mobile) {
+      width: 70px !important;
+      height: 70px !important;
+    }
+  }
+
+  // Form wrapper
+  .form-wrapper {
+    width: 100% !important;
+    max-width: 380px !important;
+    position: relative !important;
+    z-index: 3 !important;
+    margin-top: 1rem !important;
+  }
+
+  // Enhanced login card
+  .login-card {
+    background: $white !important;
+    border-radius: 8px !important;
+    padding: 2.5rem 2rem !important;
+    box-shadow: 
+      0 20px 60px rgba($primary-color, 0.08),
+      0 8px 25px rgba($primary-color, 0.05),
+      0 0 0 1px rgba($primary-color, 0.02) !important;
+    border: none !important;
+    position: relative !important;
+    width: 100% !important;
+    backdrop-filter: blur(20px) !important;
+    overflow: hidden !important;
+
+    // Top accent gradient
+    &::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 4px !important;
+      background: linear-gradient(135deg, $primary-color 0%, $accent-color 50%, rgba($primary-color, 0.8) 100%) !important;
+      border-radius: 8px 8px 0 0 !important;
+    }
+
+    // Subtle background pattern
+    &::after {
+      content: "" !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><defs><pattern id="dots" patternUnits="userSpaceOnUse" width="30" height="30"><circle cx="15" cy="15" r="1.5" fill="rgba(13,49,255,0.02)"/></pattern></defs><rect width="60" height="60" fill="url(%23dots)"/></svg>') !important;
+      opacity: 0.6 !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+    }
+
+    // Content above pattern
+    > * {
+      position: relative !important;
+      z-index: 2 !important;
+    }
+
+    @media (max-width: #{$tablet - 1px}) {
+      background: rgba($white, 0.95) !important;
+      backdrop-filter: blur(20px) !important;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 15px 35px rgba($primary-color, 0.1),
+        0 0 0 1px rgba($white, 0.1) !important;
+    }
+
+    @media (max-width: $mobile) {
+      padding: 2rem 1.8rem !important;
+      border-radius: 18px !important;
+    }
+  }
+
+  // Card header
+  .card-header {
+    text-align: center !important;
+    margin-bottom: 2.2rem !important;
+
+    .portal-title {
+      color: $primary-color !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      margin: 0 0 1rem !important;
+      letter-spacing: 0.5px !important;
+      font-family: $title-font !important;
+      text-transform: uppercase !important;
+      background: linear-gradient(135deg, $primary-color 0%, $accent-color 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      text-shadow: none !important;
+    }
+
+    .title-divider {
+      width: 60px !important;
+      height: 3px !important;
+      background: linear-gradient(135deg, $primary-color 0%, $accent-color 50%, rgba($primary-color, 0.8) 100%) !important;
+      margin: 0 auto !important;
+      border-radius: 2px !important;
+      box-shadow: 0 2px 8px rgba($primary-color, 0.2) !important;
+    }
+  }
+
+  // Login form
+  .login-form {
+    width: 100% !important;
+
+    .form-input-item {
+      margin-bottom: 1.2rem !important;
+      position: relative !important;
+      
+      .ant-form-item-explain-error {
+        font-size: 0.75rem !important;
+        color: $error-color !important;
+        margin-top: -0.8rem !important;
+        margin-bottom: 0.8rem !important;
+        padding: 0.2rem 0.5rem !important;
+        line-height: 1.2 !important;
+        position: relative !important;
+        background: rgba($error-color, 0.06) !important;
+        border-radius: 4px !important;
+        font-weight: 500 !important;
+        box-shadow: 0 2px 8px rgba($error-color, 0.1) !important;
+        border-left: 3px solid $error-color !important;
+        transform: translateY(-4px) !important;
+        transition: all 0.3s ease-out !important;
+        animation: errorFadeIn 0.3s ease-out !important;
+      }
+    }
+
+    .form-submit-item {
+      margin-bottom: 0 !important;
+      margin-top: 1.2rem !important;
+    }
+  }
+
+  // Fully transparent input styling
+  .float-wrapper {
+    .ant-input-affix-wrapper,
+    .ant-input-password {
+      border-radius: 12px !important;
+      border: 2px solid rgba($primary-color, 0.15) !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      height: 52px !important;
+      padding: 0 1rem !important;
+      transition: all 0.3s ease !important;
+      box-shadow: none !important;
+      
+      &:hover {
+        border-color: rgba($primary-color, 0.3) !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        transform: translateY(-1px) !important;
+      }
+      
+      &:focus,
+      &:focus-within,
+      &.ant-input-affix-wrapper-focused,
+      &.ant-input-password-focused {
+        border-color: $primary-color !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1) !important;
+        transform: translateY(0) !important;
+      }
+
+      // Force all possible background properties to transparent
+      &::before,
+      &::after {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      .input-icon {
+        color: rgba($primary-color, 0.6) !important;
+        font-size: 1rem !important;
+        margin-right: 0.8rem !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      &:focus .input-icon,
+      &:focus-within .input-icon,
+      &.ant-input-affix-wrapper-focused .input-icon {
+        color: $primary-color !important;
+      }
+      
+      input.ant-input {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        font-size: 0.95rem !important;
+        color: #000000 !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.1px !important;
+        z-index: 5 !important;
+        position: relative !important;
+        
+        &::placeholder {
+          color: rgba(0, 0, 0, 0.4) !important;
+          font-weight: 400 !important;
+        }
+        
+        &:focus {
+          color: #000000 !important;
+          background: transparent !important;
+          background-color: transparent !important;
+        }
+        
+        &:not(:placeholder-shown) {
+          padding-top: 12px !important;
+          padding-bottom: 4px !important;
+          background: transparent !important;
+          background-color: transparent !important;
+          color: #000000 !important;
+        }
+
+        // Force transparent on all states
+        &:hover,
+        &:active,
+        &:focus-visible {
+          background: transparent !important;
+          background-color: transparent !important;
+          color: #000000 !important;
+        }
+      }
+    }
+
+    // Transparent label styling
+    .label {
+      left: 2.8rem !important;
+      background: $white !important;
+      padding: 0.1rem 0.4rem !important;
+      color: rgba($primary-color, 0.7) !important;
+      font-weight: 500 !important;
+      font-size: 0.75rem !important;
+      transition: all 0.3s ease !important;
+      border-radius: 4px !important;
+      box-shadow: none !important;
+      z-index: 10 !important;
+      
+      &.float-label {
+        left: 2.8rem !important;
+        top: -8px !important;
+        color: $primary-color !important;
+        font-weight: 600 !important;
+        background: $white !important;
+        font-size: 0.7rem !important;
+        transform: translateY(0) !important;
+      }
+    }
+    
+    // Fix input text positioning
+    input.ant-input {
+      &:not(:placeholder-shown) + .label,
+      &:focus + .label {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    }
+    
+    // Ensure proper layering
+    .ant-input-affix-wrapper:focus-within .label,
+    .ant-input-password:focus-within .label {
+      z-index: 15 !important;
+    }
+  }
+
+  // Forgot password section
+  .forgot-password-section {
+    text-align: center !important;
+    margin-top: 1rem !important;
+    
+    .forgot-password-link {
+      color: rgba($primary-color, 0.8) !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      
+      &:hover {
+        color: $primary-color !important;
+        text-decoration: underline !important;
+      }
+      
+      &:focus {
+        color: $primary-color !important;
+        outline: none !important;
+      }
+    }
+  }
+
+  // Additional transparent overrides for all resolutions and states
+  .login-form {
+    .ant-input,
+    .ant-input-affix-wrapper,
+    .ant-input-password,
+    .ant-input-affix-wrapper-focused,
+    .ant-input-password-focused,
+    .ant-input-affix-wrapper:hover,
+    .ant-input-password:hover,
+    .ant-input-affix-wrapper:focus,
+    .ant-input-password:focus,
+    .ant-input-affix-wrapper:focus-within,
+    .ant-input-password:focus-within {
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+
+    // Override any responsive background changes
+    @media (max-width: 1400px) {
+      .ant-input-affix-wrapper,
+      .ant-input-password {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .ant-input-affix-wrapper,
+      .ant-input-password {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .ant-input-affix-wrapper,
+      .ant-input-password {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .ant-input-affix-wrapper,
+      .ant-input-password {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ant-input-affix-wrapper,
+      .ant-input-password {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  // Enhanced login button
+  .login-button {
+    height: 50px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, $primary-color 0%, $accent-color 50%, rgba($primary-color, 0.9) 100%) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    color: $white !important;
+    position: relative !important;
+    overflow: hidden !important;
+    backdrop-filter: blur(10px) !important;
+
+    // Shine effect
+    &::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: -100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(90deg, transparent, rgba($white, 0.2), transparent) !important;
+      transition: left 0.6s ease !important;
+    }
+
+    &:hover {
+      transform: translateY(-2px) scale(1.02) !important;
+      box-shadow: none !important;
+      background: linear-gradient(135deg, rgba($primary-color, 1.1) 0%, rgba($accent-color, 1.1) 50%, $primary-color 100%) !important;
+      
+      &::before {
+        left: 100% !important;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(1.01) !important;
+      box-shadow: none !important;
+    }
+
+    &:focus {
+      box-shadow: none !important;
+    }
+
+    // Loading state
+    &.ant-btn-loading {
+      color: rgba($white, 0.9) !important;
+      
+      .ant-btn-loading-icon {
+        color: $white !important;
+      }
+    }
+
+    @media (max-width: $mobile) {
+      height: 48px !important;
+      font-size: 0.95rem !important;
+      letter-spacing: 0.6px !important;
+    }
+  }
+
+  // Error alert
+  .error-alert {
+    margin-top: 1.2rem !important;
+    border-radius: 8px !important;
+    background: rgba($error-color, 0.06) !important;
+    border: 1px solid rgba($error-color, 0.15) !important;
+    
+    .ant-alert-icon {
+      color: $error-color !important;
+    }
+    
+    .ant-alert-message {
+      color: rgba($error-color, 0.8) !important;
+      font-size: 0.85rem !important;
+    }
+  }
+
+  // Footer
+  .page-footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(248, 249, 250, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+    padding: 0.8rem 1.5rem !important;
+
+    .footer-content {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      
+      @media (max-width: $tablet) {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        text-align: center !important;
+      }
+
+      .footer-brand {
+        color: #374151 !important;
+        font-weight: 500 !important;
+        font-size: 0.85rem !important;
+        font-family: $title-font !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .footer-contact {
+        .contact-info {
+          color: #6b7280 !important;
+          font-size: 0.75rem !important;
+          font-weight: 500 !important;
+        }
+      }
+
+      .footer-version {
+        color: #9ca3af !important;
+        font-size: 0.7rem !important;
+        font-weight: 600 !important;
+        padding: 0.2rem 0.6rem !important;
+        background: rgba(0, 0, 0, 0.04) !important;
+        border-radius: 8px !important;
+      }
+    }
+  }
+
+  // Responsive adjustments - maintain 50/50 split until mobile
+  @media (max-width: 1200px) {
+    .desktop-left-section {
+      flex: 0 0 50% !important;
+    }
+    
+    .login-section {
+      flex: 0 0 50% !important;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .desktop-left-section {
+      flex: 0 0 50% !important;
+    }
+    
+    .login-section {
+      flex: 0 0 50% !important;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .desktop-left-section {
+      flex: 0 0 50% !important;
+    }
+    
+    .login-section {
+      flex: 0 0 50% !important;
+    }
+  }
+
+  @media (max-width: #{$tablet - 1px}) {
+    .login-wrapper {
+      flex-direction: column !important;
+    }
+    
+    .login-section {
+      flex: none !important;
+      min-height: 100vh !important;
+      justify-content: flex-start !important;
+      padding-top: 3rem !important;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    .page-footer {
+      padding: 0.6rem 1rem !important;
+      
+      .footer-content {
+        .footer-contact .contact-info {
+          font-size: 0.7rem !important;
+        }
+        
+        .footer-version {
+          font-size: 0.65rem !important;
+          padding: 0.15rem 0.5rem !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+@config '../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@font-face {
+    font-family: "MontserratVariableFont_wght";
+    src: url("../fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "MontserratRegular";
+    src: local("Montserrat"),
+        url("../fonts/Montserrat/static/Montserrat-Regular.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: "MontserratBold";
+    src: local("MontserratBold"),
+        url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "MontserratRegular";
+    src: local("MontserratRegular"),
+        url("../fonts/Montserrat/static/Montserrat-Regular.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: "MontserratMedium";
+    src: local("MontserratMedium"),
+        url("../fonts/Montserrat/static/Montserrat-Medium.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: "AnnabelleJFRegular";
+    src: local("AnnabelleJFRegular"),
+        url("../fonts/AnnabelleJFRegular/AnnabelleJFRegular.ttf")
+            format("truetype");
+}
+
+@font-face {
+    font-family: "PoppinsBold";
+    src: local("PoppinsBold"),
+    url("../fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PoppinsRegular";
+    src: local("PoppinsRegular"),
+    url("../fonts/Poppins/Poppins-Regular.ttf")
+    format("truetype");
+}
+
+@font-face {
+    font-family: "PoppinsMedium";
+    src: local("PoppinsMedium"),
+    url("../fonts/Poppins/Poppins-Medium.ttf")
+    format("truetype");
+}
+
+@font-face {
+    font-family: "PoppinsSemiBold";
+    src: local("PoppinsSemiBold"),
+    url("../fonts/Poppins/Poppins-SemiBold.ttf")
+    format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: MontserratRegular, sans-serif;
+}
+
+:root {
+    font-family: MontserratRegular !important;
+}
+
+html,
+body {
+    font-family: MontserratRegular !important;
+    background-image: url("../img/login_bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0px;
+    padding: 0px;
+    min-height: 100vh;
+}
+
+.globalLoading {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999999999;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.globalLoading.hidden {
+    display: none !important;
+}
+
+.loader {
+    color: #ffffff;
+    font-size: 45px;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    position: relative;
+    transform: translateZ(0);
+    animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
+}
+
+@keyframes mltShdSpin {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em,
+        0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
+        0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    5%,
+    95% {
+        box-shadow: 0 -0.83em 0 -0.4em, 
+        0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 
+        0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    10%,
+    59% {
+        box-shadow: 0 -0.83em 0 -0.4em, 
+        -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, 
+        -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    }
+    20% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em,
+         -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, 
+         -0.749em -0.34em 0 -0.477em;
+    }
+    38% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em,
+         -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, 
+         -0.82em -0.09em 0 -0.477em;
+    }
+    100% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 
+        0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+}
+
+@keyframes round {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+}
+
+/* splash screen */
+.splash-centered {
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100px !important;
+}
+
+.splash-loader {
+    margin: 20px auto 0;
+    width: 60px;
+    height: 50px;
+    text-align: center;
+    font-size: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.splash-loader > div {
+    height: 100%;
+    width: 8px;
+    display: block;
+    margin: 0 1px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    -webkit-animation: delay 0.8s infinite ease-in-out;
+    animation: delay 0.8s infinite ease-in-out;
+}
+
+.splash-loader .bar1 {
+    -webkit-animation-delay: -0.1s;
+    animation-delay: -0.1s;
+}
+
+.splash-loader .bar2 {
+    -webkit-animation-delay: -0.2s;
+    animation-delay: -0.2s;
+}
+
+.splash-loader .bar3 {
+    -webkit-animation-delay: -0.3s;
+    animation-delay: -0.3s;
+}
+
+.splash-loader .bar4 {
+    -webkit-animation-delay: -0.4s;
+    animation-delay: -0.4s;
+}
+
+.splash-loader .bar5 {
+    -webkit-animation-delay: -0.5s;
+    animation-delay: -0.5s;
+}
+
+.splash-loader .bar6 {
+    -webkit-animation-delay: -0.6s;
+    animation-delay: -0.6s;
+}
+
+@-webkit-keyframes delay {
+    0%, 40%, 100% { 
+        -webkit-transform: scaleY(0.05);
+        opacity: 0.7;
+    }
+    20% { 
+        -webkit-transform: scaleY(1.0);
+        opacity: 1;
+    }
+}
+
+@keyframes delay {
+    0%, 40%, 100% { 
+        transform: scaleY(0.05);
+        -webkit-transform: scaleY(0.05);
+        opacity: 0.7;
+    }
+    20% { 
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+        opacity: 1;
+    }
+}

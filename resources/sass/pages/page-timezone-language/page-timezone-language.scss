@@ -1,0 +1,42 @@
+// Styles for Timezone & Language tab
+
+.timezone-language-settings {
+  .ant-card-head {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 24px;
+    background-color: #0d47a1;
+  }
+
+  .ant-card-head-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #fcfcfc;
+  }
+
+  .ant-form-item-label > label {
+    font-weight: 500;
+  }
+
+  .ant-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ant-divider {
+    margin: 24px 0;
+  }
+
+  .submit-section {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-start;
+  }
+}

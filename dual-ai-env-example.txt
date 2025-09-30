@@ -1,0 +1,20 @@
+# Dual AI Configuration Example
+# Add these environment variables to your .env file
+
+# Google AI (Gemma) - Priority AI Service
+VITE_GOOGLEAI_API_KEY=your_google_ai_api_key_here
+
+# Azure OpenAI - Fallback AI Service (existing)
+VITE_AZURE_OPENAI_KEY=your_azure_openai_key_here
+VITE_AZURE_TARGET_URL=your_azure_endpoint_here
+VITE_AZURE_OPENAI_VERSION=2024-02-15-preview
+VITE_AZURE_OPENAI_MODEL=gpt-4-vision-preview
+VITE_AZURE_OPENAI_DEPLOYMENT=your_deployment_name_here
+
+# How to get Google AI API Key:
+# 1. Go to https://aistudio.google.com/app/apikey
+# 2. Sign in with your Google account
+# 3. Create a new API key
+# 4. Copy the key and paste it as VITE_GOOGLEAI_API_KEY value
+
+# Note: The system will automatically use Gemma as priority and fall back to OpenAI if Gemma fails

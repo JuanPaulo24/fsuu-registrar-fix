@@ -1,0 +1,100 @@
+@mixin atXXL {
+    @media (min-width: 1600px) and (max-width: 1600px) {
+        @content;
+    }
+}
+@mixin atXXLMin {
+    @media (min-width: 1600px) {
+        @content;
+    }
+}
+@mixin atXL {
+    @media (min-width: 1200px) and (max-width: 1599px) {
+        @content;
+    }
+}
+@mixin atXLMax {
+    @media (max-width: 1599px) {
+        @content;
+    }
+}
+@mixin atXLMin {
+    @media (max-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin atLG {
+    @media (min-width: 992px) and (max-width: 1199px) {
+        @content;
+    }
+}
+
+@mixin atLGMax {
+    @media (max-width: 1199px) {
+        @content;
+    }
+}
+@mixin atLGMin {
+    @media (min-width: 992px) {
+        @content;
+    }
+}
+@mixin atMD {
+    @media (min-width: 768px) and (max-width: 991px) {
+        @content;
+    }
+}
+
+@mixin atMDMax {
+    @media (max-width: 991px) {
+        @content;
+    }
+}
+@mixin atMDMin {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+@mixin atSM {
+    @media (min-width: 576px) and (max-width: 767px) {
+        @content;
+    }
+}
+@mixin atSMMax {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+@mixin atSMMin {
+    @media (min-width: 576px) {
+        @content;
+    }
+}
+@mixin atXS {
+    @media (min-width: 480px) and (max-width: 575px) {
+        @content;
+    }
+}
+@mixin atXSMax {
+    @media (max-width: 575px) {
+        @content;
+    }
+}
+@mixin atXSMin {
+    @media (min-width: 480px) {
+        @content;
+    }
+}
+
+@mixin atMax($breakpoint) {
+    @media (max-width: #{$breakpoint}px) {
+        @content;
+    }
+}
+
+@mixin atMin($breakpoint) {
+    @media (min-width: #{$breakpoint}px) {
+        @content;
+    }
+}

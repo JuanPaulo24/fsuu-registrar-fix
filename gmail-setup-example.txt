@@ -1,0 +1,161 @@
+# Gmail API Configuration for .env file
+# Add these lines to your .env file after setting up Gmail API credentials
+
+# Gmail API Credentials (Get these from Google Cloud Console)
+GMAIL_CLIENT_ID=your_google_client_id_here
+GMAIL_CLIENT_SECRET=your_google_client_secret_here
+GMAIL_REDIRECT_URI=http://localhost:8000/auth/gmail/callback
+GMAIL_ACCESS_TOKEN=your_access_token_here
+GMAIL_REFRESH_TOKEN=your_refresh_token_here
+
+# DETAILED INSTRUCTIONS TO SET UP GMAIL API FOR DEVELOPMENT:
+
+# STEP 1: Create Google Cloud Project
+# 1. Go to https://console.cloud.google.com/
+# 2. Click "Select a project" at the top
+# 3. Click "NEW PROJECT"
+# 4. Enter project name: "FSUU Registrar Email" (or any name you prefer)
+# 5. Leave Organization field empty (unless you have one)
+# 6. Click "CREATE"
+# 7. Wait for project creation, then select your new project
+
+# STEP 2: Enable Gmail API
+# 1. In the Google Cloud Console, go to "APIs & Services" > "Library"
+# 2. Search for "Gmail API"
+# 3. Click on "Gmail API" result
+# 4. Click "ENABLE" button
+# 5. Wait for it to be enabled
+
+# STEP 3: Configure OAuth Consent Screen (IMPORTANT FOR DEVELOPMENT)
+# 1. Go to "APIs & Services" > "OAuth consent screen"
+# 2. Choose "External" (since you don't have Google Workspace)
+# 3. Click "CREATE"
+# 4. Fill in the required fields:
+#    - App name: "FSUU Registrar System"
+#    - User support email: your email address
+#    - Developer contact information: your email address
+# 5. Click "SAVE AND CONTINUE"
+# 6. On Scopes page, click "ADD OR REMOVE SCOPES"
+# 7. Search and add these Gmail scopes:
+#    - ../auth/gmail.readonly
+#    - ../auth/gmail.send
+#    - ../auth/gmail.compose
+#    - ../auth/gmail.modify
+# 8. Click "UPDATE" then "SAVE AND CONTINUE"
+# 9. On Test users page, click "ADD USERS"
+# 10. Add your Gmail address that you'll use for testing
+# 11. Click "SAVE AND CONTINUE"
+
+# STEP 4: Create OAuth 2.0 Credentials
+# 1. Go to "APIs & Services" > "Credentials"
+# 2. Click "CREATE CREDENTIALS" > "OAuth client ID"
+# 3. If prompted to configure OAuth consent screen, complete Step 3 first
+# 4. Select Application type: "Web application"
+# 5. Name: "FSUU Registrar Web Client"
+# 6. Authorized JavaScript origins:
+#    - http://localhost:8000
+#    - http://localhost:3000
+#    - http://127.0.0.1:8000
+# 7. Authorized redirect URIs:
+#    - http://localhost:8000/auth/gmail/callback
+#    - http://localhost:3000/auth/gmail/callback
+# 8. Click "CREATE"
+# 9. Copy the Client ID and Client Secret that appear
+# 10. Click "OK"
+
+# STEP 5: Get Access and Refresh Tokens (FOR DEVELOPMENT TESTING)
+# 1. Go to https://developers.google.com/oauthplayground/
+# 2. Click the gear icon (⚙️) in the top right
+# 3. Check "Use your own OAuth credentials"
+# 4. Enter your OAuth Client ID and Client Secret from Step 4
+# 5. Close the configuration dialog
+# 6. In the left sidebar, find "Gmail API v1"
+# 7. Select these scopes:
+#    - https://www.googleapis.com/auth/gmail.readonly
+#    - https://www.googleapis.com/auth/gmail.send
+#    - https://www.googleapis.com/auth/gmail.compose
+#    - https://www.googleapis.com/auth/gmail.modify
+# 8. Click "Authorize APIs"
+# 9. Sign in with the Gmail account you added as test user in Step 3
+# 10. Click "Allow" to grant permissions
+# 11. Click "Exchange authorization code for tokens"
+# 12. Copy the "Access token" and "Refresh token"
+
+# STEP 6: Install Required PHP Package
+# Run this command in your project root:
+# composer require google/apiclient
+
+# STEP 7: Update Your .env File
+# Add the credentials you obtained:
+# GMAIL_CLIENT_ID=your_actual_client_id_from_step_4
+# GMAIL_CLIENT_SECRET=your_actual_client_secret_from_step_4
+# GMAIL_REDIRECT_URI=http://localhost:8000/auth/gmail/callback
+# GMAIL_ACCESS_TOKEN=your_actual_access_token_from_step_5
+# GMAIL_REFRESH_TOKEN=your_actual_refresh_token_from_step_5
+
+# IMPORTANT NOTES FOR DEVELOPMENT:
+# - Your app will be in "Testing" mode, which limits it to test users only
+# - Access tokens expire after 1 hour, but refresh tokens can be used to get new ones
+# - The Gmail service will handle token refresh automatically
+# - You can add up to 100 test users while in development
+# - For production, you'll need to submit your app for verification by Google
+
+# TROUBLESHOOTING:
+
+# ERROR 403: access_denied (VERY COMMON ISSUE)
+# This error means your Gmail account is NOT added as a test user in OAuth consent screen
+#
+# TO FIX THIS ERROR:
+# 1. Go to Google Cloud Console > APIs & Services > OAuth consent screen
+# 2. Scroll down to "Test users" section
+# 3. Click "ADD USERS"
+# 4. Enter the EXACT Gmail address you're trying to authenticate with
+#    Example: your.email@gmail.com (must be exact, case-sensitive)
+# 5. Click "SAVE"
+# 6. Wait 2-3 minutes for changes to propagate
+# 7. Try OAuth Playground again with the SAME Gmail account
+#
+# IMPORTANT: 
+# - Only Gmail accounts listed as "Test users" can access your app during development
+# - You can add up to 100 test users
+# - Make sure you're signing in with the exact email you added as test user
+# - Check for typos in the email address
+
+# ERROR 400: redirect_uri_mismatch (ALSO COMMON)
+# This error means the redirect URI doesn't match what you configured in Google Cloud Console
+# 
+# TO FIX THIS ERROR:
+# 1. Go back to Google Cloud Console > APIs & Services > Credentials
+# 2. Click on your OAuth 2.0 Client ID credential
+# 3. In "Authorized redirect URIs" section, make sure you have EXACTLY these URIs:
+#    - https://developers.google.com/oauthplayground (for OAuth Playground)
+#    - http://localhost:8000/auth/gmail/callback (for your Laravel app)
+#    - http://127.0.0.1:8000/auth/gmail/callback (alternative localhost)
+# 4. Click "SAVE"
+# 5. Wait 5-10 minutes for changes to propagate
+# 6. Try the OAuth Playground again
+#
+# IMPORTANT: The redirect URI in OAuth Playground must EXACTLY match one in your console
+# - No trailing slashes
+# - Exact protocol (http vs https)
+# - Exact port number
+# - Case sensitive
+
+# STEP-BY-STEP TO FIX YOUR CURRENT 403 ERROR:
+# 1. Open Google Cloud Console: https://console.cloud.google.com/
+# 2. Select your project (FSUU Registrar Email or whatever you named it)
+# 3. Go to "APIs & Services" > "OAuth consent screen"
+# 4. Scroll to "Test users" section
+# 5. Click "ADD USERS"
+# 6. Add your Gmail address (the one you want to use for testing)
+# 7. Click "SAVE"
+# 8. Go back to OAuth Playground: https://developers.google.com/oauthplayground/
+# 9. Make sure your Client ID and Secret are entered in settings (gear icon)
+# 10. Try the authorization process again with the SAME Gmail account
+
+# OTHER COMMON ISSUES:
+# - If tokens don't work, regenerate them using OAuth Playground
+# - Make sure all scopes are properly selected in both OAuth consent and playground
+# - Verify that your redirect URIs exactly match what you configured
+# - Clear browser cache/cookies if authentication keeps failing
+# - Make sure Gmail API is enabled in your Google Cloud project

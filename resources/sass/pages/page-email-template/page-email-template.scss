@@ -1,0 +1,686 @@
+.modal-form-email-template {
+    .ant-modal-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #f0f0f0;
+        
+        .ant-modal-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+    }
+
+    .ant-modal-body {
+        padding: 24px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .ant-tabs {
+        .ant-tabs-nav {
+            margin-bottom: 16px;
+        }
+        .ant-tabs-tab {
+            font-weight: 500;
+            
+            &.ant-tabs-tab-active {
+                .ant-tabs-tab-btn {
+                    color: var(--primary-color, #1890ff);
+                    font-weight: 600;
+                }
+            }
+        }
+        
+        .ant-tabs-content-holder {
+            padding-top: 20px;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    }
+
+    .ant-form-item {
+        margin-bottom: 16px;
+    }
+
+    .ant-card:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    .template-guide-tab {
+        padding-top: 8px;
+    }
+
+    // Basic info section spacing
+    .basic-info-section {
+        padding-top: 18px;
+
+        .ant-form-item {
+            margin-bottom: 18px;
+        }
+
+        .ant-row {
+            margin-bottom: 4px;
+        }
+    }
+
+    .email-preview-container {
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+        padding: 16px;
+        background-color: #fafafa;
+        
+        .email-preview-content {
+            background-color: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            
+            h1, h2, h3, h4, h5, h6 {
+                margin-top: 0;
+                margin-bottom: 16px;
+            }
+            
+            p {
+                margin-bottom: 16px;
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .template-variables-info {
+        background-color: #f6ffed;
+        border: 1px solid #b7eb8f;
+        border-radius: 4px;
+        padding: 12px;
+        margin-bottom: 16px;
+        
+        .ant-typography {
+            margin-bottom: 8px;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.page-email-template {
+    .email-template-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f0f0f0;
+        
+        .ant-typography {
+            margin-bottom: 0;
+            color: var(--text-primary, #262626);
+        }
+    }
+
+    .email-template-filters {
+        margin-bottom: 24px;
+        
+        .ant-input-search {
+            .ant-input-prefix {
+                color: #8c8c8c;
+            }
+        }
+    }
+
+    .email-template-table {
+        .template-type-tag {
+            font-weight: 500;
+            border-radius: 12px;
+        }
+        
+        .template-content-preview {
+            font-size: 12px;
+            
+            .content-section {
+                margin-bottom: 8px;
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                
+                .section-label {
+                    font-weight: 500;
+                    color: #595959;
+                }
+                
+                .section-content {
+                    color: #8c8c8c;
+                }
+            }
+        }
+        
+        .template-status-tag {
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .template-actions {
+            .ant-btn {
+                border: none;
+                box-shadow: none;
+                
+                &:hover {
+                    background-color: #f5f5f5;
+                }
+            }
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 48px 24px;
+        
+        .ant-empty-description {
+            color: #8c8c8c;
+            margin-bottom: 16px;
+        }
+    }
+}
+
+// Template type specific colors
+.template-type-general {
+    background-color: #e6f7ff;
+    border-color: #91d5ff;
+    color: #096dd9;
+}
+
+.template-type-verification {
+    background-color: #f6ffed;
+    border-color: #b7eb8f;
+    color: #389e0d;
+}
+
+.template-type-auth {
+    background-color: #fff7e6;
+    border-color: #ffd591;
+    color: #d46b08;
+}
+
+.template-type-reply {
+    background-color: #f9f0ff;
+    border-color: #d3adf7;
+    color: #722ed1;
+}
+
+// Guide tab styling
+.template-guide-tab {
+    .variable-category-card {
+        .ant-card-head {
+            padding: 12px 16px;
+            min-height: auto;
+            
+            .ant-card-head-title {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+        
+        .ant-card-body {
+            padding: 12px 16px;
+        }
+        
+        .variable-item {
+            .variable-tag {
+                font-family: 'Courier New', monospace;
+                font-weight: 500;
+                cursor: pointer;
+                
+                &:hover {
+                    background-color: #e6f7ff;
+                    border-color: #1890ff;
+                }
+            }
+            
+            .variable-description {
+                margin-top: 4px;
+                color: #666;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            .variable-example {
+                margin-top: 2px;
+                color: #999;
+                font-size: 11px;
+                font-style: italic;
+            }
+        }
+        
+        .copy-variable-btn {
+            transition: all 0.2s ease;
+            
+            &:hover {
+                background-color: #f0f0f0;
+                transform: scale(1.1);
+            }
+        }
+    }
+    
+    .best-practices-list {
+        .ant-list-item {
+            padding: 8px 0;
+            border-bottom: none;
+            
+            &:last-child {
+                padding-bottom: 0;
+            }
+        }
+    }
+}
+
+// Header/Footer reuse styling
+.template-reuse-section {
+    .reuse-card {
+        background-color: #f8f9fa;
+        border: 1px dashed #d9d9d9;
+        
+        .ant-card-body {
+            padding: 12px 16px;
+        }
+        
+        .reuse-buttons {
+            .ant-btn {
+                margin: 2px 4px 2px 0;
+                height: auto;
+                padding: 4px 8px;
+                font-size: 11px;
+                border-radius: 4px;
+                background-color: #fff;
+                border-color: #d9d9d9;
+                
+                &:hover {
+                    background-color: #e6f7ff;
+                    border-color: #1890ff;
+                    color: #1890ff;
+                }
+            }
+        }
+    }
+}
+
+// Rich text editor styling - TinyMCE
+.float-wrapper.tinymce-wrapper {
+    .tox {
+        .tox-toolbar {
+            background-color: #f8f9fa;
+            border-color: #d9d9d9;
+            border-radius: 4px 4px 0 0;
+            
+            .tox-toolbar__group {
+                border-color: #e9ecef;
+            }
+            
+            .tox-tbtn {
+                &:hover {
+                    background-color: #e9ecef;
+                    border-radius: 3px;
+                }
+                
+                &--enabled {
+                    background-color: #007bff;
+                    color: white;
+                    border-radius: 3px;
+                    
+                    svg {
+                        fill: white;
+                    }
+                }
+            }
+            
+            .tox-split-button {
+                &:hover {
+                    background-color: #e9ecef;
+                    border-radius: 3px;
+                }
+            }
+        }
+        
+        .tox-edit-area {
+            border-color: #d9d9d9;
+            border-radius: 0 0 4px 4px;
+            
+            iframe {
+                border: none;
+            }
+        }
+        
+        .tox-menubar {
+            background-color: #f8f9fa;
+            border-color: #d9d9d9;
+        }
+        
+        .tox-statusbar {
+            background-color: #f8f9fa;
+            border-color: #d9d9d9;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        // Custom variables button styling
+        .tox-tbtn--select {
+            &[title*="Variables"] {
+                background-color: #e8f4fd;
+                border: 1px solid #0066cc;
+                color: #0066cc;
+                font-weight: 500;
+                
+                &:hover {
+                    background-color: #d1ecf1;
+                }
+            }
+        }
+    }
+    
+    // Ensure proper focus styles
+    .tox-tinymce--toolbar-sticky-on {
+        .tox-editor-header {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    }
+    
+    // Template variable highlighting
+    .mce-content-body {
+        [data-variable] {
+            background-color: #e8f4fd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px solid #0066cc;
+            color: #0066cc;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+        }
+    }
+}
+
+// Legacy Quill styling (keep for backwards compatibility)
+.float-wrapper {
+    .ql-editor {
+        min-height: 150px;
+        font-family: Arial, sans-serif;
+        
+        &.ql-blank::before {
+            font-style: normal;
+            color: #bfbfbf;
+        }
+    }
+    
+    .ql-toolbar {
+        border-color: #d9d9d9;
+        
+        .ql-picker-label {
+            color: #595959;
+        }
+        
+        .ql-stroke {
+            stroke: #595959;
+        }
+        
+        .ql-fill {
+            fill: #595959;
+        }
+    }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+    .modal-form-email-template {
+        .ant-modal {
+            width: 95% !important;
+            max-width: none;
+            margin: 10px;
+        }
+        
+        .ant-modal-body {
+            padding: 16px;
+        }
+    }
+    
+    .page-email-template {
+        .email-template-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .email-template-filters {
+            .ant-space {
+                width: 100%;
+                
+                .ant-space-item {
+                    width: 100%;
+                    
+                    .ant-input-search,
+                    .ant-select {
+                        width: 100% !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// TinyMCE z-index fixes for modal compatibility
+// Using very high z-index values to ensure TinyMCE appears above all modals (which use up to 99999)
+.tox-tinymce-aux,
+.tox-silver-sink,
+.tox-dialog-wrap,
+.tox-dialog,
+.tox-menu,
+.tox-collection,
+.tox-toolbar-overlord,
+.tox-pop,
+.tox-toolbar,
+.tox-menubar {
+    z-index: 100000 !important;
+}
+
+// Specific fixes for TinyMCE elements when inside modals
+.ant-modal-wrap,
+.ant-modal-root {
+    .tox-tinymce {
+        position: relative;
+        
+        .tox-toolbar-overlord,
+        .tox-toolbar {
+            z-index: 100001 !important;
+        }
+        
+        .tox-menu,
+        .tox-menubar {
+            z-index: 100002 !important;
+        }
+        
+        .tox-collection,
+        .tox-dialog-wrap {
+            z-index: 100003 !important;
+        }
+    }
+}
+
+// Global TinyMCE element fixes - highest priority
+body > .tox-tinymce-aux,
+body > .tox-silver-sink,
+body > .tox-dialog-wrap,
+body > .tox-menu,
+body > .tox-collection,
+div[class*="tox-"] {
+    z-index: 100004 !important;
+}
+
+// Fix for TinyMCE color picker and other floating dialogs
+.tox-dialog-wrap {
+    z-index: 100005 !important;
+    
+    .tox-dialog {
+        z-index: 100006 !important;
+    }
+    
+    .tox-dialog-body {
+        z-index: 100007 !important;
+    }
+}
+
+// Nuclear option - ensure ALL TinyMCE elements appear above modals
+[class*="tox-"]:not(.tox-tinymce) {
+    z-index: 100000 !important;
+}
+
+// Image uploader styling
+.image-uploader {
+    .upload-card {
+        .image-upload-dragger {
+            border: 2px dashed #d9d9d9;
+            border-radius: 8px;
+            background: #fafafa;
+            transition: all 0.3s;
+            
+            &:hover {
+                border-color: #1677ff;
+                background: #f0f8ff;
+            }
+            
+            .upload-content {
+                padding: 24px 16px;
+                text-align: center;
+            }
+        }
+        
+        .ant-upload-drag.ant-upload-drag-hover {
+            border-color: #1677ff;
+            background: #f0f8ff;
+        }
+    }
+    
+    .image-item {
+        background: #fafafa;
+        border: 1px solid #f0f0f0;
+        
+        &:hover {
+            background: #f5f5f5;
+            border-color: #d9d9d9;
+        }
+        
+        .ant-image {
+            border-radius: 4px;
+            overflow: hidden;
+        }
+    }
+    
+    // Readonly mode styling
+    &.readonly-images {
+        .image-item {
+            background: transparent;
+            border: none;
+            
+            &:hover {
+                background: transparent;
+                border: none;
+            }
+        }
+    }
+}
+
+// Modal image dimensions styling
+.modal-image-dimensions {
+    .image-dimensions-content {
+        .ant-alert {
+            border-radius: 8px;
+            
+            &.ant-alert-info {
+                background: #f0f8ff;
+                border-color: #b8d4ff;
+            }
+            
+            &.ant-alert-warning {
+                background: #fffbe6;
+                border-color: #ffe58f;
+            }
+        }
+        
+        .ant-form-item-label > label {
+            font-weight: 500;
+        }
+        
+        .ant-input-number {
+            border-radius: 6px;
+            
+            &:hover {
+                border-color: #1677ff;
+            }
+            
+            &:focus-within {
+                border-color: #1677ff;
+                box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+            }
+        }
+    }
+}
+
+// Preview styling
+.preview-header-section,
+.preview-footer-section {
+    .image-uploader {
+        .readonly-images {
+            border: none;
+            box-shadow: none;
+            
+            .ant-card-body {
+                padding: 0;
+            }
+        }
+        
+        .image-item {
+            margin-bottom: 8px;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    
+    // Improve image quality in preview
+    img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated; // Fallback
+        image-rendering: auto; // Modern browsers
+        max-width: 100%;
+        height: auto;
+        
+        // Center alignment for multiple images
+        &:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }
+    
+    // Ensure center alignment is maintained
+    text-align: center;
+    
+    // Handle multiple images in a row
+    &.multiple-images {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+// General image quality improvements
+.image-uploader {
+    .ant-card-cover img,
+    .ant-image img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        image-rendering: auto;
+    }
+}

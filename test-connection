@@ -1,0 +1,45 @@
+<?php
+
+require 'vendor/autoload.php';
+
+$app = require_once 'bootstrap/app.php';
+$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+echo "Testing Gmail connection...\n";
+
+try {
+    $service = $app->make('App\Services\GmailService');
+    
+    if ($service->isReady()) {
+        echo "✅ Gmail service is ready!\n";
+        
+        echo "Testing email fetch...\n";
+        $emails = $service->getInboxEmails(1);
+        
+        echo "📧 Fetched " . count($emails) . " emails\n";
+        
+        if (count($emails) > 0) {
+            $email = $emails[0];
+            echo "📬 First email:\n";
+            echo "  - Subject: " . $email['subject'] . "\n";
+            echo "  - From: " . $email['from'] . "\n";
+            echo "  - Date: " . $email['date'] . "\n";
+            echo "  - ID: " . $email['id'] . "\n";
+            
+            if ($email['id'] === 'mock_1') {
+                echo "⚠️  WARNING: This is mock data! Gmail API is not working properly.\n";
+            } else {
+                echo "✅ Real email data fetched successfully!\n";
+            }
+        } else {
+            echo "📭 No emails found\n";
+        }
+        
+    } else {
+        echo "❌ Gmail service not ready\n";
+    }
+    
+} catch (Exception $e) {
+    echo "❌ Error: " . $e->getMessage() . "\n";
+    echo "Stack trace: " . $e->getTraceAsString() . "\n";
+}

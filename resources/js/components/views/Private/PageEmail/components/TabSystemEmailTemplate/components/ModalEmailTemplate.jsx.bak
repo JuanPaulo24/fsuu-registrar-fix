@@ -1,0 +1,634 @@
+import React, { useContext, useEffect, useState } from "react";
+import { Modal, Form, Button, Typography, Row, Col, Tabs, Switch, message, Card, List, Tag, Alert, Divider, Space, Tooltip } from "antd";
+import { faClose, faInfoCircle, faCopy, faLightbulb } from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FloatInput from "../../../../../../providers/FloatInput";
+import FloatSelect from "../../../../../../providers/FloatSelect";
+import FloatTinyMCESimple from "../../../../../../providers/FloatTinyMCESimple";
+import ImageUploader from "./ImageUploader";
+import { POST, GET } from "../../../../../../providers/useAxiosQuery";
+import PageEmailContext from "./PageEmailContext";
+
+export default function ModalEmailTemplate() {
+    const { toggleModalForm, setToggleModalForm, refetchSource } = useContext(PageEmailContext);
+    const [form] = Form.useForm();
+    const [activeTab, setActiveTab] = useState("1");
+    const [previewMode, setPreviewMode] = useState(false);
+    const [existingTemplates, setExistingTemplates] = useState([]);
+    const [headerImages, setHeaderImages] = useState([]);
+    const [footerImages, setFooterImages] = useState([]);
+
+    // Template type options
+    const templateTypeOptions = [
+        { value: "general", label: "General" },
+        { value: "verification_result", label: "Verification Result" },
+        { value: "two_factor_auth", label: "Two-Factor Authentication" },
+        { value: "auto_reply", label: "Auto-Reply" },
+    ];
+
+    // Save template mutation
+    const saveTemplate = POST(
+        "api/email_template",
+        "email_templates_list",
+        true,
+        () => {
+            message.success(toggleModalForm.data ? "Template updated successfully" : "Template created successfully");
+            refetchSource();
+            handleCancel();
+        }
+    );
+
+    // Send test email mutation
+    const sendTestEmailMutation = POST(
+        "api/email_template/send_test",
+        "send_test_email",
+        false,
+        (response) => {
+            message.success(`Test email sent successfully to castrodesjohnpaul@gmail.com`);
+        }
+    );
+
+    // Fetch existing templates for header/footer reuse
+    const { data: templatesData } = GET(
+        "api/email_template?page_size=100&system_id=3",
+        "email_templates_for_reuse"
+    );
+
+    useEffect(() => {
+        if (toggleModalForm.open) {
+            if (toggleModalForm.data) {
+                form.setFieldsValue({
+                    ...toggleModalForm.data,
+                    is_active: toggleModalForm.data.is_active ?? true,
+                });
+                
+                // Load existing images from attachments
+                if (toggleModalForm.data.header_images) {
+                    setHeaderImages(toggleModalForm.data.header_images.map(img => ({
+                        uid: img.id,
+                        name: img.file_name,
+                        status: 'done',
+                        url: img.file_path,
+                        file_path: img.file_path,
+                        file_name: img.file_name,
+                        file_size: img.file_size,
+                        dimensions: img.image_dimensions
+                    })));
+                } else {
+                    setHeaderImages([]);
+                }
+                
+                if (toggleModalForm.data.footer_images) {
+                    setFooterImages(toggleModalForm.data.footer_images.map(img => ({
+                        uid: img.id,
+                        name: img.file_name,
+                        status: 'done',
+                        url: img.file_path,
+                        file_path: img.file_path,
+                        file_name: img.file_name,
+                        file_size: img.file_size,
+                        dimensions: img.image_dimensions
+                    })));
+                } else {
+                    setFooterImages([]);
+                }
+            } else {
+                form.setFieldsValue({
+                    template_type: "general",
+                    is_active: true,
+                    system_id: 3,
+                });
+                setHeaderImages([]);
+                setFooterImages([]);
+            }
+        } else {
+            form.resetFields();
+            setActiveTab("1");
+            setPreviewMode(false);
+            setHeaderImages([]);
+            setFooterImages([]);
+        }
+    }, [toggleModalForm.open, form]);
+
+    useEffect(() => {
+        if (templatesData?.data?.data) {
+            setExistingTemplates(templatesData.data.data);
+        }
+    }, [templatesData]);
+
+    const handleCancel = () => {
+        setToggleModalForm({ open: false, data: null });
+        form.resetFields();
+        setActiveTab("1");
+        setPreviewMode(false);
+    };
+
+    const handleSubmit = (values) => {
+        const formData = new FormData();
+        
+        // Add basic form data
+        Object.keys(values).forEach(key => {
+            if (values[key] !== undefined && values[key] !== null) {
+                // Convert boolean values to string for FormData
+                if (typeof values[key] === 'boolean') {
+                    formData.append(key, values[key] ? '1' : '0');
+                } else {
+                    formData.append(key, values[key]);
+                }
+            }
+        });
+        
+        // Add system_id if not present
+        if (!values.system_id) {
+            formData.append('system_id', 3);
+        }
+
+        if (toggleModalForm.data?.id) {
+            formData.append('id', toggleModalForm.data.id);
+        }
+
+        // Add header images
+        headerImages.forEach((image, index) => {
+            if (image.file) {
+                formData.append(`header_images[]`, image.file);
+                if (image.dimensions) {
+                    formData.append(`header_image_dimensions[${index}][width]`, image.dimensions.width);
+                    formData.append(`header_image_dimensions[${index}][height]`, image.dimensions.height);
+                }
+            }
+        });
+
+        // Add footer images
+        footerImages.forEach((image, index) => {
+            if (image.file) {
+                formData.append(`footer_images[]`, image.file);
+                if (image.dimensions) {
+                    formData.append(`footer_image_dimensions[${index}][width]`, image.dimensions.width);
+                    formData.append(`footer_image_dimensions[${index}][height]`, image.dimensions.height);
+                }
+            }
+        });
+
+        saveTemplate.mutate(formData);
+    };
+
+    const handleTestSend = () => {
+        // Validate the form before sending test
+        form.validateFields(['title', 'subject', 'body', 'template_type'])
+            .then((values) => {
+                // Send test email with current form values
+                sendTestEmailMutation.mutate(values);
+            })
+            .catch((error) => {
+                message.error('Please fill in all required fields before sending test email');
+                console.error('Validation failed:', error);
+            });
+    };
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            message.success('Variable copied to clipboard!');
+        }).catch(() => {
+            message.error('Failed to copy variable');
+        });
+    };
+
+    const reuseHeaderFooter = (templateId, type) => {
+        const template = existingTemplates.find(t => t.id === templateId);
+        if (template) {
+            const currentValues = form.getFieldsValue();
+            if (type === 'header') {
+                form.setFieldsValue({
+                    ...currentValues,
+                    header: template.header
+                });
+                message.success('Header reused successfully!');
+            } else if (type === 'footer') {
+                form.setFieldsValue({
+                    ...currentValues,
+                    footer: template.footer
+                });
+                message.success('Footer reused successfully!');
+            }
+        }
+    };
+
+    const reuseImages = (templateId, type) => {
+        const template = existingTemplates.find(t => t.id === templateId);
+        if (template) {
+            if (type === 'header' && template.header_images) {
+                const reusedImages = template.header_images.map(img => ({
+                    uid: `reused_${img.id}`,
+                    name: img.file_name,
+                    status: 'done',
+                    url: img.file_path,
+                    file_path: img.file_path,
+                    file_name: img.file_name,
+                    file_size: img.file_size,
+                    dimensions: img.image_dimensions
+                }));
+                setHeaderImages([...headerImages, ...reusedImages]);
+                message.success(`${reusedImages.length} header image(s) reused successfully!`);
+            } else if (type === 'footer' && template.footer_images) {
+                const reusedImages = template.footer_images.map(img => ({
+                    uid: `reused_${img.id}`,
+                    name: img.file_name,
+                    status: 'done',
+                    url: img.file_path,
+                    file_path: img.file_path,
+                    file_name: img.file_name,
+                    file_size: img.file_size,
+                    dimensions: img.image_dimensions
+                }));
+                setFooterImages([...footerImages, ...reusedImages]);
+                message.success(`${reusedImages.length} footer image(s) reused successfully!`);
+            }
+        }
+    };
+
+    const renderGuideTab = () => {
+        const variables = [
+            {
+                category: "User Information",
+                items: [
+                    { variable: "[user:name]", description: "Full name of the user", example: "John Doe" },
+                    { variable: "[user:account]", description: "User account/username", example: "john.doe@urios.edu.ph" },
+                    { variable: "[user:password]", description: "Temporary password for new accounts", example: "TempPass123" },
+                ]
+            },
+            {
+                category: "Authentication",
+                items: [
+                    { variable: "[auth:code]", description: "Two-factor authentication code", example: "123456" },
+                    { variable: "[auth:expiry]", description: "Code expiration time", example: "10 minutes" },
+                ]
+            },
+            {
+                category: "Document Verification",
+                items: [
+                    { variable: "[document:type]", description: "Type of document being verified", example: "Transcript of Records" },
+                    { variable: "[verification:status]", description: "Verification result", example: "Verified" },
+                    { variable: "[verification:date]", description: "Date of verification", example: "September 12, 2025" },
+                ]
+            },
+            {
+                category: "Message System",
+                items: [
+                    { variable: "[message:reference]", description: "Message reference number", example: "MSG-2025-001234" },
+                    { variable: "[message:date]", description: "Date message was received", example: "September 12, 2025" },
+                ]
+            },
+            {
+                category: "System Information",
+                items: [
+                    { variable: "[system:date]", description: "Current system date", example: "September 12, 2025" },
+                    { variable: "[system:time]", description: "Current system time", example: "10:30 AM" },
+                ]
+            }
+        ];
+
+        return (
+            <div className="template-guide-tab" style={{ maxHeight: "450px", overflowY: "auto" }}>
+                <Alert
+                    message="Email Template Guide"
+                    description="This guide helps you create professional email templates with dynamic content. Use the variables below to personalize your emails."
+                    type="info"
+                    icon={<FontAwesomeIcon icon={faLightbulb} />}
+                    style={{ marginBottom: "20px" }}
+                />
+
+                <Typography.Title level={5}>
+                    <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: "8px" }} />
+                    Available Variables
+                </Typography.Title>
+
+                {variables.map((category, index) => (
+                    <Card 
+                        key={index}
+                        size="small" 
+                        title={category.category} 
+                        className="variable-category-card"
+                        style={{ marginBottom: "16px" }}
+                    >
+                        <List
+                            dataSource={category.items}
+                            renderItem={(item) => (
+                                <List.Item className="variable-item">
+                                    <div style={{ width: "100%" }}>
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                            <div style={{ flex: 1 }}>
+                                                <Tag 
+                                                    color="blue" 
+                                                    className="variable-tag"
+                                                    style={{ marginBottom: "4px", cursor: "pointer" }}
+                                                    onClick={() => copyToClipboard(item.variable)}
+                                                >
+                                                    {item.variable}
+                                                </Tag>
+                                                <Typography.Text className="variable-description" style={{ display: "block" }}>
+                                                    {item.description}
+                                                </Typography.Text>
+                                                <Typography.Text className="variable-example" style={{ display: "block" }}>
+                                                    Example: {item.example}
+                                                </Typography.Text>
+                                            </div>
+                                            <Tooltip title="Copy variable">
+                                                <Button
+                                                    size="small"
+                                                    type="text"
+                                                    className="copy-variable-btn"
+                                                    icon={<FontAwesomeIcon icon={faCopy} />}
+                                                    onClick={() => copyToClipboard(item.variable)}
+                                                />
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                </List.Item>
+                            )}
+                        />
+                    </Card>
+                ))}
+
+                <Divider />
+
+                <Typography.Title level={5}>Best Practices</Typography.Title>
+                <List
+                    className="best-practices-list"
+                    size="small"
+                    dataSource={[
+                        "Use clear and professional language in your templates",
+                        "Test variables with sample data before using in production",
+                        "Keep header and footer consistent across template types",
+                        "Include proper unsubscribe information where required",
+                        "Use the preview tab to check formatting before saving"
+                    ]}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <Typography.Text>• {item}</Typography.Text>
+                        </List.Item>
+                    )}
+                />
+            </div>
+        );
+    };
+
+    const renderPreview = () => {
+        const values = form.getFieldsValue();
+        const body = values.body || "";
+
+    return (
+            <div style={{ border: "1px solid #d9d9d9", borderRadius: "6px", padding: "16px", minHeight: "400px" }}>
+                <Typography.Title level={5}>Email Preview</Typography.Title>
+                <div 
+                    style={{ 
+                        backgroundColor: "#fff", 
+                        padding: "20px", 
+                        border: "1px solid #e8e8e8", 
+                        borderRadius: "4px" 
+                    }}
+                >
+                    {/* Header Images Section */}
+                    {headerImages.length > 0 && (
+                        <div className="preview-header-section" style={{ marginBottom: "20px", textAlign: "center" }}>
+                            {headerImages.map((image, index) => (
+                                <img
+                                    key={image.uid || index}
+                                    src={image.url || image.file_path}
+                                    alt={image.name || image.file_name}
+                                    style={{
+                                        width: image.dimensions ? `${image.dimensions.width}px` : '100%',
+                                        height: image.dimensions ? `${image.dimensions.height}px` : 'auto',
+                                        maxWidth: '100%',
+                                        objectFit: 'contain',
+                                        marginBottom: index < headerImages.length - 1 ? '8px' : '0',
+                                        backgroundColor: 'transparent',
+                                        display: 'inline-block'
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    
+                    {/* Body Content */}
+                    <div style={{ padding: "20px 0", minHeight: "200px" }} dangerouslySetInnerHTML={{ __html: body }} />
+                    
+                    {/* Footer Images Section */}
+                    {footerImages.length > 0 && (
+                        <div className="preview-footer-section" style={{ marginTop: "20px", textAlign: "center" }}>
+                            {footerImages.map((image, index) => (
+                                <img
+                                    key={image.uid || index}
+                                    src={image.url || image.file_path}
+                                    alt={image.name || image.file_name}
+                                    style={{
+                                        width: image.dimensions ? `${image.dimensions.width}px` : '100%',
+                                        height: image.dimensions ? `${image.dimensions.height}px` : 'auto',
+                                        maxWidth: '100%',
+                                        objectFit: 'contain',
+                                        marginBottom: index < footerImages.length - 1 ? '8px' : '0',
+                                        backgroundColor: 'transparent',
+                                        display: 'inline-block'
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <Typography.Text type="secondary" style={{ fontSize: "12px" }}>
+                    Variables like [user:name], [auth:code], etc. will be replaced with actual values when sent.
+                </Typography.Text>
+            </div>
+        );
+    };
+
+    const tabItems = [
+        {
+            key: "1",
+            label: "Guide",
+            children: renderGuideTab(),
+        },
+        {
+            key: "2",
+            label: "Basic Information",
+            children: (
+                <div className="basic-info-section">
+                    <Row gutter={[24, 20]}>
+                        <Col span={24}>
+                <Form.Item name="title" rules={[{ required: true, message: "Title is required" }]}>
+                                <FloatInput placeholder="Template Title" label="Title" />
+                </Form.Item>
+                        </Col>
+                        <Col span={16}>
+                <Form.Item name="subject" rules={[{ required: true, message: "Subject is required" }]}>
+                                <FloatInput placeholder="Email Subject" label="Subject" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item name="template_type" rules={[{ required: true, message: "Template type is required" }]}>
+                                <FloatSelect 
+                                    placeholder="Select Type" 
+                                    label="Template Type"
+                                    options={templateTypeOptions}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item name="is_active" valuePropName="checked">
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <Switch />
+                                    <Typography.Text>Active Template</Typography.Text>
+                                </div>
+                </Form.Item>
+                        </Col>
+                    </Row>
+                </div>
+            ),
+        },
+        {
+            key: "3",
+            label: "Header Banner",
+            children: (
+                <div className="template-reuse-section">
+                    {existingTemplates.length > 0 && (
+                        <Card size="small" className="reuse-card" style={{ marginBottom: "16px" }}>
+                            <Typography.Text strong>Reuse Header Images from Existing Template:</Typography.Text>
+                            <Space wrap className="reuse-buttons" style={{ marginTop: "8px" }}>
+                                {existingTemplates.filter(t => t.header_images && t.header_images.length > 0).map((template) => (
+                                    <Button
+                                        key={template.id}
+                                        size="small"
+                                        onClick={() => reuseImages(template.id, 'header')}
+                                    >
+                                        {template.title} ({template.header_images.length})
+                                    </Button>
+                                ))}
+                            </Space>
+                        </Card>
+                    )}
+                    <ImageUploader
+                        images={headerImages}
+                        onImagesChange={setHeaderImages}
+                        title="Upload Header Banner"
+                        description="Upload banner images for email header (full-width banners, logos, etc.)"
+                        maxCount={3}
+                        type="header"
+                    />
+                </div>
+            ),
+        },
+        {
+            key: "4",
+            label: "Body Template",
+            children: (
+                <Form.Item name="body" rules={[{ required: true, message: "Body is required" }]}>
+                    <FloatTinyMCESimple 
+                        placeholder="Main email content"
+                        height={300}
+                    />
+                </Form.Item>
+            ),
+        },
+        {
+            key: "5",
+            label: "Footer Banner", 
+            children: (
+                <div className="template-reuse-section">
+                    {existingTemplates.length > 0 && (
+                        <Card size="small" className="reuse-card" style={{ marginBottom: "16px" }}>
+                            <Typography.Text strong>Reuse Footer Images from Existing Template:</Typography.Text>
+                            <Space wrap className="reuse-buttons" style={{ marginTop: "8px" }}>
+                                {existingTemplates.filter(t => t.footer_images && t.footer_images.length > 0).map((template) => (
+                                    <Button
+                                        key={template.id}
+                                        size="small"
+                                        onClick={() => reuseImages(template.id, 'footer')}
+                                    >
+                                        {template.title} ({template.footer_images.length})
+                                    </Button>
+                                ))}
+                            </Space>
+                        </Card>
+                    )}
+                    <ImageUploader
+                        images={footerImages}
+                        onImagesChange={setFooterImages}
+                        title="Upload Footer Banner"
+                        description="Upload banner images for email footer (signatures, contact info, etc.)"
+                        maxCount={3}
+                        type="footer"
+                    />
+                </div>
+            ),
+        },
+        {
+            key: "6",
+            label: "Preview",
+            children: renderPreview(),
+        },
+    ];
+
+    return (
+        <Modal 
+            open={toggleModalForm.open} 
+            onCancel={handleCancel} 
+            footer={null} 
+            width={1000} 
+            closeIcon={<FontAwesomeIcon icon={faClose} />} 
+            className="modal-form-email-template" 
+            title={
+                <Typography.Text>
+                    {toggleModalForm.data ? "EDIT EMAIL TEMPLATE" : "CREATE EMAIL TEMPLATE"}
+                </Typography.Text>
+            }
+            style={{ top: 20 }}
+        >
+            <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form.Item name="system_id" hidden>
+                    <input type="hidden" />
+                </Form.Item>
+                
+                <Tabs 
+                    activeKey={activeTab} 
+                    onChange={setActiveTab}
+                    items={tabItems}
+                    style={{ minHeight: "500px" }}
+                />
+                
+                <Row justify="space-between" gutter={10} style={{ marginTop: "16px", paddingTop: "16px", borderTop: "1px solid #f0f0f0" }}>
+                    <Col>
+                        <Button 
+                            type="default"
+                            onClick={handleTestSend}
+                            loading={sendTestEmailMutation.isPending}
+                            style={{ 
+                                backgroundColor: '#52c41a', 
+                                borderColor: '#52c41a', 
+                                color: 'white' 
+                            }}
+                        >
+                            🧪 Send Test Email
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Row gutter={10}>
+                            <Col>
+                                <Button onClick={handleCancel}>
+                                    Cancel
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button 
+                                    type="primary" 
+                                    htmlType="submit"
+                                    loading={saveTemplate.isPending}
+                                >
+                                    {toggleModalForm.data ? "Update Template" : "Create Template"}
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Form>
+        </Modal>
+    );
+}

@@ -1,0 +1,353 @@
+@use "../../ui/index" as *;
+
+#PageDashboard {
+    // Dashboard Container
+    .dashboard-container {
+        padding: 0;
+        
+        .ant-row {
+            margin: 0;
+        }
+    }
+
+    // Enhanced KPI Cards
+    .kpi-card {
+        border-radius: 1rem;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        
+        &:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .kpi-title {
+            font-family: 'PoppinsSemiBold', sans-serif;
+            color: #64748b;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            
+            &.kpi-icon-primary {
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+            }
+            
+            &.kpi-icon-success {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+            }
+            
+            &.kpi-icon-danger {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                color: white;
+            }
+            
+            &.kpi-icon-warning {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+            }
+        }
+
+        .kpi-value {
+            font-family: 'PoppinsBold', sans-serif;
+            font-size: 2.25rem;
+            margin: 0;
+            font-weight: 700;
+            line-height: 1.2;
+            
+            &.primary { color: #1e40af; }
+            &.success { color: #047857; }
+            &.danger { color: #dc2626; }
+            &.warning { color: #d97706; }
+        }
+
+        .kpi-suffix {
+            font-size: 1rem;
+            margin-left: 6px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .kpi-subtitle {
+            font-size: 0.875rem;
+            margin-top: 8px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        // Card variants with gradient backgrounds
+        &.kpi-card-primary {
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        &.kpi-card-success {
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        
+        &.kpi-card-danger {
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        
+        &.kpi-card-warning {
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+    }
+
+    // Equal-sized dashboard containers
+    .dashboard-equal-container {
+        height: 100%;
+        min-height: 400px;
+        
+        .chart-container {
+            height: 100%;
+            min-height: 400px;
+        }
+    }
+
+    // Enhanced Chart containers
+    .chart-container {
+        background: white;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        
+        &:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        &.donut-chart { 
+            min-height: 20rem; 
+            height: 100%;
+        }
+        &.document-chart { 
+            min-height: 24rem; 
+            height: 100%;
+        }
+        &.feedback-chart { 
+            min-height: 24rem; 
+            height: 100%;
+        }
+        &.processing-chart { 
+            min-height: 24rem; 
+            height: 100%;
+        }
+        &.yearly-chart { 
+            min-height: 22rem; 
+            height: 100%;
+        }
+    }
+
+    // Dashboard responsive table styles
+    .dashboard-table {
+        .ant-table {
+            font-size: 0.875rem;
+            
+            .ant-table-thead > tr > th {
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                font-family: 'PoppinsSemiBold', sans-serif;
+                font-weight: 600;
+                font-size: 0.75rem;
+                padding: 8px 12px;
+                border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            }
+
+            .ant-table-tbody > tr > td {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
+
+            .ant-table-tbody > tr:hover > td {
+                background-color: rgba(59, 130, 246, 0.05);
+            }
+        }
+
+        // Responsive table adjustments
+        @include atSMMax {
+            .ant-table {
+                .ant-table-thead > tr > th,
+                .ant-table-tbody > tr > td {
+                    padding: 6px 8px;
+                    font-size: 0.7rem;
+                }
+            }
+        }
+    }
+
+    // Enhanced Map container
+    .map-container {
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        border-radius: 1rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        
+        .map-frame {
+            width: 100%;
+            height: 20.313rem;
+            border-radius: 1rem;
+            border: none;
+        }
+    }
+
+    // Enhanced table styles
+    .quarterly-table {
+        border-radius: 1rem;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        
+        .ant-table-thead > tr > th {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'PoppinsSemiBold', sans-serif;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .ant-table-tbody > tr:hover > td {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+    }
+
+    // Enhanced responsive design
+    @include atXLMax {
+        .dashboard-container {
+            .ant-col {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+    @include atMDMax {
+        .dashboard-equal-container {
+            min-height: 350px;
+            
+            .chart-container {
+                min-height: 350px;
+            }
+        }
+    }
+
+    @include atLGMax {
+        .chart-container {
+            padding: 1.25rem;
+            
+            &.donut-chart,
+            &.document-chart,
+            &.feedback-chart,
+            &.processing-chart,
+            &.yearly-chart {
+                min-height: 22rem;
+            }
+        }
+        
+        .kpi-card {
+            .kpi-icon {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    @include atSMMax {
+        .dashboard-container {
+            padding: 0 0.5rem;
+        }
+        
+        .dashboard-equal-container {
+            min-height: 300px;
+            
+            .chart-container {
+                min-height: 300px;
+            }
+        }
+        
+        .chart-container {
+            padding: 1rem;
+            
+            &.donut-chart,
+            &.document-chart,
+            &.feedback-chart,
+            &.processing-chart,
+            &.yearly-chart {
+                min-height: 20rem;
+            }
+        }
+
+        .kpi-card {
+            .kpi-value {
+                font-size: 1.875rem;
+            }
+            
+            .kpi-icon {
+                width: 1.75rem;
+                height: 1.75rem;
+                font-size: 0.875rem;
+            }
+        }
+    }
+
+    @include atXSMax {
+        .dashboard-container {
+            padding: 0 0.25rem;
+        }
+        
+        .dashboard-equal-container {
+            min-height: 280px;
+            
+            .chart-container {
+                min-height: 280px;
+            }
+        }
+        
+        .kpi-card {
+            .kpi-value {
+                font-size: 1.5rem;
+            }
+            
+            .kpi-title {
+                font-size: 0.75rem;
+            }
+            
+            .kpi-subtitle {
+                font-size: 0.75rem;
+            }
+            
+            .kpi-icon {
+                width: 1.5rem;
+                height: 1.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        .chart-container {
+            padding: 0.75rem;
+            
+            &.donut-chart,
+            &.document-chart,
+            &.feedback-chart,
+            &.processing-chart,
+            &.yearly-chart {
+                min-height: 18rem;
+            }
+        }
+        
+        .map-container .map-frame {
+            height: 16rem;
+        }
+    }
+}

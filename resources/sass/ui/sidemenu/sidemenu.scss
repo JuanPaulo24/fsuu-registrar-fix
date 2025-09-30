@@ -1,0 +1,281 @@
+@use "../index" as *;
+
+.private-layout {
+    > .ant-layout-sider {
+        background-color: var(--color-primary);
+        width: 240px !important;
+        min-width: 240px !important;
+        max-width: 240px !important;
+        overflow: hidden auto;
+        position: fixed;
+        height: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1200;
+        scrollbar-width: none;
+        scrollbar-gutter: stable;
+
+        @include atSMMax {
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        &.ant-layout-sider-collapsed {
+            width: 0px !important;
+            min-width: 55px !important;
+
+            @include atSMMax {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                visibility: hidden;
+            }
+
+            @include atXSMax {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                visibility: hidden;
+            }
+        }
+
+        @include atSMMax {
+            position: fixed;
+            transform: translateX(0);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+            visibility: visible;
+            width: 280px !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+        }
+
+        > .ant-layout-sider-children {
+            > .ant-side-header {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 15px;
+                align-items: center;
+                gap: 10px;
+
+                @include atSMMax {
+                    height: 70px;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    background: var(--color-primary);
+                }
+
+                @include atXSMax {
+                    height: 70px;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    background: var(--color-primary);
+                }
+
+                // Icon
+                .anticon {
+                    font-size: 22px;
+                    color: var(--color-white);
+                    cursor: pointer;
+                    padding: 8px;
+                    border-radius: var(--radius-sm);
+                    transition: all var(--duration-fast) ease;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.15);
+                        color: var(--color-white);
+                        transform: scale(1.05);
+                    }
+
+                    @include atSMMax {
+                        font-size: 24px;
+                        padding: 10px;
+                    }
+
+                    a:hover {
+                        color: var(--color-white);
+                    }
+                }
+
+                // End Icon
+
+                .logo_wrapper {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    img {
+                        width: 150px;
+
+                        @include atSMMax {
+                            width: 90px;
+                        }
+
+                        @include atXSMax {
+                            width: 80px;
+                        }
+                    }
+                }
+            }
+
+            .ant-menu {
+                background-color: transparent;
+                height: 100%;
+
+                > .ant-menu-item {
+                    margin-block: 0px;
+                    margin-inline: 0px;
+                    width: 100%;
+                    border-radius: 0px;
+                    padding-left: 16px !important;
+                    line-height: 45px;
+                    font-weight: bolder;
+
+                    @include atSMMax {
+                        line-height: 50px;
+                        min-height: 50px;
+                    }
+
+                    &.ant-menu-item-selected,
+                    &.ant-menu-item-active {
+                        background: var(
+                            --color-white
+                        ); //Dashboard, Employees, Ministries, Venue, Users, Permissions, Hover Color
+                    }
+
+                    a {
+                        color: var(
+                            --color-white
+                        ); //Dashboard, Employees, Ministries, Venue, Users, Permissions, Default TextColor
+                        text-decoration: none;
+                    }
+
+                    a:hover,
+                    &.ant-menu-item-selected a,
+                    &.ant-menu-item-active a {
+                        color: var(
+                            --color-primary
+                        ) !important; //Dashboard, Employees, Ministries, Venue, Users, Permissions, Hover TextColor
+                        text-decoration: none;
+                    }
+
+                    .ant-menu-item-icon {
+                        color: var(
+                            --color-white
+                        ); //Dashboard, Employees, Ministries, Venue, Users, Permissions, IconColor
+                        font-size: 18px;
+                        width: 20px;
+                    }
+                }
+
+                // When hovered
+                .ant-menu-item:hover .ant-menu-item-icon {
+                    color: var(--color-primary) !important;
+                }
+
+                // When selected
+                .ant-menu-item.ant-menu-item-selected .ant-menu-item-icon {
+                    color: var(--color-primary) !important;
+                }
+
+                // .ant-menu-submenu-selected {
+                //     background: var(--color-blue-600);
+                // }
+
+                > .ant-menu-submenu {
+                    background-color: transparent;
+                    border-radius: 0px;
+
+                    .ant-menu-submenu-title {
+                        padding-left: 16px !important;
+                        padding-inline-end: 0px !important;
+                        margin-inline: 0px;
+                        border-radius: 0px;
+                        margin-block: 0px;
+                        line-height: 45px;
+                        width: 100%;
+
+                        @include atSMMax {
+                            line-height: 50px;
+                            min-height: 50px;
+                        }
+
+                        .ant-menu-submenu-arrow,
+                        .ant-menu-item-icon {
+                            color: var(--color-white);
+                            font-size: 18px;
+                        }
+
+                        .ant-menu-item-icon {
+                            width: 20px;
+                        }
+
+                        &:active,
+                        &:selected {
+                            background-color: var(--color-white) !important;
+                        }
+
+                        .ant-menu-title-content {
+                            color: var(--color-white);
+                            font-weight: bolder;
+                        }
+                    }
+
+                    // &.ant-menu-submenu-selected,
+                    // &.ant-menu-submenu-active  {
+                    //     background: var(--color-green-400); //Sacraments, Accounting, Report, Settings, Hover Color
+                    // }
+
+                    // a {
+                    //     color: var(--color-red-400);
+                    // }
+
+                    .ant-menu.ant-menu-sub {
+                        > .ant-menu-item {
+                            // background-color: $sideBarBackground;
+                            margin-block: 0px;
+                            margin-inline: 0px;
+                            width: 100%;
+                            border-radius: 0px;
+                            padding-left: 46px !important;
+                            line-height: 45px;
+
+                            &.ant-menu-item-selected,
+                            &.ant-menu-item-active {
+                                background: var(
+                                    --color-white
+                                ); //Children HoverColor
+                            }
+
+                            a {
+                                color: var(--color-white); //Children TextColor
+                                font-weight: normal;
+                            }
+
+                            a:hover,
+                            &.ant-menu-item-selected a,
+                            &.ant-menu-item-active a {
+                                color: var(
+                                    --color-green-400
+                                ); //Children TextHoverColor
+                            }
+
+                            .ant-menu-title-content {
+                                line-height: 40px;
+                                a {
+                                    text-decoration: none !important;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Custom divider styling
+                > .ant-menu-item-divider {
+                    background-color: var(--color-tertiary);
+                    height: 2px;
+                    margin: 20px 16px;
+                    border-radius: 1px;
+                }
+            }
+        }
+    }
+}

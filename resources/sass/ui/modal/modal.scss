@@ -1,0 +1,89 @@
+.ant-modal-wrap {
+    .ant-modal {
+        .ant-modal-content {
+            padding: 0;
+
+            .ant-modal-close {
+                top: 5px;
+                right: 5px;
+                color: var(--color-white) !important;
+            }
+
+            .ant-modal-header {
+                padding: 10px 15px;
+                margin-bottom: 0px;
+                background-color: var(--color-primary) !important;
+
+                .ant-modal-title {
+                    line-height: normal;
+                    font-weight: bolder;
+                    color: var(--color-white) !important;
+                    text-transform: uppercase;
+                }
+                .ant-typography {
+                    color: var(--color-white) !important;
+                }
+            }
+
+            .ant-modal-body {
+                padding: 15px;
+                .ant-collapse {
+                    .ant-collapse-item {
+                        border: 0;
+                        margin: 0 !important;
+                        .ant-collapse-header {
+                            background-color: var(--color-primary) !important;
+                            color: var(--color-white) !important;
+                            font-weight: bold !important;
+                            
+                            text-transform: uppercase;
+                            font-size: 16px;
+                            font-weight: bold;
+                            letter-spacing: 0.5px;
+
+                            .ant-collapse-arrow {
+                                color: var(--color-white) !important;
+                                .ant-collapse-arrow-icon {
+                                    color: var(--color-white) !important;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ant-form {
+                    .ant-row {
+                        .ant-form-item {
+                            margin-bottom: 0 !important;
+                        }
+                    }
+                }
+            }
+
+            .ant-modal-footer {
+                padding: 10px 15px;
+            }
+        }
+    }
+
+    .worship-volunteer-panel {
+        &:not(.ant-collapse-item-active) {
+            .ant-collapse-header {
+                border-radius: 0 0 8px 8px;
+            }
+        }
+    
+        &.ant-collapse-item-active {
+            .ant-collapse-header {
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+/* Center buttons in Modal.confirm */
+.ant-modal-confirm .ant-modal-confirm-btns {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}

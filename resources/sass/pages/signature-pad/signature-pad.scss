@@ -1,0 +1,14 @@
+.signature-pad-wrapper {
+  .signature-canvas {
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+  }
+
+  .signature-buttons {
+    margin-bottom: 10px;
+
+    .signature-button {
+      margin-right: 10px;
+    }
+  }
+}
