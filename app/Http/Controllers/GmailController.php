@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\GmailService;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class GmailController extends Controller
 {
+    use ChecksPermissions;
+    
     protected $gmailService;
 
     public function __construct(GmailService $gmailService)
@@ -352,6 +355,11 @@ class GmailController extends Controller
      */
     public function sendEmail(Request $request): JsonResponse
     {
+        // Authorization check for email composition
+        if ($response = $this->authorizeOrFail(['M-04-COMPOSE'], "Unauthorized: You don't have permission to compose emails.")) {
+            return $response;
+        }
+
         try {
             if (!$this->gmailService->isReady()) {
                 return response()->json([
@@ -500,6 +508,11 @@ class GmailController extends Controller
      */
     public function markAsSpam(Request $request, $messageId): JsonResponse
     {
+        // Authorization check for marking spam
+        if ($response = $this->authorizeOrFail(['M-04-SPAM'], "Unauthorized: You don't have permission to mark emails as spam.")) {
+            return $response;
+        }
+
         try {
             \Log::info('GmailController: markAsSpam called for messageId: ' . $messageId);
             

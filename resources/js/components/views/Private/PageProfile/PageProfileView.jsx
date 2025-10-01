@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Row, Col, Button, Collapse, Typography, Card } from "antd";
+import { Row, Col, Button, Collapse, Typography, Card, notification } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
     faArrowLeft,
@@ -12,12 +12,26 @@ import dayjs from "dayjs";
 import { GET } from "../../../providers/useAxiosQuery";
 import { apiUrl, defaultProfile } from "../../../providers/appConfig";
 import { showGlobalLoading, hideGlobalLoading, ensureGlobalLoadingExists } from "../../../providers/globalLoading";
+import { hasButtonPermission } from "@/hooks/useButtonPermissions";
 
 const { Title, Text } = Typography;
 
 export default function PageProfileView() {
     const navigate = useNavigate();
     const params = useParams();
+
+    // Permission guard - check if user has permission to view student profiles
+    useEffect(() => {
+        const hasPermission = hasButtonPermission('M-02-VIEW');
+
+        if (!hasPermission) {
+            notification.error({
+                message: 'Access Denied',
+                description: `You don't have permission to view student profiles.`,
+            });
+            navigate('/student-profiles');
+        }
+    }, [navigate]);
 
     const [profileData, setProfileData] = useState({});
     const [profilePicture, setProfilePicture] = useState(defaultProfile);

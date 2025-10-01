@@ -13,6 +13,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Http\Request;
+use App\Traits\ChecksPermissions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,6 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProfileController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      *
@@ -129,6 +131,14 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - M-02-NEW for new profiles, M-02-VIEW for updates (profile editing is typically part of view)
+        $isUpdate = !empty($request->id);
+        $requiredPermission = $isUpdate ? ['M-02-VIEW'] : ['M-02-NEW'];
+        
+        if ($response = $this->authorizeOrFail($requiredPermission, "Unauthorized: You don't have permission to " . ($isUpdate ? "edit" : "create") . " profiles.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data not saved.",
@@ -292,6 +302,11 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
+        // Authorization check - view profile permission
+        if ($response = $this->authorizeOrFail(['M-02-VIEW'], "Unauthorized: You don't have permission to view student profiles.")) {
+            return $response;
+        }
+
         $data = Profile::with([
             'user',
             'attachments',

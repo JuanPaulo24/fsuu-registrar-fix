@@ -39,7 +39,8 @@ class UserModuleAccessSeeder extends Seeder
         $this->command->info('Creating module access for SUPERADMIN role...');
 
         // Modules that only need generic access (no specific tabs)
-        $modulesWithGenericAccess = ['Dashboard', 'Student Profiles', 'Users', 'QR Scanner'];
+        // Note: Dashboard, Student Profiles, Users, QR Scanner, and Support now use hierarchical tab permissions in DetailedModuleButtonsSeeder
+        $modulesWithGenericAccess = [];
         
         // For modules that only need generic access, create basic ACCESS buttons
         foreach ($modules as $module) {

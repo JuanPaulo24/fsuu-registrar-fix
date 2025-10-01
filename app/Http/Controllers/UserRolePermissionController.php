@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\UserRolePermission;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserRolePermissionController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      *
@@ -63,6 +65,11 @@ class UserRolePermissionController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - manage role permissions
+        if ($response = $this->authorizeOrFail(['M-09-ROLES-MANAGE'], "Unauthorized: You don't have permission to manage role permissions.")) {
+            return $response;
+        }
+
         $ret  = [
             "success" => false,
             "message" => "Data not update"

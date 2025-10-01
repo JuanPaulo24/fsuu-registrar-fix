@@ -185,14 +185,7 @@ const TableEmailTemplate = ({ dataSource = [], setTableFilter }) => {
                 <Empty
                     description="No email templates found"
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
-                >
-                    <Button 
-                        type="primary" 
-                        onClick={() => setToggleModalForm({ open: true, data: null })}
-                    >
-                        Create First Template
-                    </Button>
-                </Empty>
+                />
             </Card>
         );
     }

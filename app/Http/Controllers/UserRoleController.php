@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserRole;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserRoleController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      */
@@ -57,6 +59,13 @@ class UserRoleController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - add or edit role
+        $isUpdate = !empty($request->id);
+        $permissions = $isUpdate ? ['M-09-ROLES-EDIT'] : ['M-09-ROLES-ADD'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($isUpdate ? "edit" : "create") . " roles.")) {
+            return $response;
+        }
 
         $ret = [
             "success" => false,
@@ -120,6 +129,13 @@ class UserRoleController extends Controller
 
     public function role_archived(Request $request)
     {
+        // Authorization check - archive or restore role
+        $permissions = $request->isTrash ? ['M-09-ROLES-RESTORE'] : ['M-09-ROLES-ARCHIVE'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($request->isTrash ? "restore" : "archive") . " roles.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data failed to " . ($request->isTrash ? "restore" : "archive")

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Calendar;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      */
@@ -64,6 +66,13 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - add or edit event
+        $isUpdate = !empty($request->id);
+        $permissions = $isUpdate ? ['M-07-EVENTS-EDIT'] : ['M-07-EVENTS-ADD'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($isUpdate ? "edit" : "create") . " events.")) {
+            return $response;
+        }
 
         $ret = [
             "success" => false,
@@ -175,6 +184,13 @@ class CalendarController extends Controller
      */
     public function calendar_archived(Request $request)
     {
+        // Authorization check - archive or restore event
+        $permissions = $request->isTrash ? ['M-07-EVENTS-RESTORE'] : ['M-07-EVENTS-ARCHIVE'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($request->isTrash ? "restore" : "archive") . " events.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data failed to " . ($request->isTrash ? "restore" : "archive")

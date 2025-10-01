@@ -8,6 +8,7 @@ use App\Models\ProfileDepartment;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use App\Traits\ChecksPermissions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,8 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    use ChecksPermissions;
+
     /**
      * Display a listing of the resource.
      *
@@ -98,7 +101,11 @@ class UserController extends Controller
         }
 
         if ($request->status) {
-            $data->where("status", $request->status);
+            if (is_array($request->status)) {
+                $data->whereIn("status", $request->status);
+            } else {
+                $data->where("status", $request->status);
+            }
         }
 
         if ($request->sort_field && $request->sort_order) {
@@ -134,11 +141,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $ret  = [
-            "success" => false,
-            "message" => "Data not " . ($request->id ? "update" : "saved")
-        ];
-
         // Handle UUID vs ID - the frontend sends UUID in the 'id' field for updates
         $userUuid = $request->id && $request->id !== '' ? $request->id : null;
         $userId = null;
@@ -151,6 +153,18 @@ class UserController extends Controller
                 $userId = $existingUser->id;
             }
         }
+
+        // Authorization check - verify permission based on operation
+        $permissions = $userId ? ['M-03-EDIT', 'M-09-USERS-EDIT'] : ['M-03-ADD', 'M-09-USERS-ADD'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($userId ? "edit" : "add") . " users.")) {
+            return $response;
+        }
+
+        $ret  = [
+            "success" => false,
+            "message" => "Data not " . ($request->id ? "update" : "saved")
+        ];
 
         // Validation rules
         $validationRules = [
@@ -352,6 +366,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Authorization check - prevent deletion of users (use deactivate instead)
+        if ($response = $this->authorizeOrFail(['M-03-DEACTIVATE', 'M-09-USERS-DEACTIVATE'], "Unauthorized: You don't have permission to delete users.")) {
+            return $response;
+        }
+
         $ret  = [
             "success" => false,
             "message" => "Data not deleted",
@@ -471,6 +490,11 @@ class UserController extends Controller
 
     public function user_deactivate(Request $request)
     {
+        // Authorization check
+        if ($response = $this->authorizeOrFail(['M-03-DEACTIVATE', 'M-09-USERS-DEACTIVATE'], "Unauthorized: You don't have permission to deactivate users.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data not deactivate"
@@ -486,14 +510,6 @@ class UserController extends Controller
                 $findUser->deactivated_at = now();
 
                 if ($findUser->save()) {
-                    $findUserProfile = Profile::where('id', $findUser->id)->first();
-
-                    if ($findUserProfile) {
-                        $findUserProfile->deactivated_by = Auth::id();
-                        $findUserProfile->deactivated_at = now();
-                        $findUserProfile->save();
-                    }
-
                     $ret = [
                         "success" => true,
                         "message" => "Data deactivated successfully"
@@ -504,6 +520,43 @@ class UserController extends Controller
             $ret = [
                 "success" => false,
                 "message" => "Failed to deactivate data"
+            ];
+        }
+
+        return response()->json($ret, 200);
+    }
+
+    public function user_reactivate(Request $request)
+    {
+        // Authorization check
+        if ($response = $this->authorizeOrFail(['M-03-REACTIVATE', 'M-09-USERS-REACTIVATE'], "Unauthorized: You don't have permission to reactivate users.")) {
+            return $response;
+        }
+
+        $ret = [
+            "success" => false,
+            "message" => "Data not reactivated"
+        ];
+
+        $findUser = User::find($request->id);
+
+        if ($findUser) {
+            if ($findUser->status === 'Deactivated') {
+                $findUser->status = 'Active';
+                $findUser->deactivated_by = null;
+                $findUser->deactivated_at = null;
+
+                if ($findUser->save()) {
+                    $ret = [
+                        "success" => true,
+                        "message" => "User reactivated successfully"
+                    ];
+                }
+            }
+        } else {
+            $ret = [
+                "success" => false,
+                "message" => "Failed to reactivate user"
             ];
         }
 

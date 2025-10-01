@@ -30,45 +30,81 @@ class DetailedModuleButtonsSeeder extends Seeder
 
         // Define hierarchical button structures: tabs as parents, buttons as children
         $moduleButtons = [
+            'Dashboard' => [
+                // Dashboard Tab (parent)
+                [
+                    'code' => 'M-01',
+                    'name' => 'Dashboard',
+                    'description' => 'Access to dashboard and analytics',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ]
+            ],
             'Student Profiles' => [
-                // Student Profiles has no tabs, so buttons are direct module buttons
+                // Student Profiles Tab (parent)
+                [
+                    'code' => 'M-02',
+                    'name' => 'Student Profiles',
+                    'description' => 'Access to student profile management',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ],
+                // Student Profiles buttons (children)
                 [
                     'code' => 'M-02-NEW',
                     'name' => 'New Profile',
                     'description' => 'Create new student profiles',
                     'enabled_for_superadmin' => true,
-                    'parent_tab' => null
+                    'parent_tab' => 'M-02'
                 ],
                 [
                     'code' => 'M-02-VIEW',
                     'name' => 'View Profile',
                     'description' => 'View and search existing student profiles',
                     'enabled_for_superadmin' => true,
-                    'parent_tab' => null
+                    'parent_tab' => 'M-02'
                 ]
             ],
             'Users' => [
-                // Users has no tabs, so buttons are direct module buttons
+                // Users Tab (parent)
+                [
+                    'code' => 'M-03',
+                    'name' => 'Users',
+                    'description' => 'Access to user management',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ],
+                // Users buttons (children)
                 [
                     'code' => 'M-03-ADD',
                     'name' => 'Add User',
                     'description' => 'Create new system users',
                     'enabled_for_superadmin' => true,
-                    'parent_tab' => null
+                    'parent_tab' => 'M-03'
                 ],
                 [
                     'code' => 'M-03-EDIT',
                     'name' => 'Edit User',
                     'description' => 'Modify existing user accounts',
                     'enabled_for_superadmin' => true,
-                    'parent_tab' => null
+                    'parent_tab' => 'M-03'
                 ],
                 [
                     'code' => 'M-03-DEACTIVATE',
                     'name' => 'Deactivate User',
                     'description' => 'Deactivate user accounts',
                     'enabled_for_superadmin' => true,
-                    'parent_tab' => null
+                    'parent_tab' => 'M-03'
+                ],
+                [
+                    'code' => 'M-03-REACTIVATE',
+                    'name' => 'Reactivate User',
+                    'description' => 'Reactivate deactivated user accounts',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => 'M-03'
                 ]
             ],
             'Email' => [
@@ -140,6 +176,17 @@ class DetailedModuleButtonsSeeder extends Seeder
                     'description' => 'Modify email templates',
                     'enabled_for_superadmin' => true,
                     'parent_tab' => 'M-04-TEMPLATE'
+                ]
+            ],
+            'QR Scanner' => [
+                // QR Scanner Tab (parent)
+                [
+                    'code' => 'M-05',
+                    'name' => 'QR Scanner',
+                    'description' => 'Access to QR code scanning features',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
                 ]
             ],
             'Document Management' => [
@@ -301,6 +348,35 @@ class DetailedModuleButtonsSeeder extends Seeder
                     'parent_tab' => 'M-07-EVENTS'
                 ]
             ],
+            'Support' => [
+                // System Manual Tab (parent)
+                [
+                    'code' => 'M-08-MANUAL',
+                    'name' => 'System Manual',
+                    'description' => 'Access to system manual and documentation',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ],
+                // Contact Information Tab (parent)
+                [
+                    'code' => 'M-08-CONTACT',
+                    'name' => 'Contact Information',
+                    'description' => 'Access to contact information management',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ],
+                // System Status Tab (parent)
+                [
+                    'code' => 'M-08-STATUS',
+                    'name' => 'System Status',
+                    'description' => 'Access to system status monitoring and diagnostics',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => null,
+                    'is_tab' => true
+                ]
+            ],
             'System Configurations' => [
                 // Users Tab (parent)
                 [
@@ -330,6 +406,13 @@ class DetailedModuleButtonsSeeder extends Seeder
                     'code' => 'M-09-USERS-DEACTIVATE',
                     'name' => 'Deactivate User',
                     'description' => 'Deactivate user accounts',
+                    'enabled_for_superadmin' => true,
+                    'parent_tab' => 'M-09-USERS'
+                ],
+                [
+                    'code' => 'M-09-USERS-REACTIVATE',
+                    'name' => 'Reactivate User',
+                    'description' => 'Reactivate deactivated user accounts',
                     'enabled_for_superadmin' => true,
                     'parent_tab' => 'M-09-USERS'
                 ],

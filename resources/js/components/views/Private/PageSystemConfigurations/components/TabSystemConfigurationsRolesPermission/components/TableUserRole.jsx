@@ -90,6 +90,10 @@ const TableUserRole = ({
     }, [buttonPermissions, viewMode]);
 
     const renderActions = (record) => {
+        if (record.user_role === "SUPERADMIN") {
+            return null;
+        }
+
         if (viewMode === "archive") {
             return buttonPermissions['M-09-ROLES-RESTORE'] ? (
                 <Popconfirm

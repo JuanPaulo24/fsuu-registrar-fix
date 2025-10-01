@@ -12,13 +12,19 @@ import {
     TableShowingEntriesV2,
     useTableScrollOnTop,
 } from "../../../../../providers/CustomTableFilter";
-import { hasButtonPermission } from "@/hooks/useButtonPermissions";
+import { hasButtonPermission, hasMultipleButtonPermissions } from "@/hooks/useButtonPermissions";
 
 export default function TabSystemConfigurationsUser() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [viewMode, setViewMode] = useState("active");
+    
+    // Check if user has reactivate permission
+    const buttonPermissions = hasMultipleButtonPermissions([
+        'M-09-USERS-REACTIVATE'
+    ]);
 
     const [tableFilter, setTableFilter] = useState({
         page: 1,
@@ -26,7 +32,7 @@ export default function TabSystemConfigurationsUser() {
         search: "",
         sort_field: "created_at",
         sort_order: "desc",
-        status: ["Active"],
+        status: viewMode === "active" ? ["Active"] : ["Deactivated"],
         exclude_user_roles: "STUDENT", // Exclude students from system configurations
         from: location.pathname,
     });
@@ -35,6 +41,14 @@ export default function TabSystemConfigurationsUser() {
         `api/users?${new URLSearchParams(tableFilter)}`,
         "users_active_list"
     );
+
+    useEffect(() => {
+        setTableFilter(prev => ({
+            ...prev,
+            page: 1,
+            status: viewMode === "active" ? ["Active"] : ["Deactivated"]
+        }));
+    }, [viewMode]);
 
     useEffect(() => {
         refetchSource();
@@ -71,6 +85,23 @@ export default function TabSystemConfigurationsUser() {
                             </Button>
                         )}
                         
+                        {buttonPermissions['M-09-USERS-REACTIVATE'] && (
+                            <Flex align="center" gap={8}>
+                                <Button 
+                                    type={viewMode === "active" ? "primary" : "default"} 
+                                    onClick={() => setViewMode("active")}
+                                >
+                                    Active
+                                </Button>
+                                <Button 
+                                    type={viewMode === "deactivated" ? "primary" : "default"} 
+                                    onClick={() => setViewMode("deactivated")}
+                                >
+                                    Deactivated
+                                </Button>
+                            </Flex>
+                        )}
+                        
                         <div style={{ flex: 1, minWidth: 200 }}>
                             <TableGlobalSearchAnimated
                                 tableFilter={tableFilter}
@@ -102,6 +133,7 @@ export default function TabSystemConfigurationsUser() {
                         setTableFilter={setTableFilter}
                         selectedRowKeys={selectedRowKeys}
                         setSelectedRowKeys={setSelectedRowKeys}
+                        viewMode={viewMode}
                     />
                 </Col>
 

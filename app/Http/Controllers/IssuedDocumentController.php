@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\IssuedDocument;
 use App\Models\Profile;
 use App\Services\DigitalSignatureService;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 
 class IssuedDocumentController extends Controller
 {
+    use ChecksPermissions;
+    
     protected $digitalSignatureService;
 
     public function __construct(DigitalSignatureService $digitalSignatureService)
@@ -371,6 +374,11 @@ class IssuedDocumentController extends Controller
      */
     public function generateTORDocument(Request $request)
     {
+        // Authorization check for generating transcripts
+        if ($response = $this->authorizeOrFail(['M-06-TRANSCRIPT-GENERATE'], "Unauthorized: You don't have permission to generate transcripts.")) {
+            return $response;
+        }
+
         try {
             $request->validate([
                 'profile_id' => 'required|exists:profiles,id',
@@ -700,6 +708,11 @@ class IssuedDocumentController extends Controller
      */
     public function generateDiplomaDocument(Request $request)
     {
+        // Authorization check for generating diplomas/certifications
+        if ($response = $this->authorizeOrFail(['M-06-CERT-GENERATE'], "Unauthorized: You don't have permission to generate diploma documents.")) {
+            return $response;
+        }
+
         try {
             $request->validate([
                 'profile_id' => 'required|exists:profiles,id',
@@ -968,6 +981,11 @@ class IssuedDocumentController extends Controller
      */
     public function generateCertificateDocument(Request $request)
     {
+        // Authorization check for generating certifications
+        if ($response = $this->authorizeOrFail(['M-06-CERT-GENERATE'], "Unauthorized: You don't have permission to generate certificate documents.")) {
+            return $response;
+        }
+
         try {
             $request->validate([
                 'profile_id' => 'required|exists:profiles,id',
@@ -1430,6 +1448,20 @@ class IssuedDocumentController extends Controller
      */
     public function revokeDocument(Request $request)
     {
+        // Authorization check for revoking documents
+        $documentType = strtolower($request->document_type ?? '');
+        $permissionCodes = [];
+        
+        if (str_contains($documentType, 'transcript')) {
+            $permissionCodes[] = 'M-06-TRANSCRIPT-REVOKE';
+        } elseif (str_contains($documentType, 'cert') || str_contains($documentType, 'diploma')) {
+            $permissionCodes[] = 'M-06-CERT-REVOKE';
+        }
+        
+        if (!empty($permissionCodes) && ($response = $this->authorizeOrFail($permissionCodes, "Unauthorized: You don't have permission to revoke this document type."))) {
+            return $response;
+        }
+
         try {
             $request->validate([
                 'id' => 'required|exists:issued_documents,id',

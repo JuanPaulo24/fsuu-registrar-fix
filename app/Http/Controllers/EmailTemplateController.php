@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmailTemplate;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 
 class EmailTemplateController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      *
@@ -76,6 +78,11 @@ class EmailTemplateController extends Controller
 
     public function store(Request $request)
     {
+        // Authorization check - edit or setup email template
+        if ($response = $this->authorizeOrFail(['M-04-TEMPLATE-EDIT', 'M-04-TEMPLATE-SETUP'], "Unauthorized: You don't have permission to manage email templates.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Email template not " . ($request->id ? "updated" : "created") . "."

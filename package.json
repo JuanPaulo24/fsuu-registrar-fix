@@ -42,6 +42,7 @@
         "@fortawesome/react-fontawesome": "^0.2.2",
         "@foxitsoftware/foxit-pdf-sdk-for-web-library": "^11.0.3",
         "@nutrient-sdk/viewer": "^1.6.0",
+        "@rbnd/react-dark-mode": "^2.0.2",
         "@react-pdf/renderer": "^4.3.0",
         "@tailwindcss/vite": "^4.0.6",
         "@tinymce/tinymce-react": "^6.3.0",

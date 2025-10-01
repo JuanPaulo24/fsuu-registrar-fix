@@ -15,7 +15,7 @@ import {
     TableShowingEntriesV2,
     useTableScrollOnTop,
 } from "../../../providers/CustomTableFilter";
-import { hasButtonPermission } from "@/hooks/useButtonPermissions";
+import { hasButtonPermission, hasMultipleButtonPermissions } from "@/hooks/useButtonPermissions";
 
 const { Title, Text } = Typography;
 
@@ -25,6 +25,12 @@ export default function PageUser() {
     const queryClient = useQueryClient();
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [viewMode, setViewMode] = useState("active");
+    
+    // Check if user has reactivate permission
+    const buttonPermissions = hasMultipleButtonPermissions([
+        'M-03-REACTIVATE'
+    ]);
 
     const [tableFilter, setTableFilter] = useState({
         page: 1,
@@ -32,7 +38,7 @@ export default function PageUser() {
         search: "",
         sort_field: "created_at",
         sort_order: "desc",
-        status: ["Active"],
+        status: viewMode === "active" ? ["Active"] : ["Deactivated"],
         user_role: "REGISTRAR STAFF",
         from: location.pathname,
     });
@@ -41,6 +47,14 @@ export default function PageUser() {
         `api/users?${new URLSearchParams(tableFilter)}`,
         ["users_registrar_staff_list", tableFilter] // Use unique cache key that includes filter to prevent data leaks
     );
+
+    useEffect(() => {
+        setTableFilter(prev => ({
+            ...prev,
+            page: 1,
+            status: viewMode === "active" ? ["Active"] : ["Deactivated"]
+        }));
+    }, [viewMode]);
 
     useEffect(() => {
         refetchSource();
@@ -87,6 +101,7 @@ export default function PageUser() {
                 selectedRowKeys,
                 setSelectedRowKeys,
                 refetch: refetchSource,
+                viewMode,
             }}
         >
             <Card>
@@ -111,6 +126,31 @@ export default function PageUser() {
                         >
                             Add User
                         </Button>
+                    )}
+                    
+                    {buttonPermissions['M-03-REACTIVATE'] && (
+                        <Flex
+                            gap={8}
+                            wrap="wrap"
+                            align="center"
+                            className="tbl-top-controls"
+                            style={{ marginBottom: 16 }}
+                        >
+                            <Flex align="center" gap={8}>
+                                <Button 
+                                    type={viewMode === "active" ? "primary" : "default"} 
+                                    onClick={() => setViewMode("active")}
+                                >
+                                    Active
+                                </Button>
+                                <Button 
+                                    type={viewMode === "deactivated" ? "primary" : "default"} 
+                                    onClick={() => setViewMode("deactivated")}
+                                >
+                                    Deactivated
+                                </Button>
+                            </Flex>
+                        </Flex>
                     )}
                     
                     <Flex

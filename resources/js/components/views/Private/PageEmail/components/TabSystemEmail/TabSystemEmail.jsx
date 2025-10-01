@@ -954,7 +954,7 @@ export default function TabSystemEmail({ initialComposeData, isTabActive = false
                             <Row gutter={[8, 8]} align="middle">
                                 <Col xs={24} sm={24} md={12} lg={8}>
                                     <Space style={{ width: '100%' }}>
-                                        {hasButtonPermission('M-04-COMPOSE') && (
+                                        {hasButtonPermission('M-04-COMPOSE') && emailCache[activeFolder]?.data?.length > 0 && (
                                             <Button
                                                 type="default"
                                                 size="large"

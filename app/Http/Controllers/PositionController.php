@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Position;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      */
@@ -58,6 +60,13 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - add or edit title/position
+        $isUpdate = !empty($request->id);
+        $permissions = $isUpdate ? ['M-09-TITLES-EDIT'] : ['M-09-TITLES-ADD'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($isUpdate ? "edit" : "create") . " titles.")) {
+            return $response;
+        }
 
         $ret = [
             "success" => false,
@@ -120,6 +129,13 @@ class PositionController extends Controller
      */
     public function position_archived(Request $request)
     {
+        // Authorization check - archive or restore title/position
+        $permissions = $request->isTrash ? ['M-09-TITLES-RESTORE'] : ['M-09-TITLES-ARCHIVE'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($request->isTrash ? "restore" : "archive") . " titles.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data failed to " . ($request->isTrash ? "restore" : "archive")

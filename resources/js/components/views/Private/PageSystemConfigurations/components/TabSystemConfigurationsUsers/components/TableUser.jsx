@@ -6,13 +6,17 @@ import {
     faPencil,
     faEnvelope,
     faUserSlash,
+    faUndo,
 } from "@fortawesome/pro-regular-svg-icons";
 import dayjs from "dayjs";
+import { useQueryClient } from "react-query";
 
 import { GET, POST } from "../../../../../../providers/useAxiosQuery";
 import notificationErrors from "../../../../../../providers/notificationErrors";
 import NoData from "../../../../../../common/NoData";
 import { hasMultipleButtonPermissions } from "@/hooks/useButtonPermissions";
+import ModalPasswordVerification from "../../../../PageDocumentManagement/components/ModalPasswordVerification";
+import { showGlobalLoading, hideGlobalLoading } from "@/components/providers/globalLoading";
 
 export default function TableUser(props) {
     const {
@@ -21,39 +25,111 @@ export default function TableUser(props) {
         setTableFilter,
         selectedRowKeys,
         setSelectedRowKeys,
+        viewMode,
     } = props;
 
     const navigate = useNavigate();
     const location = useLocation();
+    const queryClient = useQueryClient();
+    
+    const [passwordVerification, setPasswordVerification] = useState({
+        open: false,
+        record: null,
+        action: null, // 'deactivate' or 'reactivate'
+    });
     
     // Check button permissions
     const buttonPermissions = hasMultipleButtonPermissions([
         'M-09-USERS-EDIT',
-        'M-09-USERS-DEACTIVATE'
+        'M-09-USERS-DEACTIVATE',
+        'M-09-USERS-REACTIVATE',
+        'M-04-COMPOSE'
     ]);
 
     const { mutate: mutateDeactivateUser, loading: loadingDeactivateUser } =
         POST(`api/user_deactivate`, "users_active_list");
 
-    const handleDeactivate = (record) => {
-        mutateDeactivateUser(record, {
-            onSuccess: (res) => {
-                if (res.success) {
-                    notification.success({
-                        message: "User",
-                        description: res.message,
-                    });
-                } else {
-                    notification.error({
-                        message: "User",
-                        description: res.message,
-                    });
-                }
-            },
-            onError: (err) => {
-                notificationErrors(err);
-            },
+    const { mutate: mutateReactivateUser, loading: loadingReactivateUser } =
+        POST(`api/user_reactivate`, "users_active_list");
+
+    const handleDeactivateClick = (record) => {
+        setPasswordVerification({
+            open: true,
+            record: record,
+            action: 'deactivate',
         });
+    };
+
+    const handleReactivateClick = (record) => {
+        setPasswordVerification({
+            open: true,
+            record: record,
+            action: 'reactivate',
+        });
+    };
+
+    const handlePasswordVerified = () => {
+        if (passwordVerification.record) {
+            showGlobalLoading();
+            
+            if (passwordVerification.action === 'deactivate') {
+                mutateDeactivateUser(passwordVerification.record, {
+                    onSuccess: (res) => {
+                        if (res.success) {
+                            notification.success({
+                                message: "User",
+                                description: res.message,
+                            });
+                            queryClient.invalidateQueries(["users_active_list"]);
+                            
+                            setTimeout(() => {
+                                hideGlobalLoading();
+                            }, 500);
+                        } else {
+                            notification.error({
+                                message: "User",
+                                description: res.message,
+                            });
+                            hideGlobalLoading();
+                        }
+                        setPasswordVerification({ open: false, record: null, action: null });
+                    },
+                    onError: (err) => {
+                        notificationErrors(err);
+                        hideGlobalLoading();
+                        setPasswordVerification({ open: false, record: null, action: null });
+                    },
+                });
+            } else if (passwordVerification.action === 'reactivate') {
+                mutateReactivateUser(passwordVerification.record, {
+                    onSuccess: (res) => {
+                        if (res.success) {
+                            notification.success({
+                                message: "User",
+                                description: res.message,
+                            });
+                            queryClient.invalidateQueries(["users_active_list"]);
+                            
+                            setTimeout(() => {
+                                hideGlobalLoading();
+                            }, 500);
+                        } else {
+                            notification.error({
+                                message: "User",
+                                description: res.message,
+                            });
+                            hideGlobalLoading();
+                        }
+                        setPasswordVerification({ open: false, record: null, action: null });
+                    },
+                    onError: (err) => {
+                        notificationErrors(err);
+                        hideGlobalLoading();
+                        setPasswordVerification({ open: false, record: null, action: null });
+                    },
+                });
+            }
+        }
     };
 
     const onChangeTable = (pagination, filters, sorter) => {
@@ -68,10 +144,14 @@ export default function TableUser(props) {
 
     // Check if user has any action permissions
     const hasAnyActionPermission = useMemo(() => {
+        if (viewMode === "deactivated") {
+            return buttonPermissions['M-09-USERS-REACTIVATE'];
+        }
         return buttonPermissions['M-09-USERS-EDIT'] || buttonPermissions['M-09-USERS-DEACTIVATE'];
-    }, [buttonPermissions]);
+    }, [buttonPermissions, viewMode]);
 
     return (
+        <>
         <Table
             id="tbl_user"
             className="ant-table-default ant-table-striped"
@@ -94,45 +174,43 @@ export default function TableUser(props) {
                     dataIndex="action"
                     align="center"
                     render={(text, record) => {
-                        return (
-                            <Flex gap={10} justify="center">
-                                {buttonPermissions['M-09-USERS-EDIT'] && (
-                                    <Button
-                                        type="link"
-                                        className="w-auto h-auto p-0"
-                                        onClick={() => {
-                                            navigate(`/system-configurations/users/edit/${record.uuid}`);
-                                        }}
-                                        name="btn_edit"
-                                        icon={<FontAwesomeIcon icon={faPencil} />}
-                                    />
-                                )}
-                                {buttonPermissions['M-09-USERS-DEACTIVATE'] && (
-                                    <Popconfirm
-                                        title="Are you sure to deactivate this data?"
-                                        onConfirm={() => {
-                                            handleDeactivate(record);
-                                        }}
-                                        onCancel={() => {
-                                            notification.error({
-                                                message: "User",
-                                                description: "Data not deactivated",
-                                            });
-                                        }}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
+                        if (viewMode === "deactivated") {
+                            return buttonPermissions['M-09-USERS-REACTIVATE'] ? (
+                                <Button 
+                                    type="link" 
+                                    icon={<FontAwesomeIcon icon={faUndo} />}
+                                    className="text-blue-500 hover:text-blue-700"
+                                    onClick={() => handleReactivateClick(record)}
+                                    title="Reactivate User"
+                                />
+                            ) : null;
+                        } else {
+                            return (
+                                <Flex gap={10} justify="center">
+                                    {buttonPermissions['M-09-USERS-EDIT'] && (
+                                        <Button
+                                            type="link"
+                                            className="w-auto h-auto p-0"
+                                            onClick={() => {
+                                                navigate(`/system-configurations/users/edit/${record.uuid}`);
+                                            }}
+                                            name="btn_edit"
+                                            icon={<FontAwesomeIcon icon={faPencil} />}
+                                        />
+                                    )}
+                                    {buttonPermissions['M-09-USERS-DEACTIVATE'] && (
                                         <Button
                                             type="link"
                                             className="w-auto h-auto p-0 text-danger"
-                                            loading={loadingDeactivateUser}
+                                            onClick={() => handleDeactivateClick(record)}
                                             name="btn_delete"
                                             icon={<FontAwesomeIcon icon={faUserSlash} />}
+                                            title="Deactivate User"
                                         />
-                                    </Popconfirm>
-                                )}
-                            </Flex>
-                        );
+                                    )}
+                                </Flex>
+                            );
+                        }
                     }}
                     width={100}
                 />
@@ -144,48 +222,54 @@ export default function TableUser(props) {
                 sorter={true}
                 render={(text, record) =>
                     text ? (
-                        <Button
-                            type="link"
-                            className="p-0 w-auto h-auto"
-                            onClick={() => {
-                                navigate(
-                                    `/system-configurations/users/edit/${record.uuid}`
-                                );
-                            }}
-                        >
-                            {text}
-                        </Button>
+                        viewMode === "deactivated" ? (
+                            <span className="text-gray-700">{text}</span>
+                        ) : (
+                            <Button
+                                type="link"
+                                className="p-0 w-auto h-auto"
+                                onClick={() => {
+                                    navigate(
+                                        `/system-configurations/users/edit/${record.uuid}`
+                                    );
+                                }}
+                            >
+                                {text}
+                            </Button>
+                        )
                     ) : null
                 }
                 width={220}
             />
-            <Table.Column
-                title="Email"
-                key="email"
-                dataIndex="email"
-                sorter={true}
-                align="center"
-                render={(text, record) =>
-                    text ? (
-                        <Button
-                            type="link"
-                            className="p-0 w-auto h-auto"
-                            icon={<FontAwesomeIcon icon={faEnvelope} />}
-                            onClick={() => {
-                                navigate('/email', {
-                                    state: {
-                                        composeData: {
-                                            to: text
+            {buttonPermissions['M-04-COMPOSE'] && (
+                <Table.Column
+                    title="Email"
+                    key="email"
+                    dataIndex="email"
+                    sorter={true}
+                    align="center"
+                    render={(text, record) =>
+                        text ? (
+                            <Button
+                                type="link"
+                                className="p-0 w-auto h-auto"
+                                icon={<FontAwesomeIcon icon={faEnvelope} />}
+                                onClick={() => {
+                                    navigate('/email', {
+                                        state: {
+                                            composeData: {
+                                                to: text
+                                            }
                                         }
-                                    }
-                                });
-                            }}
-                            title={`Send email to ${text}`}
-                        />
-                    ) : null
-                }
-                width={220}
-            />
+                                    });
+                                }}
+                                title={`Send email to ${text}`}
+                            />
+                        ) : null
+                    }
+                    width={220}
+                />
+            )}
 
 
             <Table.Column
@@ -205,5 +289,16 @@ export default function TableUser(props) {
                 width={150}
             />
         </Table>
+        
+        <ModalPasswordVerification
+            open={passwordVerification.open}
+            onCancel={() => setPasswordVerification({ open: false, record: null, action: null })}
+            onSuccess={handlePasswordVerified}
+            title={passwordVerification.action === 'deactivate' ? "Deactivate User - Password Verification" : "Reactivate User - Password Verification"}
+            description={passwordVerification.action === 'deactivate' 
+                ? "To deactivate this user, please verify your identity by entering your password."
+                : "To reactivate this user, please verify your identity by entering your password."}
+        />
+        </>
     );
 }

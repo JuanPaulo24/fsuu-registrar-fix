@@ -27,6 +27,7 @@ import optionCitizenship from "../../../providers/optionCitizenship";
 import optionReligion from "../../../providers/optionReligion";
 import optionCivilStatus from "../../../providers/optionCivilStatus";
 import ModalUploadProfilePicture from "./components/ModalUploadProfilePicture";
+import { hasButtonPermission } from "../../../../hooks/useButtonPermissions";
 
 
 // import Webcam from "react-webcam";
@@ -40,6 +41,21 @@ export default function PageUserForm() {
     
     const navigate = useNavigate();
     const params = useParams();
+
+    // Permission guard - check if user has permission to access this page
+    useEffect(() => {
+        const isEditMode = !!params.id;
+        const requiredPermission = isEditMode ? 'M-03-EDIT' : 'M-03-ADD';
+        const hasPermission = hasButtonPermission(requiredPermission);
+
+        if (!hasPermission) {
+            notification.error({
+                message: 'Access Denied',
+                description: `You don't have permission to ${isEditMode ? 'edit' : 'add'} users.`,
+            });
+            navigate('/users');
+        }
+    }, [params.id, navigate]);
 
     const [form] = Form.useForm();
     const [formDisabled, setFormDisabled] = useState(true);
@@ -753,6 +769,7 @@ export default function PageUserForm() {
                                                     >
                                                         <FloatInput
                                                             label="Last Name"
+                                                            style={{ textTransform: 'uppercase' }}
                                                             placeholder="Last Name"
                                                             required={true}
                                                             disabled={

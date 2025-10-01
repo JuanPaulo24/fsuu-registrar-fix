@@ -298,19 +298,7 @@ export default function TableDocument(props) {
                 key="serial_number"
                 dataIndex="serial_number"
                 sorter={true}
-                render={(text, record) =>
-                    text ? (
-                        <Button
-                            type="link"
-                            className="p-0 w-auto h-auto"
-                            onClick={() => {
-                                navigate(`/documents/view/${record.id}`);
-                            }}
-                        >
-                            {text}
-                        </Button>
-                    ) : null
-                }
+                render={(text) => text || null}
                 width={200}
             />
 

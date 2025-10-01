@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posting;
+use App\Traits\ChecksPermissions;
 use Illuminate\Http\Request;
 
 class PostingController extends Controller
 {
+    use ChecksPermissions;
     /**
      * Display a listing of the resource.
      */
@@ -66,6 +68,13 @@ class PostingController extends Controller
      */
     public function store(Request $request)
     {
+        // Authorization check - add or edit CMS posting
+        $isUpdate = !empty($request->id);
+        $permissions = $isUpdate ? ['M-07-CMS-EDIT'] : ['M-07-CMS-ADD'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($isUpdate ? "edit" : "create") . " CMS postings.")) {
+            return $response;
+        }
 
         $ret = [
             "success" => false,
@@ -221,6 +230,13 @@ class PostingController extends Controller
      */
     public function posting_archived(Request $request)
     {
+        // Authorization check - archive or restore CMS posting
+        $permissions = $request->isTrash ? ['M-07-CMS-RESTORE'] : ['M-07-CMS-ARCHIVE'];
+        
+        if ($response = $this->authorizeOrFail($permissions, "Unauthorized: You don't have permission to " . ($request->isTrash ? "restore" : "archive") . " CMS postings.")) {
+            return $response;
+        }
+
         $ret = [
             "success" => false,
             "message" => "Data failed to " . ($request->isTrash ? "restore" : "archive")
